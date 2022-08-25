@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'color_colors.dart';
+import 'app_colors.dart';
 
 class WElevatedButton extends StatelessWidget {
   const WElevatedButton({required this.text, this.function , Key? key}) : super(key: key);
