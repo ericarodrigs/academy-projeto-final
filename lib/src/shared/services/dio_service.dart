@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
 
 class DioService implements ApiService {
-  static const baseUrl = 'http://44.199.200.211:3325';
+  Dio dio = Dio(BaseOptions(baseUrl: 'http://44.199.200.211:3325'));
 
   @override
   Future<dynamic> delete(
@@ -11,8 +11,8 @@ class DioService implements ApiService {
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? headers,
   }) async {
-    Response response = await Dio().delete(
-      baseUrl + url,
+    Response response = await dio.delete(
+      url,
       data: body,
       queryParameters: queryParams,
       options: Options(headers: headers),
@@ -27,8 +27,8 @@ class DioService implements ApiService {
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? headers,
   }) async {
-    Response response = await Dio().get(
-      baseUrl + url,
+    Response response = await dio.get(
+      url,
       queryParameters: queryParams,
       options: Options(headers: headers),
     );
@@ -42,8 +42,8 @@ class DioService implements ApiService {
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? headers,
   }) async {
-    Response response = await Dio().patch(
-      baseUrl + url,
+    Response response = await dio.patch(
+      url,
       data: body,
       queryParameters: queryParams,
       options: Options(headers: headers),
@@ -58,8 +58,8 @@ class DioService implements ApiService {
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? headers,
   }) async {
-    Response response = await Dio().post(
-      baseUrl + url,
+    Response response = await dio.post(
+      url,
       data: body,
       queryParameters: queryParams,
       options: Options(headers: headers),
@@ -74,12 +74,22 @@ class DioService implements ApiService {
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? headers,
   }) async {
-    Response response = await Dio().put(
-      baseUrl + url,
+    Response response = await dio.put(
+      url,
       data: body,
       queryParameters: queryParams,
       options: Options(headers: headers),
     );
     return response;
+  }
+
+  @override
+  void setHeaderToken(String token) {
+    dio.options.headers.addAll({'Authorization': 'Bearer $token'});
+  }
+
+  @override
+  void clearHeaderToken() {
+    dio.options.headers.clear();
   }
 }

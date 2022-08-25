@@ -1,4 +1,8 @@
 abstract class ApiService {
+  void clearHeaderToken();
+
+  void setHeaderToken(String token);
+
   Future<dynamic> get(
     String url, {
     Map<String, dynamic>? queryParams,
