@@ -1,16 +1,34 @@
 # rarovideowall
 
-A new Flutter project.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+A questão da identidade
 
-A few resources to get you started if this is your first Flutter project:
+Qual sera a arquitetura ?
+MVC + Atomico
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Comunicação?
+Dio
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Usar moodular?
+Sim !! - tres modulos > Home + details, login + recuperar + registro , splash
+
+Usar qual gerenciamento de estados??
+Mobx gerencia de estado      	 
+
+
+Como será o gitflow?
+main, develop
+
+
+Levantar backlog
+
+Classe ServiceApi
+	-- instanciar 
+
+Criia login_page
+visualização
+
+Cirar a login_controller
+	 
+
