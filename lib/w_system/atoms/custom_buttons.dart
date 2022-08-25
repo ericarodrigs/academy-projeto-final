@@ -5,6 +5,7 @@ class WElevatedButton extends StatelessWidget {
   const WElevatedButton({required this.text, this.function , Key? key}) : super(key: key);
   final String text;
   final Function()? function;
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
