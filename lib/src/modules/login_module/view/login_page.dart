@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../w_system/atoms/app_text_styles.dart';
+import '../../../shared/constants/app_text_styles.dart';
 import '../../../../w_system/atoms/custom_buttons.dart';
 import '../../../../w_system/atoms/custom_texts.dart';
 
@@ -34,7 +34,10 @@ class LoginPage extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(0, 10, 18, 0),
                   child: Align(
                     alignment: Alignment.bottomRight,
-                    child: WTextButton(onTap: () {}, text: 'Esqueci minha senha...', style: TextStyles.boldTextButton),
+                    child: WTextButton(
+                        onTap: () {},
+                        text: 'Esqueci minha senha...',
+                        style: TextStyles.boldTextButton),
                   ),
                 ),
                 Padding(

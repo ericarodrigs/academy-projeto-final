@@ -9,5 +9,6 @@ class TextStyles {
     fontFamily: "Urbanist",
     letterSpacing: -0.05,
   );
-  static const TextStyle boldTextButton = TextStyle(fontWeight: FontWeight.bold);
+  static const TextStyle boldTextButton =
+      TextStyle(fontWeight: FontWeight.bold);
 }
