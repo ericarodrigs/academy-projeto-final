@@ -4,6 +4,12 @@ import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
 class DioService implements ApiService {
   Dio dio = Dio(BaseOptions(baseUrl: 'http://44.199.200.211:3325'));
 
+  DioService._();
+
+  static final DioService _instance = DioService._();
+
+  static DioService get instance => _instance;
+
   @override
   Future<dynamic> delete(
     String url, {
