@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
+import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 
 class WElevatedButton extends StatelessWidget {
-  const WElevatedButton({required this.text, this.function , Key? key}) : super(key: key);
+  const WElevatedButton({required this.text, this.function, Key? key})
+      : super(key: key);
   final String text;
   final Function()? function;
 
@@ -18,7 +19,7 @@ class WElevatedButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         textStyle: const TextStyle(fontSize: 18),
-       ),
+      ),
       child: Text(text),
     );
   }
