@@ -3,7 +3,11 @@ import 'package:rarovideowall/src/shared/models/user_model.dart';
 part 'logged_state.g.dart';
 
 // ignore: library_private_types_in_public_api
-class LoggedState = _LoggedStateBase with _$LoggedState;
+class LoggedState extends _LoggedStateBase with _$LoggedState {
+  LoggedState._();
+  static final LoggedState _instance = LoggedState._();
+  static LoggedState get instance => _instance;
+}
 
 abstract class _LoggedStateBase with Store {
   _LoggedStateBase()
