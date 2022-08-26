@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rarovideowall/w_system/atoms/app_colors.dart';
+import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 
 class WTextFormFIeld extends StatelessWidget {
   const WTextFormFIeld({required this.text, this.validator, Key? key})
