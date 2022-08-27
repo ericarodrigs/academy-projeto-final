@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
 import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
-import 'package:rarovideowall/src/shared/models/data_sources/video_model.dart';
+import 'package:rarovideowall/src/shared/models/data_models/video_model.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 
 class VideosRepository {

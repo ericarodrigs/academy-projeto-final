@@ -3,8 +3,8 @@ import 'package:dio/dio.dart';
 
 import 'package:rarovideowall/src/shared/global_states/logged_state.dart';
 import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
+import 'package:rarovideowall/src/shared/models/data_models/login_user_model.dart';
 import 'package:rarovideowall/src/shared/models/data_models/user_model.dart';
-import 'package:rarovideowall/src/shared/models/data_sources/login_user_model.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 
 class LoginRepository {

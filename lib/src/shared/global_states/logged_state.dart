@@ -1,5 +1,5 @@
 import 'package:mobx/mobx.dart';
-import 'package:rarovideowall/src/shared/models/data_sources/user_model.dart';
+import 'package:rarovideowall/src/shared/models/data_models/user_model.dart';
 part 'logged_state.g.dart';
 
 // ignore: library_private_types_in_public_api
@@ -24,8 +24,7 @@ abstract class _LoggedStateBase with Store {
   @action
   void setLogin(UserModel newUser) {
     _isLogged = true;
-    user = UserModel();
-    user!.copyWith(newUser);
+    user = newUser;
   }
 
   @action

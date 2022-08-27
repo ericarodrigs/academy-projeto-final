@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import 'package:rarovideowall/src/shared/interfaces/local_storage_service.dart';
-import 'package:rarovideowall/src/shared/models/data_sources/login_user_model.dart';
+import 'package:rarovideowall/src/shared/models/data_models/login_user_model.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 
 class LocalStorageUserRepository {
