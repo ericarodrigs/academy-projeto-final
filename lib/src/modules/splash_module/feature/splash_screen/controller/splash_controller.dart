@@ -13,13 +13,11 @@ import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/local_storage_service/local_storage_user_repository.dart';
 
 class SplashController implements ISplashController {
-  final LoggedState loggedState;
   final LocalStorageUserRepository localStorageUserRepository;
   final LoginRepository loginRepository;
   final VideosRepository videosRepository;
 
   SplashController({
-    required this.loggedState,
     required this.localStorageUserRepository,
     required this.loginRepository,
     required this.videosRepository,
@@ -32,16 +30,11 @@ class SplashController implements ISplashController {
     localStorage.fold(
       (Failure error) {},
       (LoginUserModel userLogin) {
-        Either<Failure, UserModel> loginResp = loginRepository.login(userLogin);
-        loginResp.fold(
-          (Failure error) {},
-          (UserModel user) {
-            loggedState.setLogin(user);
-          },
-        );
+        loginRepository.login(userLogin);
       },
     );
-    Either<Failure, List<VideoModel>> videosResp = videosRepository.getAll();
+    Either<Failure, List<VideoModel>> videosResp =
+        await videosRepository.getAll();
     Modular.to.pushReplacementNamed(ModulesRouteNames.homeModule,
         arguments: videosResp);
   }
