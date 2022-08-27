@@ -10,7 +10,7 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  ApiService service = DioService();
+  ApiService service = DioService.instance;
 
   @override
   void initState() {

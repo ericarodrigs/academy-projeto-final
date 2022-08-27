@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:rarovideowall/src/w_system/atoms/custom_buttons.dart';
+import 'package:rarovideowall/src/w_system/atoms/custom_texts.dart';
 import '../../../shared/constants/app_text_styles.dart';
-import '../../../../w_system/atoms/custom_buttons.dart';
-import '../../../../w_system/atoms/custom_texts.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
