@@ -28,7 +28,6 @@ class DioService implements ApiService {
 
   @override
   Future<dynamic> get(
-    //TODO pegar DioError.response DioErrorType.response
     String url, {
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? headers,
