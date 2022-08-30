@@ -6,7 +6,7 @@ abstract class ApiService {
   Future<dynamic> request(
     String url,
     String mode, {
-    dynamic data,
+    Map<String, dynamic> body,
     Map<String, dynamic>? queryParams,
   });
 }

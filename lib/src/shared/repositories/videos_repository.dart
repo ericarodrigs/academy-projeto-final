@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
-import 'package:rarovideowall/src/shared/models/data_models/video_model.dart';
+import 'package:rarovideowall/src/shared/models/video_model.dart';
 
 class VideosRepository {
   ApiService service;

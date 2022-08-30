@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:rarovideowall/src/modules/login_module/features/login/controller/login_controller.dart';
+import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/w_system/atoms/custom_buttons.dart';
 import 'package:rarovideowall/src/w_system/atoms/custom_texts.dart';
-import '../../../shared/constants/app_text_styles.dart';
-import '../controller/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-
-import '../../../shared/models/data_models/login_user_model.dart';
-import '../../../shared/models/repositories/login_repository.dart';
-import '../../../shared/validators/login_validator.dart';
+import 'package:rarovideowall/src/modules/login_module/features/login/controller/login_validator.dart';
+import 'package:rarovideowall/src/modules_route_names.dart';
+import 'package:rarovideowall/src/shared/models/login_user_model.dart';
+import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
 
 part 'login_controller.g.dart';
 
@@ -41,16 +41,18 @@ abstract class _LoginController with Store {
     changeLoadState(LoadState.loading);
     changePageState(PageState.fine);
     errorText = null;
-    await Future.delayed(const Duration(seconds: 2));
-    try {
-      await loginRepository.login(getLogin());
-      changeLoadState(LoadState.done);
-      // Modular.to.pushReplacementNamed('home');
-    } catch (e) {
-      errorText = e.toString();
-      changePageState(PageState.error);
-      changeLoadState(LoadState.done);
-    }
+
+    (await loginRepository.login(getLogin())).fold(
+      (fail) {
+        errorText = fail.message;
+        changePageState(PageState.error);
+        changeLoadState(LoadState.done);
+      },
+      (success) {
+        changeLoadState(LoadState.done);
+        Modular.to.pop();
+      },
+    );
   }
 
   LoginUserModel getLogin() {
