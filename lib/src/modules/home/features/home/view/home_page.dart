@@ -1,7 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:rarovideowall/src/shared/models/data_sources/video_model.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
+
+import '../../../../../shared/models/data_models/video_model.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key, required this.initialData}) : super(key: key);
