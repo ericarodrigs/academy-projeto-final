@@ -14,14 +14,16 @@ class DioService implements ApiService {
   Future<dynamic> request(String url, String mode,
       {dynamic data, Map<String, dynamic>? queryParams}) async {
     try {
-      return await dio.request(url,
-          data: data, queryParameters: queryParams, options: Options( method: mode));
+      return await dio.request<Map<String, dynamic>>(url,
+          data: data,
+          queryParameters: queryParams,
+          options: Options(method: mode));
     } on DioError catch (e) {
       switch (e.type) {
         case DioErrorType.connectTimeout:
         case DioErrorType.sendTimeout:
         case DioErrorType.receiveTimeout:
-        throw 'A conexão foi encerrada, tente novamente.';
+          throw 'A conexão foi encerrada, tente novamente.';
         case DioErrorType.response:
           switch (e.response?.statusCode) {
             case 400:
