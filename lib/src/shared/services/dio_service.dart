@@ -11,81 +11,36 @@ class DioService implements ApiService {
   static DioService get instance => _instance;
 
   @override
-  Future<dynamic> delete(
-    String url, {
-    Map<String, dynamic>? body,
-    Map<String, dynamic>? queryParams,
-    Map<String, dynamic>? headers,
-  }) async {
-    Response response = await dio.delete(
-      url,
-      data: body,
-      queryParameters: queryParams,
-      options: Options(headers: headers),
-    );
-    return response;
-  }
-
-  @override
-  Future<dynamic> get(
-    String url, {
-    Map<String, dynamic>? queryParams,
-    Map<String, dynamic>? headers,
-  }) async {
-    Response response = await dio.get(
-      url,
-      queryParameters: queryParams,
-      options: Options(headers: headers),
-    );
-    return response;
-  }
-
-  @override
-  Future<dynamic> patch(
-    String url, {
-    Map<String, dynamic>? body,
-    Map<String, dynamic>? queryParams,
-    Map<String, dynamic>? headers,
-  }) async {
-    Response response = await dio.patch(
-      url,
-      data: body,
-      queryParameters: queryParams,
-      options: Options(headers: headers),
-    );
-    return response;
-  }
-
-  @override
-  Future<dynamic> post(
-    String url, {
-    Map<String, dynamic>? body,
-    Map<String, dynamic>? queryParams,
-    Map<String, dynamic>? headers,
-  }) async {
-    Response response = await dio.post(
-      url,
-      data: body,
-      queryParameters: queryParams,
-      options: Options(headers: headers),
-    );
-    return response;
-  }
-
-  @override
-  Future<dynamic> put(
-    String url, {
-    Map<String, dynamic>? body,
-    Map<String, dynamic>? queryParams,
-    Map<String, dynamic>? headers,
-  }) async {
-    Response response = await dio.put(
-      url,
-      data: body,
-      queryParameters: queryParams,
-      options: Options(headers: headers),
-    );
-    return response;
+  Future<dynamic> request(String url, String mode,
+      {dynamic data, Map<String, dynamic>? queryParams}) async {
+    try {
+      return await dio.request(url,
+          data: data, queryParameters: queryParams, options: Options( method: mode));
+    } on DioError catch (e) {
+      switch (e.type) {
+        case DioErrorType.connectTimeout:
+        case DioErrorType.sendTimeout:
+        case DioErrorType.receiveTimeout:
+        throw 'A conexão foi encerrada, tente novamente.';
+        case DioErrorType.response:
+          switch (e.response?.statusCode) {
+            case 400:
+              throw 'Requisição inválida';
+            case 401:
+              throw 'Usuário ou senha inválidos.';
+            case 404:
+              throw 'A informação requisitada não pode ser encontrada.';
+            case 409:
+              throw 'Ocorreu um conflito';
+            default: //500
+              throw 'Ocorreu um erro inesperado, tente novamente.';
+          }
+        case DioErrorType.cancel:
+          throw 'Requisição cancelada.';
+        default:
+          throw 'Sem conexão.';
+      }
+    }
   }
 
   @override

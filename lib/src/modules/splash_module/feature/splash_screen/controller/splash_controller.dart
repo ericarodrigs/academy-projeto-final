@@ -32,7 +32,7 @@ class SplashController implements ISplashController {
         loginRepository.login(userLogin);
       },
     );
-    Either<Failure, List<VideoModel>> videosResp =
+     List<VideoModel> videosResp =
         await videosRepository.getAll();
     Modular.to.pushReplacementNamed(ModulesRouteNames.homeModule,
         arguments: videosResp);
