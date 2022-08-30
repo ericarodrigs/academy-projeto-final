@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
@@ -41,7 +43,7 @@ abstract class _LoginController with Store {
     errorText = null;
     await Future.delayed(const Duration(seconds: 2));
     try {
-      await loginRepository.login(getLoginJson());
+      await loginRepository.login(getLogin());
       changeLoadState(LoadState.done);
       // Modular.to.pushReplacementNamed('home');
     } catch (e) {
@@ -51,10 +53,11 @@ abstract class _LoginController with Store {
     }
   }
 
-  Map<String, dynamic> getLoginJson() {
-    LoginUserModel login =
-        LoginUserModel(email: emailController.text, senha: pwController.text);
-    return login.toMap();
+  LoginUserModel getLogin() {
+    return LoginUserModel(
+      email: emailController.text,
+      senha: pwController.text,
+    );
   }
 
   bool get isTryLogin => formKey.currentState!.validate();
