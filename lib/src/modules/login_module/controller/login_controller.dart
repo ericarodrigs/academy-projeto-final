@@ -43,7 +43,7 @@ abstract class _LoginController with Store {
     try {
       await loginRepository.login(getLoginJson());
       changeLoadState(LoadState.done);
-     // Modular.to.pushReplacementNamed('home');
+      // Modular.to.pushReplacementNamed('home');
     } catch (e) {
       errorText = e.toString();
       changePageState(PageState.error);
@@ -52,23 +52,18 @@ abstract class _LoginController with Store {
   }
 
   Map<String, dynamic> getLoginJson() {
-    LoginUserModel login = LoginUserModel(email: emailController.text, senha: pwController.text);
+    LoginUserModel login =
+        LoginUserModel(email: emailController.text, senha: pwController.text);
     return login.toMap();
   }
 
-  bool isTryLogin() {
-    if (formKey.currentState!.validate()) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  bool get isTryLogin => formKey.currentState!.validate();
 
   bool isFieldEnabled() {
     return loadState == LoadState.loading ? false : true;
   }
 
-  void loginInitState(){
+  void loginInitState() {
     changePageState(PageState.fine);
     changeLoadState(LoadState.done);
     errorText = null;

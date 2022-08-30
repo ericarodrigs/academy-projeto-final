@@ -16,7 +16,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final loginController = Modular.get<LoginController>();
 
-
   @override
   void initState() {
     loginController.loginInitState();
@@ -38,7 +37,8 @@ class _LoginPageState extends State<LoginPage> {
                     height: 120,
                     width: 120,
                   ),
-                  const Text("Raro Tube", style: TextStyles.purple30w700Urbanist),
+                  const Text("Raro Tube",
+                      style: TextStyles.purple30w700Urbanist),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(18, 59, 18, 33),
                     child: WTextFormFIeld(
@@ -68,19 +68,26 @@ class _LoginPageState extends State<LoginPage> {
                           style: TextStyles.boldTextButton),
                     ),
                   ),
-                  Visibility(visible: !loginController.isFieldEnabled(), child: const CircularProgressIndicator()),
-                  Visibility(visible:true, child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0,16,0,0),
-                    child: Text(loginController.errorText??'',style: TextStyles.errorRed,),
-                  )),
+                  Visibility(
+                      visible: !loginController.isFieldEnabled(),
+                      child: const CircularProgressIndicator()),
+                  Visibility(
+                      visible: true,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                        child: Text(
+                          loginController.errorText ?? '',
+                          style: TextStyles.errorRed,
+                        ),
+                      )),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(44, 60, 44, 20),
                     child: WElevatedButton(
                       text: 'Entrar',
                       isEnabled: loginController.isFieldEnabled(),
                       function: () {
-                        if (loginController.isTryLogin()) {
-                         loginController.logIn();
+                        if (loginController.isTryLogin) {
+                          loginController.logIn();
                         }
                       },
                     ),
@@ -91,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                       text: 'Registrar',
                       isEnabled: loginController.isFieldEnabled(),
                       function: () {
-                       // Modular.to.pushNamed('registrar').then((value) => loginController.loginInitState(););
+                        // Modular.to.pushNamed('registrar').then((value) => loginController.loginInitState(););
                       },
                     ),
                   ),
