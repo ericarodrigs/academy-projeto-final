@@ -3,13 +3,13 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:rarovideowall/src/modules/splash_module/interfaces/splash_controller_interface.dart';
 import 'package:rarovideowall/src/modules_route_names.dart';
-import 'package:rarovideowall/src/shared/models/data_models/login_user_model.dart';
-import 'package:rarovideowall/src/shared/models/data_models/video_model.dart';
 
 import 'package:rarovideowall/src/shared/models/failure.dart';
-import 'package:rarovideowall/src/shared/models/local_storage_service/local_storage_user_repository.dart';
-import 'package:rarovideowall/src/shared/models/repositories/login_repository.dart';
-import 'package:rarovideowall/src/shared/models/repositories/videos_repository.dart';
+import 'package:rarovideowall/src/shared/models/login_user_model.dart';
+import 'package:rarovideowall/src/shared/models/video_model.dart';
+import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
+import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
+import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
 
 class SplashController implements ISplashController {
   final LocalStorageUserRepository localStorageUserRepository;
@@ -32,8 +32,7 @@ class SplashController implements ISplashController {
         loginRepository.login(userLogin);
       },
     );
-    Either<Failure, List<VideoModel>> videosResp =
-        await videosRepository.getAll();
+    List<VideoModel> videosResp = await videosRepository.getAll();
     Modular.to.pushReplacementNamed(ModulesRouteNames.homeModule,
         arguments: videosResp);
   }

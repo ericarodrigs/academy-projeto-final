@@ -1,10 +1,10 @@
 class Failure {
-  String? message;
+  String message;
   StackTrace? stackTrace;
   Object? object;
 
-  Failure({
-    this.message,
+  Failure(
+    this.message, {
     this.stackTrace,
     this.object,
   });

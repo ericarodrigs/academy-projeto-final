@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
+import 'package:rarovideowall/src/shared/models/failure.dart';
 
 class DioService implements ApiService {
   Dio dio = Dio(BaseOptions(baseUrl: 'http://44.199.200.211:3325'));
@@ -11,81 +12,74 @@ class DioService implements ApiService {
   static DioService get instance => _instance;
 
   @override
-  Future<dynamic> delete(
-    String url, {
-    Map<String, dynamic>? body,
+  Future<dynamic> request(
+    String url,
+    String mode, {
+    dynamic body,
     Map<String, dynamic>? queryParams,
-    Map<String, dynamic>? headers,
   }) async {
-    Response response = await dio.delete(
-      url,
-      data: body,
-      queryParameters: queryParams,
-      options: Options(headers: headers),
-    );
-    return response;
-  }
-
-  @override
-  Future<dynamic> get(
-    String url, {
-    Map<String, dynamic>? queryParams,
-    Map<String, dynamic>? headers,
-  }) async {
-    Response response = await dio.get(
-      url,
-      queryParameters: queryParams,
-      options: Options(headers: headers),
-    );
-    return response;
-  }
-
-  @override
-  Future<dynamic> patch(
-    String url, {
-    Map<String, dynamic>? body,
-    Map<String, dynamic>? queryParams,
-    Map<String, dynamic>? headers,
-  }) async {
-    Response response = await dio.patch(
-      url,
-      data: body,
-      queryParameters: queryParams,
-      options: Options(headers: headers),
-    );
-    return response;
-  }
-
-  @override
-  Future<dynamic> post(
-    String url, {
-    Map<String, dynamic>? body,
-    Map<String, dynamic>? queryParams,
-    Map<String, dynamic>? headers,
-  }) async {
-    Response response = await dio.post(
-      url,
-      data: body,
-      queryParameters: queryParams,
-      options: Options(headers: headers),
-    );
-    return response;
-  }
-
-  @override
-  Future<dynamic> put(
-    String url, {
-    Map<String, dynamic>? body,
-    Map<String, dynamic>? queryParams,
-    Map<String, dynamic>? headers,
-  }) async {
-    Response response = await dio.put(
-      url,
-      data: body,
-      queryParameters: queryParams,
-      options: Options(headers: headers),
-    );
-    return response;
+    try {
+      return await dio.request<Map<String, dynamic>>(url,
+          data: body,
+          queryParameters: queryParams,
+          options: Options(method: mode));
+    } on DioError catch (err, stackTrace) {
+      switch (err.type) {
+        case DioErrorType.connectTimeout:
+        case DioErrorType.sendTimeout:
+        case DioErrorType.receiveTimeout:
+          throw Failure(
+            'A conexão foi encerrada, tente novamente.',
+            object: err,
+            stackTrace: stackTrace,
+          );
+        case DioErrorType.response:
+          switch (err.response?.statusCode) {
+            case 400:
+              throw Failure(
+                'Requisição inválida',
+                object: err,
+                stackTrace: stackTrace,
+              );
+            case 401:
+              throw Failure(
+                'Usuário ou senha inválidos.',
+                object: err,
+                stackTrace: stackTrace,
+              );
+            case 404:
+              throw Failure(
+                'A informação requisitada não pode ser encontrada.',
+                object: err,
+                stackTrace: stackTrace,
+              );
+            case 409:
+              throw Failure(
+                'Ocorreu um conflito',
+                object: err,
+                stackTrace: stackTrace,
+              );
+            default: //500
+              throw Failure(
+                'Ocorreu um erro inesperado, tente novamente.',
+                object: err,
+                stackTrace: stackTrace,
+              );
+          }
+        case DioErrorType.cancel:
+          throw Failure(
+            'Requisição cancelada.',
+            object: err,
+            stackTrace: stackTrace,
+          );
+        default:
+          throw Failure(
+            'Sem conexão.',
+            object: err,
+            stackTrace: stackTrace,
+          );
+      }
+    }
   }
 
   @override

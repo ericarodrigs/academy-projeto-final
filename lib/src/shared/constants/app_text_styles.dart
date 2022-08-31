@@ -11,4 +11,7 @@ class TextStyles {
   );
   static const TextStyle boldTextButton =
       TextStyle(fontWeight: FontWeight.bold);
+
+  static const TextStyle errorRed =
+  TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.red);
 }

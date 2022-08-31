@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 
 import 'package:rarovideowall/src/shared/interfaces/local_storage_service.dart';
-import 'package:rarovideowall/src/shared/models/data_models/login_user_model.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
+import 'package:rarovideowall/src/shared/models/login_user_model.dart';
 
 class LocalStorageUserRepository {
   LocalStorageService service;
@@ -16,11 +16,10 @@ class LocalStorageUserRepository {
       if (loginUserModelJson != null) {
         return Right(LoginUserModel.fromJson(loginUserModelJson));
       } else {
-        return Left(Failure(message: 'Usuário não encontrado.'));
+        return Left(Failure('Usuário não encontrado.'));
       }
     } catch (err, stackTrace) {
-      return Left(Failure(
-          message: err.toString(), object: err, stackTrace: stackTrace));
+      return Left(Failure(err.toString(), object: err, stackTrace: stackTrace));
     }
   }
 
@@ -29,8 +28,7 @@ class LocalStorageUserRepository {
       bool serviceResp = await service.save('userLogin', userLogin.toJson());
       return Right(serviceResp);
     } catch (err, stackTrace) {
-      return Left(Failure(
-          message: err.toString(), object: err, stackTrace: stackTrace));
+      return Left(Failure(err.toString(), object: err, stackTrace: stackTrace));
     }
   }
 
@@ -39,8 +37,7 @@ class LocalStorageUserRepository {
       bool serviceResp = await service.delete('userLogin');
       return Right(serviceResp);
     } catch (err, stackTrace) {
-      return Left(Failure(
-          message: err.toString(), object: err, stackTrace: stackTrace));
+      return Left(Failure(err.toString(), object: err, stackTrace: stackTrace));
     }
   }
 }

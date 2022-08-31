@@ -1,11 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-
 import 'package:rarovideowall/src/shared/global_states/logged_state.dart';
 import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
-import 'package:rarovideowall/src/shared/models/data_models/login_user_model.dart';
-import 'package:rarovideowall/src/shared/models/data_models/user_model.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
+import 'package:rarovideowall/src/shared/models/login_user_model.dart';
+import 'package:rarovideowall/src/shared/models/user_model.dart';
 
 class LoginRepository {
   ApiService service;
@@ -18,23 +17,23 @@ class LoginRepository {
 
   Future<Either<Failure, UserModel>> login(LoginUserModel userLogin) async {
     try {
-      Response response = await service.post('/auth/login', body: {
-        "email": userLogin.email,
-        "senha": userLogin.password,
-      });
+      Response response = await service.request(
+        '/auth/login',
+        'POST',
+        body: userLogin.toMap(),
+      );
       UserModel user = UserModel.fromMap(response.data);
       loggedState.setLogin(user);
       service.setHeaderToken(user.accessToken);
       return Right(user);
-    } on DioError catch (err, stackTrace) {
-      return Left(Failure(
-          message: err.message, object: err.response, stackTrace: stackTrace));
-    } on DioErrorType catch (err, stackTrace) {
-      return Left(
-          Failure(message: err.name, object: err, stackTrace: stackTrace));
+    } on Failure catch (fail) {
+      return Left(fail);
     } catch (err, stackTrace) {
       return Left(Failure(
-          message: err.toString(), object: err, stackTrace: stackTrace));
+        'Erro inesperado',
+        object: err,
+        stackTrace: stackTrace,
+      ));
     }
   }
 }

@@ -2,33 +2,33 @@ import 'dart:convert';
 
 class LoginUserModel {
   final String email;
-  final String password;
+  final String senha;
   LoginUserModel({
     required this.email,
-    required this.password,
+    required this.senha,
   });
 
   LoginUserModel copyWith({
     String? email,
-    String? password,
+    String? senha,
   }) {
     return LoginUserModel(
       email: email ?? this.email,
-      password: password ?? this.password,
+      senha: senha ?? this.senha,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'email': email,
-      'password': password,
+      'senha': senha,
     };
   }
 
   factory LoginUserModel.fromMap(Map<String, dynamic> map) {
     return LoginUserModel(
       email: map['email'] ?? '',
-      password: map['password'] ?? '',
+      senha: map['senha'] ?? '',
     );
   }
 
@@ -43,9 +43,9 @@ class LoginUserModel {
 
     return other is LoginUserModel &&
         other.email == email &&
-        other.password == password;
+        other.senha == senha;
   }
 
   @override
-  int get hashCode => email.hashCode ^ password.hashCode;
+  int get hashCode => email.hashCode ^ senha.hashCode;
 }
