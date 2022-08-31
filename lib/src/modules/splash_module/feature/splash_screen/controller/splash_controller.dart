@@ -26,14 +26,19 @@ class SplashController implements ISplashController {
   Future<void> tryLocalStorageLogin() async {
     Either<Failure, LoginUserModel> localStorage =
         await localStorageUserRepository.get();
-    localStorage.fold(
+    await localStorage.fold(
       (Failure error) {},
-      (LoginUserModel userLogin) {
-        loginRepository.login(userLogin);
+      (LoginUserModel userLogin) async {
+        await loginRepository.login(userLogin);
       },
     );
-    List<VideoModel> videosResp = await videosRepository.getAll();
-    Modular.to.pushReplacementNamed(ModulesRouteNames.homeModule,
-        arguments: videosResp);
+    await loginRepository
+        .login(LoginUserModel(email: 'markimwrs@hotmail.com', senha: '12345'));
+    Either<Failure, List<VideoModel>> videosResp =
+        await videosRepository.getAll();
+    Modular.to.pushReplacementNamed(
+      ModulesRouteNames.homeModule,
+      arguments: videosResp,
+    );
   }
 }

@@ -19,11 +19,6 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     splashController.tryLocalStorageLogin();
-    Timer(
-      const Duration(seconds: 3),
-          () async =>   {splashController.tryLocalStorageLogin(),
-           Modular.to.pushReplacementNamed('/login'),}
-    );
   }
 
   @override

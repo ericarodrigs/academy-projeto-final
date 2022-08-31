@@ -9,9 +9,46 @@ class TextStyles {
     fontFamily: "Urbanist",
     letterSpacing: -0.05,
   );
-  static const TextStyle boldTextButton =
-      TextStyle(fontWeight: FontWeight.bold);
+  static const TextStyle black14BoldUrbanist = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Urbanist',
+    fontSize: 14,
+    letterSpacing: 0.02,
+    color: AppColors.black,
+  );
 
   static const TextStyle errorRed =
-  TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.red);
+      TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.red);
+
+  static const TextStyle deepPurple16w700Urbanist = TextStyle(
+    fontFamily: 'Urbanist',
+    fontWeight: FontWeight.w700,
+    fontSize: 16,
+    color: AppColors.deepPurple,
+    letterSpacing: 0.02,
+  );
+
+  static const TextStyle black16w700Urbanist = TextStyle(
+    fontFamily: 'Urbanist',
+    fontWeight: FontWeight.w700,
+    fontSize: 16,
+    color: AppColors.black,
+    letterSpacing: 0.02,
+  );
+
+  static const TextStyle black14w400Urbanist = TextStyle(
+    fontFamily: 'Urbanist',
+    fontWeight: FontWeight.w400,
+    fontSize: 14,
+    color: AppColors.black,
+    letterSpacing: 0.02,
+  );
+
+  static const TextStyle black26w700Urbanist = TextStyle(
+    fontFamily: 'Urbanist',
+    fontWeight: FontWeight.w700,
+    fontSize: 26,
+    color: AppColors.black,
+    letterSpacing: 0.02,
+  );
 }
