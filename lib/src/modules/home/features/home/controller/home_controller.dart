@@ -27,11 +27,7 @@ abstract class _HomeControllerBase with Store {
     required this.videosState,
     required this.videosRepository,
     required this.loginRepository,
-  }) {
-    // reaction((_) => videosState.videos, _setVideos);
-    // reaction((_) => videosState.favoriteVideos, _setFavoriteVideos);
-    // reaction((_) => loggedState.isLogged, _setIsLogged);
-  }
+  });
 
   bool get isLogged => loggedState.isLogged;
 
@@ -68,13 +64,9 @@ abstract class _HomeControllerBase with Store {
     refreshVideos();
   }
 
-  // @action
-  // void _setVideos(List<VideoModel> newVideos) => videos = newVideos;
-  // @action
-  // void _setFavoriteVideos(List<VideoModel> newVideos) =>
-  //     favoriteVideos = newVideos;
-  // @action
-  // void _setIsLogged(bool loggedState) => isLogged = loggedState;
+  void detailsNavigate(VideoModel video) {
+    Modular.to.pushNamed('details/${video.id}');
+  }
 }
 
 enum HomeState { success, fail, loading }

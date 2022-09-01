@@ -64,7 +64,10 @@ class HomePage extends StatelessWidget {
                   itemCount: 1,
                   itemBuilder: (_, index) {
                     return WTitleVideoList(
-                        videos: homeController.videos, title: 'Todos');
+                      videos: homeController.videos,
+                      title: 'Todos',
+                      onTap: homeController.detailsNavigate,
+                    );
                   },
                 ),
               );
