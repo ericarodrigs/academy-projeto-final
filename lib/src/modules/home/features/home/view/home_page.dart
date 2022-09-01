@@ -35,7 +35,9 @@ class HomePage extends StatelessWidget {
                 return WTextButton(
                   text: homeController.isLogged ? 'Logout' : 'Login',
                   style: TextStyles.black16w700Urbanist,
-                  onTap: homeController.loginNavigate,
+                  onTap: homeController.isLogged
+                      ? homeController.logoutAction
+                      : homeController.loginNavigate,
                 );
               }),
             ),

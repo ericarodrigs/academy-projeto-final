@@ -36,4 +36,9 @@ class LoginRepository {
       ));
     }
   }
+
+  void logout() {
+    service.clearHeaderToken();
+    loggedState.setLogout();
+  }
 }

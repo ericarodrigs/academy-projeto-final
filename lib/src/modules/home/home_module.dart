@@ -10,6 +10,7 @@ class HomeModule extends Module {
         videosState: i(),
         loggedState: i(),
         videosRepository: i(),
+        loginRepository: i(),
       ),
     )
   ];
