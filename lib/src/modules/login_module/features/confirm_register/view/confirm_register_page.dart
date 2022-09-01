@@ -29,7 +29,7 @@ class _ConfirmRegisterPageState extends State<ConfirmRegisterPage> {
                   const Padding(
                     padding: EdgeInsets.all(64.0),
                     child: Text(
-                        'Digite seu código de confirmacao enviado para seu email.',
+                        'Digite seu código de confirmação enviado para seu email.',
                         style: TextStyles.purple30w700Urbanist),
                   ),
                   const Padding(
