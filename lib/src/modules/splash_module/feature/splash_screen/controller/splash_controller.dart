@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:rarovideowall/src/modules/home/features/home/controller/home_controller.dart';
 
 import 'package:rarovideowall/src/modules/splash_module/interfaces/splash_controller_interface.dart';
 import 'package:rarovideowall/src/modules_route_names.dart';
@@ -24,21 +25,28 @@ class SplashController implements ISplashController {
 
   @override
   Future<void> tryLocalStorageLogin() async {
-    Either<Failure, LoginUserModel> localStorage =
-        await localStorageUserRepository.get();
-    await localStorage.fold(
-      (Failure error) {},
-      (LoginUserModel userLogin) async {
-        await loginRepository.login(userLogin);
+    (await localStorageUserRepository.get()).fold(
+      (error) {},
+      (userLogin) async {
+        (await loginRepository.login(userLogin)).fold(
+          failStateNavigate,
+          (success) => null,
+        );
       },
     );
-    await loginRepository
-        .login(LoginUserModel(email: 'markimwrs@hotmail.com', senha: '12345'));
-    Either<Failure, List<VideoModel>> videosResp =
-        await videosRepository.getAll();
-    Modular.to.pushReplacementNamed(
-      ModulesRouteNames.homeModule,
-      arguments: videosResp,
+    // await loginRepository
+    //     .login(LoginUserModel(email: 'markimwrs@hotmail.com', senha: '12345'));
+    (await videosRepository.getAll()).fold(
+      failStateNavigate,
+      (success) => Modular.to.pushReplacementNamed(
+        ModulesRouteNames.homeModule,
+        arguments: const Right<Failure, HomeState>(HomeState.success),
+      ),
     );
   }
+
+  void failStateNavigate(Failure fail) => Modular.to.pushReplacementNamed(
+        ModulesRouteNames.homeModule,
+        arguments: Left<Failure, HomeState>(fail),
+      );
 }

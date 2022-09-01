@@ -1,14 +1,18 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+
+import 'package:rarovideowall/src/shared/global_states/videos_state/videos_state.dart';
 import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
 
 class VideosRepository {
   ApiService service;
+  VideosState videosState;
 
   VideosRepository({
     required this.service,
+    required this.videosState,
   });
 
   Future<Either<Failure, List<VideoModel>>> getAll() async {
@@ -20,7 +24,10 @@ class VideosRepository {
         'orderDirection': 'ASC',
       });
       List<dynamic> videos = response.data;
-      return Right(videos.map((video) => VideoModel.fromMap(video)).toList());
+      List<VideoModel> allVideos =
+          videos.map((video) => VideoModel.fromMap(video)).toList();
+      videosState.syncVideos(allVideos);
+      return Right(allVideos);
     } on Failure catch (fail) {
       return Left(fail);
     } catch (err, stackTrace) {
