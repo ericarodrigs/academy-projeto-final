@@ -26,77 +26,82 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Observer(
-          builder: (_) {
-            return SingleChildScrollView(
-              child: Form(
-                key: registerController.formKey,
-                child: Column(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(64.0),
-                      child: Text('Registrar',
-                          style: TextStyles.purple30w700Urbanist),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(18, 12, 18, 8),
-                      child: WTextFormField(
-                          isEnabled: registerController.isFieldEnabled(),
-                          controller: registerController.nameController,
-                          validator: registerController.registerValidator.validateName,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.name,
-                          text: 'Digite seu nome'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(18,12, 18, 8),
-                      child: WTextFormField(
-                          isEnabled: registerController.isFieldEnabled(),
-                          controller: registerController.emailController,
-                          validator: registerController.registerValidator.validateEmail,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.emailAddress,
-                          text: 'Digite seu email'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(18, 12, 18, 8),
-                      child: WTextFormField(
-                          isEnabled: registerController.isFieldEnabled(),
-                          controller: registerController.passwordController,
-                          validator: registerController.registerValidator.validatePassword,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.visiblePassword,
-                          obscureText: true,
-                          text: 'Digite sua senha'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(18, 12, 18, 64),
-                      child: WTextFormField(
-                          isEnabled: registerController.isFieldEnabled(),
-                          controller: registerController.codeClassController,
-                          validator: registerController.registerValidator.validateCodeClass,
-                          textInputAction: TextInputAction.done,
-                          keyboardType: TextInputType.text,
-                          text: 'Digite o código da sua turma'),
-                    ),
-                    Visibility(
-                        visible: !registerController.isFieldEnabled(),
-                        child: const CircularProgressIndicator()),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(44, 12, 44, 8),
-                      child: WElevatedButton(text: 'Registrar',
+        child: Observer(builder: (_) {
+          return SingleChildScrollView(
+            child: Form(
+              key: registerController.formKey,
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(64.0),
+                    child: Text('Registrar',
+                        style: TextStyles.purple30w700Urbanist),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(18, 12, 18, 8),
+                    child: WTextFormField(
                         isEnabled: registerController.isFieldEnabled(),
-                        function: () {
-                          if (registerController.isTryRegister) {
-                          }
-                        },),
+                        controller: registerController.nameController,
+                        validator:
+                            registerController.registerValidator.validateName,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.name,
+                        text: 'Digite seu nome'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(18, 12, 18, 8),
+                    child: WTextFormField(
+                        isEnabled: registerController.isFieldEnabled(),
+                        controller: registerController.emailController,
+                        validator:
+                            registerController.registerValidator.validateEmail,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.emailAddress,
+                        text: 'Digite seu email'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(18, 12, 18, 8),
+                    child: WTextFormField(
+                        isEnabled: registerController.isFieldEnabled(),
+                        controller: registerController.passwordController,
+                        validator: registerController
+                            .registerValidator.validatePassword,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.visiblePassword,
+                        obscureText: true,
+                        text: 'Digite sua senha'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(18, 12, 18, 64),
+                    child: WTextFormField(
+                        isEnabled: registerController.isFieldEnabled(),
+                        controller: registerController.codeClassController,
+                        validator: registerController
+                            .registerValidator.validateCodeClass,
+                        textInputAction: TextInputAction.done,
+                        keyboardType: TextInputType.text,
+                        text: 'Digite o código da sua turma'),
+                  ),
+                  Visibility(
+                      visible: !registerController.isFieldEnabled(),
+                      child: const CircularProgressIndicator()),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(44, 12, 44, 8),
+                    child: WElevatedButton(
+                      text: 'Registrar',
+                      isEnabled: registerController.isFieldEnabled(),
+                      function: () {
+                        if (registerController.isTryRegister) {
+                          Modular.to.pushNamed('/login/confirm_register/');
+                        }
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            );
-          }
-        ),
+            ),
+          );
+        }),
       ),
     );
   }
