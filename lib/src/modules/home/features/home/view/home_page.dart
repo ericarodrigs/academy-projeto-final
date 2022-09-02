@@ -4,10 +4,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:rarovideowall/src/modules/home/features/home/controller/home_controller.dart';
+import 'package:rarovideowall/src/modules/home/features/home/model/play_list_content.dart';
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
-import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_text_button.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_error_card.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_favorite_video_list.dart';
