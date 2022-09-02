@@ -1,5 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:rarovideowall/src/modules/login_module/features/confirm_register/view/confirm_register_page.dart';
+import 'package:rarovideowall/src/modules/login_module/features/register/view/confirm_register_page.dart';
 import 'package:rarovideowall/src/modules/login_module/features/login/controller/login_controller.dart';
 import 'package:rarovideowall/src/modules/login_module/features/login/controller/login_validator.dart';
 import 'package:rarovideowall/src/modules/login_module/features/login/view/login_page.dart';
