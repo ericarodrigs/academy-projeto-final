@@ -7,6 +7,7 @@ import 'package:rarovideowall/src/modules/home/features/home/controller/home_con
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
+import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_text_button.dart';
 
 class HomePage extends StatelessWidget {
@@ -69,8 +70,40 @@ class HomePage extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             case HomeState.fail:
-              return const Center(
-                child: Text('error'),
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Center(
+                  child: Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: AppColors.errorColor,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                      color: AppColors.cardColor,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Image.asset('assets/images/errorIcon.png'),
+                        Text(
+                          homeController.errorText,
+                          style: TextStyles.errorRed,
+                          textAlign: TextAlign.center,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                          child: WElevatedButton(
+                            text: 'Quer tentar novamente?',
+                            function: homeController.refreshVideos,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               );
           }
         },

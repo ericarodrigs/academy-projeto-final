@@ -40,11 +40,20 @@ abstract class _HomeControllerBase with Store {
   @observable
   HomeState homeState = HomeState.success;
 
+  @observable
+  String errorText = '';
+
   @action
   void setHomeState(Either<Failure, HomeState> newStateEither) {
     newStateEither.fold(
-      (fail) => homeState = HomeState.fail,
-      (state) => homeState = state,
+      (fail) {
+        homeState = HomeState.fail;
+        errorText = fail.message;
+      },
+      (state) {
+        homeState = state;
+        errorText = '';
+      },
     );
   }
 

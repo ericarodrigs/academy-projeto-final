@@ -11,4 +11,5 @@ class AppColors {
   static const cardColor = Color(0xFFF9F9F9);
   static const black = Color(0xFF000000);
   static const favorite = Color(0xFFCF2928);
+  static const errorColor = Colors.red;
 }
