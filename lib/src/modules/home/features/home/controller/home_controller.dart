@@ -50,10 +50,7 @@ abstract class _HomeControllerBase with Store {
         homeState = HomeState.fail;
         errorText = fail.message;
       },
-      (state) {
-        homeState = state;
-        errorText = '';
-      },
+      (state) => homeState = state,
     );
   }
 
