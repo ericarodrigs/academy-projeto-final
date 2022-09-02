@@ -63,7 +63,10 @@ class HomePage extends StatelessWidget {
             case HomeState.success:
               List<WTitleVideoList> playListWidget = _createPlayListWidgets();
               return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
                 child: ListView.builder(
                   itemCount: playListWidget.length,
                   itemBuilder: (_, index) => playListWidget[index],
