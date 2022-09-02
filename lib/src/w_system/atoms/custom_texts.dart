@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 
-class WTextFormFIeld extends StatelessWidget {
-  const WTextFormFIeld({required this.text, this.errorText, this.validator, this.controller, this.isEnabled = true, Key? key})
-      : super(key: key);
+class WTextFormField extends StatelessWidget {
+  const WTextFormField({
+    required this.text,
+    this.errorText,
+    this.validator,
+    this.controller,
+    this.textInputAction,
+    this.keyboardType,
+    this.obscureText,
+    this.isEnabled = true,
+    Key? key,
+  }) : super(key: key);
   final String text;
   final String? errorText;
   final String? Function(String?)? validator;
   final TextEditingController? controller;
+  final TextInputAction? textInputAction;
+  final TextInputType? keyboardType;
+  final bool? obscureText;
   final bool isEnabled;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -16,6 +29,9 @@ class WTextFormFIeld extends StatelessWidget {
       style: const TextStyle(color: Colors.black),
       validator: validator,
       controller: controller,
+      textInputAction: textInputAction,
+      keyboardType: keyboardType,
+      obscureText: obscureText ?? false,
       decoration: InputDecoration(
           labelText: text,
           errorText: errorText,
@@ -32,16 +48,22 @@ class WTextFormFIeld extends StatelessWidget {
 }
 
 class WTextButton extends StatelessWidget {
-  const WTextButton({required this.text, this.style, this.onTap,this.isEnabled =true, Key? key})
+  const WTextButton(
+      {required this.text,
+      this.style,
+      this.onTap,
+      this.isEnabled = true,
+      Key? key})
       : super(key: key);
   final String text;
   final TextStyle? style;
   final Function()? onTap;
   final bool isEnabled;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: isEnabled ? onTap :null,
+        onTap: isEnabled ? onTap : null,
         child: Ink(
             child: Text(
           text,
