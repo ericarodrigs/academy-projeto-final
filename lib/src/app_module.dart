@@ -25,10 +25,14 @@ class AppModule extends Module {
           loggedState: i(),
           service: i(),
         )),
-    Bind<VideosRepository>(
-        (i) => VideosRepository(service: i(), videosState: i())),
+    Bind<VideosRepository>((i) => VideosRepository(
+          service: i(),
+          videosState: i(),
+          loggedState: i(),
+        )),
     Bind<LocalStorageUserRepository>(
-        (i) => LocalStorageUserRepository(service: i())),
+      (i) => LocalStorageUserRepository(service: i()),
+    ),
   ];
 
   @override

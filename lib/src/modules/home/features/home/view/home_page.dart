@@ -8,7 +8,6 @@ import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_text_button.dart';
-import 'package:rarovideowall/src/w_system/organisms/w_title_video_list.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key, required this.initialState}) : super(key: key);
@@ -59,18 +58,12 @@ class HomePage extends StatelessWidget {
           switch (homeController.homeState) {
             case HomeState.success:
               return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView.builder(
-                  itemCount: 1,
-                  itemBuilder: (_, index) {
-                    return WTitleVideoList(
-                      videos: homeController.videos,
-                      title: 'Todos',
-                      onTap: homeController.detailsNavigate,
-                    );
-                  },
-                ),
-              );
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView.builder(
+                    itemCount: homeController.playListWidget.length,
+                    itemBuilder: (_, index) =>
+                        homeController.playListWidget[index],
+                  ));
             case HomeState.loading:
               return const Center(
                 child: CircularProgressIndicator(),

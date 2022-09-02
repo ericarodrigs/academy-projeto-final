@@ -17,12 +17,16 @@ class DioService implements ApiService {
     String mode, {
     dynamic body,
     Map<String, dynamic>? queryParams,
+    Map<String, dynamic>? headers,
   }) async {
     try {
       return await dio.request(url,
           data: body,
           queryParameters: queryParams,
-          options: Options(method: mode));
+          options: Options(
+            method: mode,
+            headers: headers,
+          ));
     } on DioError catch (err, stackTrace) {
       switch (err.type) {
         case DioErrorType.connectTimeout:

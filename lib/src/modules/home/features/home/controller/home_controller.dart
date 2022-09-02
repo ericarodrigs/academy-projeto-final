@@ -11,6 +11,7 @@ import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
 import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
 import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
+import 'package:rarovideowall/src/w_system/organisms/w_title_video_list.dart';
 
 part 'home_controller.g.dart';
 
@@ -48,9 +49,18 @@ abstract class _HomeControllerBase with Store {
 
   Future<void> refreshVideos() async {
     setHomeState(const Right(HomeState.loading));
-    (await videosRepository.getAll()).fold(
+    (await videosRepository.getAllVideos()).fold(
       (fail) => setHomeState(Left(fail)),
-      (success) => setHomeState(const Right(HomeState.success)),
+      (success) async {
+        if (isLogged) {
+          (await videosRepository.getFavoriteVideos()).fold(
+            (fail) => setHomeState(Left(fail)),
+            (success) => setHomeState(const Right(HomeState.success)),
+          );
+        } else {
+          setHomeState(const Right(HomeState.success));
+        }
+      },
     );
   }
 
@@ -67,6 +77,110 @@ abstract class _HomeControllerBase with Store {
   void detailsNavigate(VideoModel video) {
     Modular.to.pushNamed('details/${video.id}');
   }
+
+  List<WTitleVideoList> get playListWidget {
+    List<WTitleVideoList> playListWidget = [];
+    if (isLogged) {
+      List<PlayListContent> playList = _createPlayList();
+      playListWidget.add(WTitleVideoList(
+        onTap: detailsNavigate,
+        title: 'Favoritos',
+        videos: favoriteVideos,
+      ));
+      playListWidget.addAll(
+        List.generate(
+          playList.length,
+          (index) => WTitleVideoList(
+            onTap: detailsNavigate,
+            title: playList[index].name,
+            videos: playList[index].videos,
+          ),
+        ),
+      );
+    } else {
+      playListWidget.add(WTitleVideoList(
+        onTap: detailsNavigate,
+        title: 'Públicos',
+        videos: videos,
+      ));
+    }
+    return playListWidget;
+  }
+
+  List<PlayListContent> _createPlayList() {
+    final publicRegExp = RegExp(
+      r'aul[aã]o',
+      caseSensitive: false,
+    );
+    final weekRegExp = RegExp(
+      r'semana[\s]?\d+',
+      caseSensitive: false,
+    );
+
+    List<VideoModel> publicVideos = videos.where(
+      (video) {
+        return video.tags.any((tag) => tag.contains(publicRegExp));
+      },
+    ).toList();
+
+    List<VideoModel> classVideos = videos.where(
+      (video) {
+        return !publicVideos.contains(video);
+      },
+    ).toList();
+
+    List<VideoModel> weekVideos = classVideos.where(
+      (video) {
+        return video.topico.contains(weekRegExp);
+      },
+    ).toList();
+
+    //Remove weekVideos from classVideos
+    classVideos.retainWhere((video) => !weekVideos.contains(video));
+
+    return [
+      PlayListContent(name: 'Públicos', videos: publicVideos),
+      PlayListContent(name: 'Minha Turma', videos: classVideos),
+      ..._weekVideosPlayList(weekVideos),
+    ];
+  }
+
+  List<PlayListContent> _weekVideosPlayList(List<VideoModel> weekVideos) {
+    List<PlayListContent> weekPlayList = [];
+    int week = 1;
+    while (weekVideos.isNotEmpty) {
+      weekPlayList.add(
+        PlayListContent(
+          name: 'Semana ${week.toString().padLeft(2, '0')}',
+          videos: weekVideos
+              .where(
+                (video) => video.topico.contains(
+                  RegExp(
+                    r'semana[\s]?[0]*' '${week.toString()}',
+                    caseSensitive: false,
+                  ),
+                ),
+              )
+              .toList(),
+        ),
+      );
+      weekVideos.retainWhere(
+        (video) => !weekPlayList[week - 1].videos.contains(video),
+      );
+      week++;
+    }
+
+    return weekPlayList;
+  }
+}
+
+class PlayListContent {
+  final String name;
+  final List<VideoModel> videos;
+  PlayListContent({
+    required this.name,
+    required this.videos,
+  });
 }
 
 enum HomeState { success, fail, loading }
