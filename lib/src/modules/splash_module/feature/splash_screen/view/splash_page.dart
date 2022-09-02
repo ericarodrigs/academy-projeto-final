@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rarovideowall/src/modules/splash_module/interfaces/splash_controller_interface.dart';
@@ -19,11 +17,6 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     splashController.tryLocalStorageLogin();
-    Timer(
-      const Duration(seconds: 3),
-          () async =>   {splashController.tryLocalStorageLogin(),
-           Modular.to.pushReplacementNamed('/login'),}
-    );
   }
 
   @override

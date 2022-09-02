@@ -19,7 +19,7 @@ class DioService implements ApiService {
     Map<String, dynamic>? queryParams,
   }) async {
     try {
-      return await dio.request<Map<String, dynamic>>(url,
+      return await dio.request(url,
           data: body,
           queryParameters: queryParams,
           options: Options(method: mode));

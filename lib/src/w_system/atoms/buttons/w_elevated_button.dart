@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 
 class WElevatedButton extends StatelessWidget {
-  const WElevatedButton({required this.text, this.function, this.isEnabled = true, Key? key})
+  const WElevatedButton(
+      {required this.text, this.function, this.isEnabled = true, Key? key})
       : super(key: key);
   final String text;
   final Function()? function;

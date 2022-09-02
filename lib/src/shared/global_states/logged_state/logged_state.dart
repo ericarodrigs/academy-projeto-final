@@ -29,7 +29,7 @@ abstract class _LoggedStateBase with Store {
 
   @action
   void setLogout() {
-    _isLogged = true;
+    _isLogged = false;
     user = null;
   }
 }
