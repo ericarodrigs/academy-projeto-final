@@ -6,7 +6,7 @@ class WElevatedButton extends StatelessWidget {
       {required this.text, this.function, this.isEnabled = true, Key? key})
       : super(key: key);
   final String text;
-  final Function()? function;
+  final VoidCallback? function;
   final bool isEnabled;
 
   @override

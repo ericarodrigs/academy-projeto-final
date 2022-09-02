@@ -41,7 +41,8 @@ class WVideoCard extends StatelessWidget {
                     child: Text(
                       video.nome,
                       style: TextStyles.black16w700Urbanist,
-                      overflow: TextOverflow.fade,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
                   WDateCardText(date: video.dataPublicacao)

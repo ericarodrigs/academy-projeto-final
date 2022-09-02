@@ -28,13 +28,12 @@ class SplashController implements ISplashController {
       (userLogin) async {
         (await loginRepository.login(userLogin)).fold(
           _failStateNavigate,
-          (success) => null,
+          (success) => _syncLoggedVideos,
         );
       },
     );
-    // await loginRepository
-    //     .login(LoginUserModel(email: 'markimwrs@hotmail.com', senha: '12345'));
-    (await videosRepository.getAll()).fold(
+
+    (await videosRepository.getAllVideos()).fold(
       _failStateNavigate,
       (success) => Modular.to.pushReplacementNamed(
         ModulesRouteNames.homeModule,
@@ -42,6 +41,12 @@ class SplashController implements ISplashController {
       ),
     );
   }
+
+  void _syncLoggedVideos() async =>
+      (await videosRepository.getFavoriteVideos()).fold(
+        _failStateNavigate,
+        (success) => null,
+      );
 
   void _failStateNavigate(Failure fail) => Modular.to.pushReplacementNamed(
         ModulesRouteNames.homeModule,

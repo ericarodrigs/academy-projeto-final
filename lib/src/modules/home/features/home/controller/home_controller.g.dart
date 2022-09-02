@@ -25,6 +25,22 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  late final _$errorTextAtom =
+      Atom(name: '_HomeControllerBase.errorText', context: context);
+
+  @override
+  String get errorText {
+    _$errorTextAtom.reportRead();
+    return super.errorText;
+  }
+
+  @override
+  set errorText(String value) {
+    _$errorTextAtom.reportWrite(value, super.errorText, () {
+      super.errorText = value;
+    });
+  }
+
   late final _$_HomeControllerBaseActionController =
       ActionController(name: '_HomeControllerBase', context: context);
 
@@ -42,7 +58,8 @@ mixin _$HomeController on _HomeControllerBase, Store {
   @override
   String toString() {
     return '''
-homeState: ${homeState}
+homeState: ${homeState},
+errorText: ${errorText}
     ''';
   }
 }

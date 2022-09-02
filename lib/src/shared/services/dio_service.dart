@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
@@ -17,12 +19,16 @@ class DioService implements ApiService {
     String mode, {
     dynamic body,
     Map<String, dynamic>? queryParams,
+    Map<String, dynamic>? headers,
   }) async {
     try {
       return await dio.request(url,
           data: body,
           queryParameters: queryParams,
-          options: Options(method: mode));
+          options: Options(
+            method: mode,
+            headers: headers,
+          ));
     } on DioError catch (err, stackTrace) {
       switch (err.type) {
         case DioErrorType.connectTimeout:
@@ -72,9 +78,23 @@ class DioService implements ApiService {
             object: err,
             stackTrace: stackTrace,
           );
+        case DioErrorType.other:
+          if (err.error is SocketException) {
+            throw Failure(
+              'Você está sem conexão, verifique sua internet.',
+              object: err,
+              stackTrace: stackTrace,
+            );
+          } else {
+            throw Failure(
+              'Erro de requisição não conhecido.',
+              object: err,
+              stackTrace: stackTrace,
+            );
+          }
         default:
           throw Failure(
-            'Sem conexão.',
+            'Erro não reconhecido',
             object: err,
             stackTrace: stackTrace,
           );

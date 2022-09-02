@@ -17,8 +17,11 @@ class TextStyles {
     color: AppColors.black,
   );
 
-  static const TextStyle errorRed =
-      TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.red);
+  static const TextStyle errorRed = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 20,
+    color: AppColors.errorColor,
+  );
 
   static const TextStyle deepPurple16w700Urbanist = TextStyle(
     fontFamily: 'Urbanist',
