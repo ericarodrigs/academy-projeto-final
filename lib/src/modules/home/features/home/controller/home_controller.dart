@@ -90,35 +90,7 @@ abstract class _HomeControllerBase with Store {
     Modular.to.pushNamed('details/${video.id}');
   }
 
-  List<WTitleVideoList> get playListWidget {
-    List<WTitleVideoList> playListWidget = [];
-    if (isLogged) {
-      List<PlayListContent> playList = _createPlayList();
-      playListWidget.add(WFavoriteVideoList(
-        onTap: detailsNavigate,
-        videos: favoriteVideos,
-      ));
-      playListWidget.addAll(
-        List.generate(
-          playList.length,
-          (index) => WTitleVideoList(
-            onTap: detailsNavigate,
-            title: playList[index].name,
-            videos: playList[index].videos,
-          ),
-        ),
-      );
-    } else {
-      playListWidget.add(WTitleVideoList(
-        onTap: detailsNavigate,
-        title: 'Públicos',
-        videos: videos,
-      ));
-    }
-    return playListWidget;
-  }
-
-  List<PlayListContent> _createPlayList() {
+  List<PlayListContent> createPlayList() {
     final publicRegExp = RegExp(
       r'aul[aã]o',
       caseSensitive: false,
