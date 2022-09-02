@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyles.purple30w700Urbanist),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(18, 59, 18, 33),
-                    child: WTextFormFIeld(
+                    child: WTextFormField(
                         isEnabled: loginController.isFieldEnabled(),
                         controller: loginController.emailController,
                         validator: loginController.loginValidator.validateEmail,
@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18),
-                    child: WTextFormFIeld(
+                    child: WTextFormField(
                         isEnabled: loginController.isFieldEnabled(),
                         controller: loginController.pwController,
                         validator: loginController.loginValidator.validatePW,
@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                       text: 'Registrar',
                       isEnabled: loginController.isFieldEnabled(),
                       function: () {
-                        // Modular.to.pushNamed('registrar').then((value) => loginController.loginInitState(););
+                        Modular.to.pushNamed('/login/register/').then((value) => loginController.loginInitState());
                       },
                     ),
                   ),
