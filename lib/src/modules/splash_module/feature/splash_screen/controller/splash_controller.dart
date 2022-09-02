@@ -6,8 +6,6 @@ import 'package:rarovideowall/src/modules/splash_module/interfaces/splash_contro
 import 'package:rarovideowall/src/modules_route_names.dart';
 
 import 'package:rarovideowall/src/shared/models/failure.dart';
-import 'package:rarovideowall/src/shared/models/login_user_model.dart';
-import 'package:rarovideowall/src/shared/models/video_model.dart';
 import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
 import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
 import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
@@ -29,7 +27,7 @@ class SplashController implements ISplashController {
       (error) {},
       (userLogin) async {
         (await loginRepository.login(userLogin)).fold(
-          failStateNavigate,
+          _failStateNavigate,
           (success) => null,
         );
       },
@@ -37,7 +35,7 @@ class SplashController implements ISplashController {
     // await loginRepository
     //     .login(LoginUserModel(email: 'markimwrs@hotmail.com', senha: '12345'));
     (await videosRepository.getAll()).fold(
-      failStateNavigate,
+      _failStateNavigate,
       (success) => Modular.to.pushReplacementNamed(
         ModulesRouteNames.homeModule,
         arguments: const Right<Failure, HomeState>(HomeState.success),
@@ -45,7 +43,7 @@ class SplashController implements ISplashController {
     );
   }
 
-  void failStateNavigate(Failure fail) => Modular.to.pushReplacementNamed(
+  void _failStateNavigate(Failure fail) => Modular.to.pushReplacementNamed(
         ModulesRouteNames.homeModule,
         arguments: Left<Failure, HomeState>(fail),
       );

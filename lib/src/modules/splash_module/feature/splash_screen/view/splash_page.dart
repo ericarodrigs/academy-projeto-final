@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rarovideowall/src/modules/splash_module/interfaces/splash_controller_interface.dart';

@@ -4,7 +4,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rarovideowall/src/modules/login_module/features/login/controller/login_controller.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
-import 'package:rarovideowall/src/w_system/atoms/buttons/w_text_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_text_form_field.dart';
 
 class LoginPage extends StatefulWidget {
@@ -99,7 +98,9 @@ class _LoginPageState extends State<LoginPage> {
                       text: 'Registrar',
                       isEnabled: loginController.isFieldEnabled(),
                       function: () {
-                        Modular.to.pushNamed('/login/register/').then((value) => loginController.loginInitState());
+                        Modular.to
+                            .pushNamed('/login/register/')
+                            .then((value) => loginController.loginInitState());
                       },
                     ),
                   ),
