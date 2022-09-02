@@ -117,26 +117,24 @@ abstract class _HomeControllerBase with Store {
       caseSensitive: false,
     );
 
-    List<VideoModel> publicVideos = videos.where(
-      (video) {
-        return video.tags.any((tag) => tag.contains(publicRegExp));
-      },
-    ).toList();
+    List<VideoModel> publicVideos = [];
 
-    List<VideoModel> classVideos = videos.where(
-      (video) {
-        return !publicVideos.contains(video);
-      },
-    ).toList();
+    List<VideoModel> classVideos = [];
 
-    List<VideoModel> weekVideos = classVideos.where(
-      (video) {
-        return video.topico.contains(weekRegExp);
-      },
-    ).toList();
+    List<VideoModel> weekVideos = [];
+
+    for (VideoModel video in videos) {
+      if (video.tags.any((tag) => tag.contains(publicRegExp))) {
+        publicVideos.add(video);
+      } else if (video.topico.contains(weekRegExp)) {
+        weekVideos.add(video);
+      } else {
+        classVideos.add(video);
+      }
+    }
 
     //Remove weekVideos from classVideos
-    classVideos.retainWhere((video) => !weekVideos.contains(video));
+    // classVideos.retainWhere((video) => !weekVideos.contains(video));
 
     return [
       PlayListContent(name: 'Públicos', videos: publicVideos),
