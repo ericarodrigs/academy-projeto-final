@@ -10,4 +10,5 @@ class AppColors {
   static const purpleTitle = Color(0xff4E47C2);
   static const cardColor = Color(0xFFF9F9F9);
   static const black = Color(0xFF000000);
+  static const favorite = Color(0xFFCF2928);
 }

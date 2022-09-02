@@ -11,6 +11,7 @@ import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
 import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
 import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
+import 'package:rarovideowall/src/w_system/organisms/w_favorite_video_list.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_title_video_list.dart';
 
 part 'home_controller.g.dart';
@@ -82,9 +83,8 @@ abstract class _HomeControllerBase with Store {
     List<WTitleVideoList> playListWidget = [];
     if (isLogged) {
       List<PlayListContent> playList = _createPlayList();
-      playListWidget.add(WTitleVideoList(
+      playListWidget.add(WFavoriteVideoList(
         onTap: detailsNavigate,
-        title: 'Favoritos',
         videos: favoriteVideos,
       ));
       playListWidget.addAll(
@@ -132,9 +132,6 @@ abstract class _HomeControllerBase with Store {
         classVideos.add(video);
       }
     }
-
-    //Remove weekVideos from classVideos
-    // classVideos.retainWhere((video) => !weekVideos.contains(video));
 
     return [
       PlayListContent(name: 'Públicos', videos: publicVideos),
