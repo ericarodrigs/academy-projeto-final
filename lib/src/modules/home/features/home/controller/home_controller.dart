@@ -3,6 +3,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:rarovideowall/src/modules/home/features/home/model/play_list_content.dart';
 
 import 'package:rarovideowall/src/modules_route_names.dart';
 import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state.dart';
@@ -11,8 +12,6 @@ import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
 import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
 import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
-import 'package:rarovideowall/src/w_system/organisms/w_favorite_video_list.dart';
-import 'package:rarovideowall/src/w_system/organisms/w_title_video_list.dart';
 
 part 'home_controller.g.dart';
 
@@ -87,35 +86,7 @@ abstract class _HomeControllerBase with Store {
     Modular.to.pushNamed('details/${video.id}');
   }
 
-  List<WTitleVideoList> get playListWidget {
-    List<WTitleVideoList> playListWidget = [];
-    if (isLogged) {
-      List<PlayListContent> playList = _createPlayList();
-      playListWidget.add(WFavoriteVideoList(
-        onTap: detailsNavigate,
-        videos: favoriteVideos,
-      ));
-      playListWidget.addAll(
-        List.generate(
-          playList.length,
-          (index) => WTitleVideoList(
-            onTap: detailsNavigate,
-            title: playList[index].name,
-            videos: playList[index].videos,
-          ),
-        ),
-      );
-    } else {
-      playListWidget.add(WTitleVideoList(
-        onTap: detailsNavigate,
-        title: 'Públicos',
-        videos: videos,
-      ));
-    }
-    return playListWidget;
-  }
-
-  List<PlayListContent> _createPlayList() {
+  List<PlayListContent> createPlayList() {
     final publicRegExp = RegExp(
       r'aul[aã]o',
       caseSensitive: false,
@@ -175,15 +146,6 @@ abstract class _HomeControllerBase with Store {
 
     return weekPlayList;
   }
-}
-
-class PlayListContent {
-  final String name;
-  final List<VideoModel> videos;
-  PlayListContent({
-    required this.name,
-    required this.videos,
-  });
 }
 
 enum HomeState { success, fail, loading }
