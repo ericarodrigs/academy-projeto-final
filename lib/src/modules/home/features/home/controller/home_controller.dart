@@ -76,7 +76,9 @@ abstract class _HomeControllerBase with Store {
 
   Future<void> loginNavigate() async {
     await Modular.to.pushNamed(ModulesRouteNames.loginModule);
-    refreshVideos();
+    if (isLogged) {
+      refreshVideos();
+    }
   }
 
   Future<void> logoutAction() async {

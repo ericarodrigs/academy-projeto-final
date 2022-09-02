@@ -2,13 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:rarovideowall/src/modules/home/features/home/controller/home_controller.dart';
 
+import 'package:rarovideowall/src/modules/home/features/home/controller/home_controller.dart';
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_text_button.dart';
+import 'package:rarovideowall/src/w_system/molecules/w_error_card.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key, required this.initialState}) : super(key: key);
@@ -72,37 +73,10 @@ class HomePage extends StatelessWidget {
             case HomeState.fail:
               return Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Center(
-                  child: Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: AppColors.errorColor,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                      color: AppColors.cardColor,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Image.asset('assets/images/errorIcon.png'),
-                        Text(
-                          homeController.errorText,
-                          style: TextStyles.errorRed,
-                          textAlign: TextAlign.center,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                          child: WElevatedButton(
-                            text: 'Quer tentar novamente?',
-                            function: homeController.refreshVideos,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                child: WErrorCard(
+                  action: homeController.refreshVideos,
+                  buttonText: 'Quer Tentar novamente?',
+                  errorText: homeController.errorText,
                 ),
               );
           }
