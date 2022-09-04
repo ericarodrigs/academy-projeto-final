@@ -62,14 +62,18 @@ class _RegisterPageState extends State<RegisterPage> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(18, 12, 18, 8),
                     child: WTextFormField(
-                        isEnabled: registerController.isFieldEnabled(),
-                        controller: registerController.passwordController,
-                        validator: registerController
-                            .registerValidator.validatePassword,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.visiblePassword,
-                        obscureText: true,
-                        text: 'Digite sua senha'),
+                      isEnabled: registerController.isFieldEnabled(),
+                      controller: registerController.passwordController,
+                      validator:
+                          registerController.registerValidator.validatePassword,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.visiblePassword,
+                      obscureText: registerController.isHiddenPassword,
+                      togglePasswordView: () {
+                        registerController.changePasswordVisibility();
+                      },
+                      text: 'Digite sua senha',
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(18, 12, 18, 12),
