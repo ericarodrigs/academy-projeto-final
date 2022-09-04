@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rarovideowall/src/modules/login_module/features/login/controller/login_controller.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
+import 'package:rarovideowall/src/shared/constants/validator.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_text_form_field.dart';
 
@@ -44,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: WTextFormField(
                         isEnabled: loginController.isFieldEnabled(),
                         controller: loginController.emailController,
-                        validator: loginController.validator.validateEmail,
+                        validator: Validator.validateEmail,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.emailAddress,
                         text: 'E-mail'),
@@ -54,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: WTextFormField(
                         isEnabled: loginController.isFieldEnabled(),
                         controller: loginController.pwController,
-                        validator: loginController.validator.validatePassword,
+                        validator: Validator.validatePassword,
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: loginController.isHiddenPassword,
