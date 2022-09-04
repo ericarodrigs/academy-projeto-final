@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:rarovideowall/src/modules/home/features/details/model/comment_repository.dart';
-import 'package:rarovideowall/src/shared/interfaces/videos_repository_interface.dart';
+import 'package:rarovideowall/src/modules/home/interfaces/comment_repository_interface.dart';
 
 class DetailsPage extends StatelessWidget {
   DetailsPage({
@@ -10,7 +9,7 @@ class DetailsPage extends StatelessWidget {
   }) : super(key: key);
 
   final String videoId;
-  CommentRepository commentRepository = Modular.get();
+  ICommentRepository commentRepository = Modular.get();
 
   get() async {
     print(await commentRepository.voteComment(

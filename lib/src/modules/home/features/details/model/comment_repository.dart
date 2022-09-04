@@ -4,11 +4,12 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
 import 'package:rarovideowall/src/modules/home/features/details/model/comment_model.dart';
+import 'package:rarovideowall/src/modules/home/interfaces/comment_repository_interface.dart';
 import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state.dart';
 import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 
-class CommentRepository {
+class CommentRepository implements ICommentRepository {
   ApiService service;
   LoggedState loggedState;
 
@@ -17,6 +18,7 @@ class CommentRepository {
     required this.loggedState,
   });
 
+  @override
   Future<Either<Failure, List<CommentModel>>> getComments(
       String videoId) async {
     try {
@@ -47,6 +49,7 @@ class CommentRepository {
     }
   }
 
+  @override
   Future<Either<Failure, CommentModel>> postComment(
       String videoId, String commentMessage) async {
     try {
@@ -73,6 +76,7 @@ class CommentRepository {
     }
   }
 
+  @override
   Future<Either<Failure, CommentModel>> editComment(
       String videoId, String commentId, String commentMessage) async {
     try {
@@ -99,6 +103,7 @@ class CommentRepository {
     }
   }
 
+  @override
   Future<Either<Failure, bool>> deleteComment(
       String videoId, String commentId) async {
     try {
@@ -124,6 +129,7 @@ class CommentRepository {
     }
   }
 
+  @override
   Future<Either<Failure, bool>> voteComment(
     String videoId,
     String commentId, {
