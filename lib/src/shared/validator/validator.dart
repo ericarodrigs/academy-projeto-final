@@ -3,7 +3,7 @@ import 'package:rarovideowall/src/shared/constants/regex_types.dart';
 class Validator {
   String? validateName(String? valueName) {
     return valueName == null || valueName.isEmpty
-        ? 'Por favor, informe o nome.'
+        ? 'Por favor, informe o nome'
         : null;
   }
 
@@ -16,32 +16,32 @@ class Validator {
       return 'Por favor, digite um email válido';
     }
     if (RegexTypes.upperCaseValidator.hasMatch(valueEmail)) {
-      return 'O email deve conter apenas letras minúsculas.';
+      return 'O email deve conter apenas letras minúsculas';
     }
     return null;
   }
 
   String? validatePassword(String? valuePassword) {
     if (valuePassword == null || valuePassword.isEmpty) {
-      return 'Por favor, informe a senha.';
+      return 'Por favor, informe a senha';
     }
     if (!RegexTypes.passwordValidator.hasMatch(valuePassword)) {
       return 'A senha deve conter:\n'
           '    * 8 caracteres\n'
           '    * letra maiúscula e minúscula\n'
           '    * número \n'
-          '    * caractere especial.';
+          '    * caractere especial';
     }
     return null;
   }
 
   String? validateCodeClass(String? valueCodeClass) {
     if (valueCodeClass == null || valueCodeClass.isEmpty) {
-      return 'Por favor, informe o código da sua turma.';
+      return 'Por favor, informe o código da sua turma';
     }
 
     if (valueCodeClass != '55402f9b-ca01-4cb4-ae36-dc85d7e154b8') {
-      return 'Código da turma inválido.';
+      return 'Código da turma inválido';
     }
     return null;
   }
