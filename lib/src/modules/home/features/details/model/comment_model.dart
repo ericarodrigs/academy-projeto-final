@@ -59,7 +59,7 @@ class CommentModel {
       texto: map['texto'] ?? '',
       editado: map['editado'] ?? false,
       createdAt: map['createdAt'] ?? '',
-      aluno: UserModel.fromMap(map['aluno']),
+      aluno: UserModel.fromMap(map['aluno'] ?? {}),
       upVotes: map['upVotes']?.toInt() ?? 0,
       downVotes: map['downVotes']?.toInt() ?? 0,
     );
