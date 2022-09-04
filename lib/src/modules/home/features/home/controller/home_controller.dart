@@ -8,10 +8,10 @@ import 'package:rarovideowall/src/modules/home/features/home/model/play_list_con
 import 'package:rarovideowall/src/modules_route_names.dart';
 import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state.dart';
 import 'package:rarovideowall/src/shared/global_states/videos_state/videos_state.dart';
+import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 import 'package:rarovideowall/src/shared/interfaces/videos_repository_interface.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
-import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
 
 part 'home_controller.g.dart';
 
@@ -21,7 +21,7 @@ abstract class _HomeControllerBase with Store {
   final LoggedState loggedState;
   final VideosState videosState;
   final IVideosRepository videosRepository;
-  final LoginRepository loginRepository;
+  final ILoginRepository loginRepository;
 
   _HomeControllerBase({
     required this.loggedState,
