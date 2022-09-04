@@ -72,10 +72,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         text: 'Digite sua senha'),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(18, 12, 18, 64),
+                    padding: const EdgeInsets.fromLTRB(18, 12, 18, 12),
                     child: WTextFormField(
                         isEnabled: registerController.isFieldEnabled(),
-                        controller: registerController.codeClassController,
+                        controller: registerController.accessCodeController,
                         validator: registerController
                             .registerValidator.validateCodeClass,
                         textInputAction: TextInputAction.done,
@@ -85,6 +85,16 @@ class _RegisterPageState extends State<RegisterPage> {
                   Visibility(
                       visible: !registerController.isFieldEnabled(),
                       child: const CircularProgressIndicator()),
+                  Visibility(
+                      visible:
+                          registerController.errorText != null ? true : false,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                        child: Text(
+                          registerController.errorText ?? '',
+                          style: TextStyles.errorRed,
+                        ),
+                      )),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(44, 12, 44, 8),
                     child: WElevatedButton(
@@ -92,7 +102,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       isEnabled: registerController.isFieldEnabled(),
                       function: () {
                         if (registerController.isTryRegister) {
-                          Modular.to.pushNamed('/login/confirm_register/');
+                          registerController.register();
                         }
                       },
                     ),

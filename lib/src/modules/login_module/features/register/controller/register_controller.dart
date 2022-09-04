@@ -1,19 +1,24 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/modules/login_module/features/register/controller/register_validator.dart';
+import 'package:rarovideowall/src/shared/models/register_user_model.dart';
+import 'package:rarovideowall/src/shared/repositories/register_repository.dart';
 
 part 'register_controller.g.dart';
 
 class RegisterController = _RegisterController with _$RegisterController;
 
 abstract class _RegisterController with Store {
+  final registerRepository = Modular.get<RegisterRepository>();
   final registerValidator = Modular.get<RegisterValidator>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController codeClassController = TextEditingController();
+  final TextEditingController accessCodeController = TextEditingController();
 
   String? errorText;
 
@@ -33,6 +38,35 @@ abstract class _RegisterController with Store {
     pageState = state;
   }
 
+  Future<void> register() async {
+    changeLoadState(LoadState.loading);
+    changePageState(PageState.fine);
+    errorText = null;
+
+    (await registerRepository.register(getRegister())).fold(
+      (fail) {
+        errorText = fail.message;
+        changePageState(PageState.error);
+        changeLoadState(LoadState.done);
+      },
+      (success) {
+        changeLoadState(LoadState.done);
+        clearTextFields();
+        Modular.to.pop();
+        // Modular.to.pushNamed('/confirmRegister/');
+      },
+    );
+  }
+
+  RegisterUserModel getRegister() {
+    return RegisterUserModel(
+      name: nameController.text,
+      email: emailController.text,
+      password: passwordController.text,
+      accessCode: accessCodeController.text,
+    );
+  }
+
   bool get isTryRegister => formKey.currentState!.validate();
 
   bool isFieldEnabled() {
@@ -43,6 +77,13 @@ abstract class _RegisterController with Store {
     changePageState(PageState.fine);
     changeLoadState(LoadState.done);
     errorText = null;
+  }
+
+  void clearTextFields() {
+    nameController.text = "";
+    emailController.text = "";
+    passwordController.text = "";
+    accessCodeController.text = "";
   }
 }
 

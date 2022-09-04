@@ -10,6 +10,7 @@ import 'package:rarovideowall/src/shared/interfaces/local_storage_service.dart';
 
 import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
 import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
+import 'package:rarovideowall/src/shared/repositories/register_repository.dart';
 import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
 import 'package:rarovideowall/src/shared/services/dio_service.dart';
 import 'package:rarovideowall/src/shared/services/shared_preferences_service.dart';
@@ -23,6 +24,9 @@ class AppModule extends Module {
     Bind<VideosState>((i) => VideosState.instance),
     Bind<LoginRepository>((i) => LoginRepository(
           loggedState: i(),
+          service: i(),
+        )),
+    Bind<RegisterRepository>((i) => RegisterRepository(
           service: i(),
         )),
     Bind<VideosRepository>((i) => VideosRepository(
