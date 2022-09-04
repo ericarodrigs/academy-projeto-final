@@ -11,7 +11,8 @@ class WTextFormField extends StatelessWidget {
     this.keyboardType,
     this.obscureText,
     this.isEnabled = true,
-    Key? key,
+    this.onChangend,
+    Key? key, 
   }) : super(key: key);
   final String text;
   final String? errorText;
@@ -21,6 +22,7 @@ class WTextFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool? obscureText;
   final bool isEnabled;
+  final Function(String)? onChangend;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class WTextFormField extends StatelessWidget {
       style: const TextStyle(color: Colors.black),
       validator: validator,
       controller: controller,
+      onChanged: onChangend,
       textInputAction: textInputAction,
       keyboardType: keyboardType,
       obscureText: obscureText ?? false,

@@ -62,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: WTextButton(
                           isEnabled: loginController.isFieldEnabled(),
                           onTap: () {
-                            // Modular.to.pushNamed('recover').then((value) => loginController.loginInitState(););
+                            Modular.to.pushNamed('request_email').then((value) => loginController.loginInitState());
                           },
                           text: 'Esqueci minha senha...',
                           style: TextStyles.black14BoldUrbanist),
