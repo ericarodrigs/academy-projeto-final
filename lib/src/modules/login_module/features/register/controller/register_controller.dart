@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/shared/models/register_user_model.dart';
-import 'package:rarovideowall/src/shared/repositories/register_repository.dart';
+import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
 
 part 'register_controller.g.dart';
 
 class RegisterController = _RegisterController with _$RegisterController;
 
 abstract class _RegisterController with Store {
-  final registerRepository = Modular.get<RegisterRepository>();
+  final loginRepository = Modular.get<LoginRepository>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -49,7 +49,7 @@ abstract class _RegisterController with Store {
     changePageState(PageState.fine);
     errorText = null;
 
-    (await registerRepository.register(getRegister())).fold(
+    (await loginRepository.register(getRegister())).fold(
       (fail) {
         errorText = fail.message;
         changePageState(PageState.error);
