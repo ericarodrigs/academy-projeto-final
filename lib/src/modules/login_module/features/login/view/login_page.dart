@@ -45,6 +45,8 @@ class _LoginPageState extends State<LoginPage> {
                         isEnabled: loginController.isFieldEnabled(),
                         controller: loginController.emailController,
                         validator: loginController.loginValidator.validateEmail,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.emailAddress,
                         text: 'E-mail'),
                   ),
                   Padding(
@@ -53,6 +55,12 @@ class _LoginPageState extends State<LoginPage> {
                         isEnabled: loginController.isFieldEnabled(),
                         controller: loginController.pwController,
                         validator: loginController.loginValidator.validatePW,
+                        textInputAction: TextInputAction.done,
+                        keyboardType: TextInputType.visiblePassword,
+                        obscureText: loginController.isHiddenPassword,
+                        togglePasswordView: () {
+                          loginController.changePasswordVisibility();
+                        },
                         text: 'Senha'),
                   ),
                   Padding(

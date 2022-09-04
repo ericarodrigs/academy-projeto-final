@@ -26,6 +26,9 @@ abstract class _LoginController with Store {
   @observable
   PageState pageState = PageState.fine;
 
+  @observable
+  bool isHiddenPassword = true;
+
   @action
   Future<void> changeLoadState(LoadState state) async {
     loadState = state;
@@ -34,6 +37,11 @@ abstract class _LoginController with Store {
   @action
   Future<void> changePageState(PageState state) async {
     pageState = state;
+  }
+
+  @action
+  Future<void> changePasswordVisibility() async {
+    isHiddenPassword = !isHiddenPassword;
   }
 
   Future<void> logIn() async {

@@ -41,6 +41,22 @@ mixin _$LoginController on _LoginController, Store {
     });
   }
 
+  late final _$isHiddenPasswordAtom =
+      Atom(name: '_LoginController.isHiddenPassword', context: context);
+
+  @override
+  bool get isHiddenPassword {
+    _$isHiddenPasswordAtom.reportRead();
+    return super.isHiddenPassword;
+  }
+
+  @override
+  set isHiddenPassword(bool value) {
+    _$isHiddenPasswordAtom.reportWrite(value, super.isHiddenPassword, () {
+      super.isHiddenPassword = value;
+    });
+  }
+
   late final _$changeLoadStateAsyncAction =
       AsyncAction('_LoginController.changeLoadState', context: context);
 
@@ -57,11 +73,22 @@ mixin _$LoginController on _LoginController, Store {
     return _$changePageStateAsyncAction.run(() => super.changePageState(state));
   }
 
+  late final _$changePasswordVisibilityAsyncAction = AsyncAction(
+      '_LoginController.changePasswordVisibility',
+      context: context);
+
+  @override
+  Future<void> changePasswordVisibility() {
+    return _$changePasswordVisibilityAsyncAction
+        .run(() => super.changePasswordVisibility());
+  }
+
   @override
   String toString() {
     return '''
 loadState: ${loadState},
-pageState: ${pageState}
+pageState: ${pageState},
+isHiddenPassword: ${isHiddenPassword}
     ''';
   }
 }
