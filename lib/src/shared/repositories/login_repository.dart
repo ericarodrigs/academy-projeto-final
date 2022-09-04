@@ -5,7 +5,7 @@ import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/login_user_model.dart';
-import 'package:rarovideowall/src/shared/models/register_user_model.dart';
+import 'package:rarovideowall/src/modules/login_module/features/register/model/register_user_model.dart';
 import 'package:rarovideowall/src/shared/models/user_model.dart';
 
 class LoginRepository implements ILoginRepository {
