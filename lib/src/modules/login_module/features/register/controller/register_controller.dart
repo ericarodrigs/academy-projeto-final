@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'package:rarovideowall/src/modules/login_module/features/register/controller/register_validator.dart';
 import 'package:rarovideowall/src/shared/models/register_user_model.dart';
 import 'package:rarovideowall/src/shared/repositories/register_repository.dart';
+import 'package:rarovideowall/src/shared/validator/validator.dart';
 
 part 'register_controller.g.dart';
 
@@ -13,7 +13,7 @@ class RegisterController = _RegisterController with _$RegisterController;
 
 abstract class _RegisterController with Store {
   final registerRepository = Modular.get<RegisterRepository>();
-  final registerValidator = Modular.get<RegisterValidator>();
+  final validator = Modular.get<Validator>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();

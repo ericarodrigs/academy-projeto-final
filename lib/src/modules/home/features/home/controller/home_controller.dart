@@ -12,7 +12,6 @@ import 'package:rarovideowall/src/shared/interfaces/videos_repository_interface.
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
 import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
-import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
 
 part 'home_controller.g.dart';
 

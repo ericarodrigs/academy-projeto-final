@@ -43,7 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         isEnabled: registerController.isFieldEnabled(),
                         controller: registerController.nameController,
                         validator:
-                            registerController.registerValidator.validateName,
+                            registerController.validator.validateName,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.name,
                         text: 'Digite seu nome'),
@@ -54,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         isEnabled: registerController.isFieldEnabled(),
                         controller: registerController.emailController,
                         validator:
-                            registerController.registerValidator.validateEmail,
+                            registerController.validator.validateEmail,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.emailAddress,
                         text: 'Digite seu email'),
@@ -65,7 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       isEnabled: registerController.isFieldEnabled(),
                       controller: registerController.passwordController,
                       validator:
-                          registerController.registerValidator.validatePassword,
+                          registerController.validator.validatePassword,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.visiblePassword,
                       obscureText: registerController.isHiddenPassword,
@@ -81,7 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         isEnabled: registerController.isFieldEnabled(),
                         controller: registerController.accessCodeController,
                         validator: registerController
-                            .registerValidator.validateCodeClass,
+                            .validator.validateCodeClass,
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.text,
                         text: 'Digite o código da sua turma'),

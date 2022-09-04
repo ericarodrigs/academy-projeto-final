@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'package:rarovideowall/src/modules/login_module/features/login/controller/login_validator.dart';
 import 'package:rarovideowall/src/shared/models/login_user_model.dart';
 import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
+import 'package:rarovideowall/src/shared/validator/validator.dart';
 
 part 'login_controller.g.dart';
 
@@ -13,7 +13,7 @@ class LoginController = _LoginController with _$LoginController;
 
 abstract class _LoginController with Store {
   final loginRepository = Modular.get<LoginRepository>();
-  final loginValidator = Modular.get<LoginValidator>();
+  final validator = Modular.get<Validator>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController pwController = TextEditingController();

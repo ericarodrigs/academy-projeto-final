@@ -1,6 +1,6 @@
 import 'package:rarovideowall/src/shared/constants/regex_types.dart';
 
-class RegisterValidator {
+class Validator {
   String? validateName(String? valueName) {
     return valueName == null || valueName.isEmpty
         ? 'Por favor, informe o nome.'
