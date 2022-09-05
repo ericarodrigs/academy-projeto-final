@@ -13,6 +13,7 @@ class VideoModel {
   final String dataPublicacao;
   final String topico;
   final List<String> tags;
+
   VideoModel({
     required this.id,
     required this.nome,
@@ -82,10 +83,15 @@ class VideoModel {
     );
   }
 
+
   String toJson() => json.encode(toMap());
 
-  factory VideoModel.fromJson(String source) =>
-      VideoModel.fromMap(json.decode(source));
+  factory VideoModel.fromJson(String source) => VideoModel.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'id:$id nome:$nome descricao:$descricao topico:$topico tags:$tags';
+  }
 
   @override
   bool operator ==(Object other) {

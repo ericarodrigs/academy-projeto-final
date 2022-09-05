@@ -21,22 +21,41 @@ class VideosRepository implements IVideosRepository {
     required this.loggedState,
   });
 
+  Future<VideoModel> getVideo(String id) async{
+    Response response = await service.request('/videos/$id', 'GET');
+    return VideoModel.fromMap(response.data);
+  }
+
+  Future<Either<Failure, List<VideoModel>>> getRelatedVideos(String topico) async {
+    try {
+      Response response = await service.request('/videos', 'GET', queryParams: {'topico': topico});
+      List<dynamic> videos = response.data;
+      List<VideoModel> newVideos = videos.map((video) => VideoModel.fromMap(video)).toList();
+      videosState.syncVideos(newVideos);
+      return Right(newVideos);
+    } on Failure catch (fail) {
+      return Left(fail);
+    } catch (err, stackTrace) {
+      return Left(
+        Failure(
+          'Erro inesperado',
+          object: err,
+          stackTrace: stackTrace,
+        ),
+      );
+    }
+  }
+
   @override
   Future<Either<Failure, List<VideoModel>>> getAllVideos() async {
     try {
       Response response = await service.request(
         '/videos',
         'GET',
-        queryParams: {
-          'pagina': 1,
-          'itensPorPagina': 100,
-          'orderBy': 'dataPublicacao',
-          'orderDirection': 'ASC',
-        },
+        queryParams: {'pagina': 1, 'itensPorPagina': 100, 'orderBy': 'dataPublicacao', 'orderDirection': 'ASC'},
       );
       List<dynamic> videos = response.data;
-      List<VideoModel> newVideos =
-          videos.map((video) => VideoModel.fromMap(video)).toList();
+      List<VideoModel> newVideos = videos.map((video) => VideoModel.fromMap(video)).toList();
       videosState.syncVideos(newVideos);
       return Right(newVideos);
     } on Failure catch (fail) {
@@ -62,16 +81,10 @@ class VideosRepository implements IVideosRepository {
       Response response = await service.request(
         '/videos/favoritos',
         'GET',
-        queryParams: {
-          'pagina': 1,
-          'itensPorPagina': 100,
-          'orderBy': 'dataPublicacao',
-          'orderDirection': 'ASC',
-        },
+        queryParams: {'pagina': 1, 'itensPorPagina': 100, 'orderBy': 'dataPublicacao', 'orderDirection': 'ASC'},
       );
       List<dynamic> videos = response.data;
-      List<VideoModel> favoriteVideos =
-          videos.map((video) => VideoModel.fromMap(video)).toList();
+      List<VideoModel> favoriteVideos = videos.map((video) => VideoModel.fromMap(video)).toList();
       videosState.syncFavoriteVideos(favoriteVideos);
       return Right(favoriteVideos);
     } on Failure catch (fail) {
