@@ -19,6 +19,7 @@ class DetailsPage extends StatelessWidget {
       resetVote: true,
     ));
     var resp = (await commentRepository.getComments(videoId));
+    //TODO = Unhandled Exception: Bad state: No element
     resp.fold(
         (l) => null, (r) => print('${r.last.upVotes}, ${r.last.downVotes}'));
   }
