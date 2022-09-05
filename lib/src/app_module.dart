@@ -15,6 +15,8 @@ import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
 import 'package:rarovideowall/src/shared/services/dio_service.dart';
 import 'package:rarovideowall/src/shared/services/shared_preferences_service.dart';
 
+import 'shared/interfaces/login_repository_interface.dart';
+
 class AppModule extends Module {
   @override
   final List<Bind> binds = [
@@ -22,7 +24,7 @@ class AppModule extends Module {
     Bind<LocalStorageService>((i) => SharedPreferencesService.instance),
     Bind<LoggedState>((i) => LoggedState.instance),
     Bind<VideosState>((i) => VideosState.instance),
-    Bind<LoginRepository>((i) => LoginRepository(
+    Bind<ILoginRepository>((i) => LoginRepository(
           loggedState: i(),
           service: i(),
         )),

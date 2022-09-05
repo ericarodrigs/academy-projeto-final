@@ -17,7 +17,7 @@ class DioService implements ApiService {
   Future<dynamic> request(
     String url,
     String mode, {
-    dynamic body,
+    Map<String, dynamic>? body,
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? headers,
   }) async {
@@ -42,14 +42,29 @@ class DioService implements ApiService {
         case DioErrorType.response:
           switch (err.response?.statusCode) {
             case 400:
-              throw Failure(
-                'Requisição inválida',
-                object: err,
-                stackTrace: stackTrace,
-              );
+              if (err.response.toString()
+                  .contains("usuario_ja_existe")) {
+                throw Failure(
+                  'Email já cadastrado',
+                  object: err,
+                  stackTrace: stackTrace,
+                );
+              } else {
+                throw Failure(
+                  'Requisição inválida',
+                  object: err,
+                  stackTrace: stackTrace,
+                );
+              }
             case 401:
               throw Failure(
                 'Usuário ou senha inválidos.',
+                object: err,
+                stackTrace: stackTrace,
+              );
+            case 403:
+              throw Failure(
+                'Operação não permitida.',
                 object: err,
                 stackTrace: stackTrace,
               );
