@@ -11,7 +11,7 @@ part 'register_controller.g.dart';
 class RegisterController = _RegisterController with _$RegisterController;
 
 abstract class _RegisterController with Store {
-  final loginRepository;
+  final ILoginRepository loginRepository;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();

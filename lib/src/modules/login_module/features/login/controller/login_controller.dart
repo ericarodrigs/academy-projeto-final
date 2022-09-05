@@ -11,7 +11,7 @@ part 'login_controller.g.dart';
 class LoginController = _LoginController with _$LoginController;
 
 abstract class _LoginController with Store {
-  final LoginRepository loginRepository;
+  final ILoginRepository loginRepository;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController pwController = TextEditingController();
