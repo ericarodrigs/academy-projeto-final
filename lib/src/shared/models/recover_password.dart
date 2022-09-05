@@ -21,15 +21,15 @@ class RecoverPasswordModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'code': code,
-      'newPassword': newPassword,
+      'codigo': code,
+      'novaSenha': newPassword,
     };
   }
 
   factory RecoverPasswordModel.fromMap(Map<String, dynamic> map) {
     return RecoverPasswordModel(
-      code: map['code'] ?? '',
-      newPassword: map['newPassword'] ?? '',
+      code: map['codido'] ?? '',
+      newPassword: map['novaSenha'] ?? '',
     );
   }
 

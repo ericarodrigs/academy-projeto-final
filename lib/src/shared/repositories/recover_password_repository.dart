@@ -55,7 +55,7 @@ class RecoverPasswordRepository {
         '/auth/codigos', 
         'GET',
       );
-    return Right(response.body);
+    return Right(response.data);
     } on Failure catch (fail) {
       return Left(fail);
     } catch (err, stackTrace) {

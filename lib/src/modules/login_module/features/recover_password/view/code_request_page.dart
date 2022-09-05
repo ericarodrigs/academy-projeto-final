@@ -60,10 +60,11 @@ class _CodeRequestState extends State<CodeRequest> {
                     Visibility(
                         visible: true,
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(30, 16, 20, 0),
                           child: Text(
                             recoverController.errorText ?? '',
                             style: TextStyles.errorRed,
+                            textAlign: TextAlign.center,
                           ),
                         )),
                     Padding(
@@ -72,9 +73,7 @@ class _CodeRequestState extends State<CodeRequest> {
                         text: 'Confirmar',
                         function: () {
                           if (recoverController.isTryRecoverWithCode) {
-                            Modular.to.pushNamed('change_password').then(
-                                (value) =>
-                                    recoverController.recoverInitState());
+                            Modular.to.pushNamed('change_password').then((value) => recoverController.recoverInitState());
                           }
                         },
                       ),

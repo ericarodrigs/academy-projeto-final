@@ -78,10 +78,11 @@ class _ChangePasswordState extends State<ChangePassword> {
                     Visibility(
                         visible: true,
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(30, 16, 20, 0),
                           child: Text(
                             recoverController.errorText ?? '',
                             style: TextStyles.errorRed,
+                            textAlign: TextAlign.center,
                           ),
                         )),
                     Padding(
