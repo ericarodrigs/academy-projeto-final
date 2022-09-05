@@ -17,7 +17,7 @@ class DioService implements ApiService {
   Future<dynamic> request(
     String url,
     String mode, {
-    dynamic body,
+    Map<String, dynamic>? body,
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? headers,
   }) async {
@@ -59,6 +59,12 @@ class DioService implements ApiService {
             case 401:
               throw Failure(
                 'Usuário ou senha inválidos.',
+                object: err,
+                stackTrace: stackTrace,
+              );
+            case 403:
+              throw Failure(
+                'Operação não permitida.',
                 object: err,
                 stackTrace: stackTrace,
               );
