@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rarovideowall/src/modules/login_module/features/register/controller/register_controller.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
+import 'package:rarovideowall/src/shared/constants/validator.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_text_form_field.dart';
 
@@ -43,7 +44,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         isEnabled: registerController.isFieldEnabled(),
                         controller: registerController.nameController,
                         validator:
-                            registerController.validator.validateName,
+                            Validator.validateName,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.name,
                         text: 'Digite seu nome'),
@@ -53,8 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: WTextFormField(
                         isEnabled: registerController.isFieldEnabled(),
                         controller: registerController.emailController,
-                        validator:
-                            registerController.validator.validateEmail,
+                        validator: Validator.validateEmail,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.emailAddress,
                         text: 'Digite seu email'),
@@ -65,7 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       isEnabled: registerController.isFieldEnabled(),
                       controller: registerController.passwordController,
                       validator:
-                          registerController.validator.validatePassword,
+                          Validator.validatePassword,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.visiblePassword,
                       obscureText: registerController.isHiddenPassword,
@@ -80,8 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: WTextFormField(
                         isEnabled: registerController.isFieldEnabled(),
                         controller: registerController.accessCodeController,
-                        validator: registerController
-                            .validator.validateCodeClass,
+                        validator: Validator.validateCodeClass,
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.text,
                         text: 'Digite o código da sua turma'),

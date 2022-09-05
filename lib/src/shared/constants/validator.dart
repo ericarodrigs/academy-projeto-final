@@ -1,13 +1,13 @@
 import 'package:rarovideowall/src/shared/constants/regex_types.dart';
 
 class Validator {
-  String? validateName(String? valueName) {
+  static String? validateName(String? valueName) {
     return valueName == null || valueName.isEmpty
         ? 'Por favor, informe o nome'
         : null;
   }
 
-  String? validateEmail(String? valueEmail) {
+  static String? validateEmail(String? valueEmail) {
     if (valueEmail == null || valueEmail.isEmpty) {
       return 'Por favor, informe o email';
     }
@@ -21,7 +21,7 @@ class Validator {
     return null;
   }
 
-  String? validatePassword(String? valuePassword) {
+  static String? validatePassword(String? valuePassword) {
     if (valuePassword == null || valuePassword.isEmpty) {
       return 'Por favor, informe a senha';
     }
@@ -35,7 +35,7 @@ class Validator {
     return null;
   }
 
-  String? validateCodeClass(String? valueCodeClass) {
+  static String? validateCodeClass(String? valueCodeClass) {
     if (valueCodeClass == null || valueCodeClass.isEmpty) {
       return 'Por favor, informe o código da sua turma';
     }
