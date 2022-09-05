@@ -11,8 +11,16 @@ class LoginModule extends Module {
   @override
   List<Bind<Object>> get binds => [
         // Bind((i) => DioService()),
-        Bind.singleton((i) => LoginController()),
-        Bind.singleton((i) => RegisterController()),
+        Bind.singleton(
+          (i) => LoginController(
+            loginRepository: i(),
+          ),
+        ),
+        Bind.singleton(
+          (i) => RegisterController(
+            loginRepository: i(),
+          ),
+        ),
         //  Bind.singleton((i) => LoginRepository(i.get())),
         //Bind.singleton((i) => LoginModel()),
       ];
@@ -20,9 +28,8 @@ class LoginModule extends Module {
   @override
   List<ModularRoute> get routes => [
         ChildRoute(Modular.initialRoute, child: (_, __) => const LoginPage()),
-        ChildRoute(ModulesRouteNames.registerRoute,
-            child: (_, __) => const RegisterPage()),
-        ChildRoute(ModulesRouteNames.confirmRegisterRoute,
+        ChildRoute('/register', child: (_, __) => const RegisterPage()),
+        ChildRoute('/register/confirm',
             child: (_, __) => const ConfirmRegisterPage())
       ];
 }

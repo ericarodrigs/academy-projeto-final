@@ -11,7 +11,7 @@ part 'register_controller.g.dart';
 class RegisterController = _RegisterController with _$RegisterController;
 
 abstract class _RegisterController with Store {
-  final loginRepository = Modular.get<LoginRepository>();
+  final loginRepository;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -28,6 +28,8 @@ abstract class _RegisterController with Store {
 
   @observable
   bool isHiddenPassword = true;
+
+  _RegisterController({required this.loginRepository});
 
   @action
   Future<void> changeLoadState(LoadState state) async {
