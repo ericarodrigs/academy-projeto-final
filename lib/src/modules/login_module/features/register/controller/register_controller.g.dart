@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'login_controller.dart';
+part of 'register_controller.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,9 +8,9 @@ part of 'login_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$LoginController on _LoginController, Store {
+mixin _$RegisterController on _RegisterController, Store {
   late final _$loadStateAtom =
-      Atom(name: '_LoginController.loadState', context: context);
+      Atom(name: '_RegisterController.loadState', context: context);
 
   @override
   LoadState get loadState {
@@ -26,7 +26,7 @@ mixin _$LoginController on _LoginController, Store {
   }
 
   late final _$pageStateAtom =
-      Atom(name: '_LoginController.pageState', context: context);
+      Atom(name: '_RegisterController.pageState', context: context);
 
   @override
   PageState get pageState {
@@ -42,7 +42,7 @@ mixin _$LoginController on _LoginController, Store {
   }
 
   late final _$isHiddenPasswordAtom =
-      Atom(name: '_LoginController.isHiddenPassword', context: context);
+      Atom(name: '_RegisterController.isHiddenPassword', context: context);
 
   @override
   bool get isHiddenPassword {
@@ -58,7 +58,7 @@ mixin _$LoginController on _LoginController, Store {
   }
 
   late final _$changeLoadStateAsyncAction =
-      AsyncAction('_LoginController.changeLoadState', context: context);
+      AsyncAction('_RegisterController.changeLoadState', context: context);
 
   @override
   Future<void> changeLoadState(LoadState state) {
@@ -66,7 +66,7 @@ mixin _$LoginController on _LoginController, Store {
   }
 
   late final _$changePageStateAsyncAction =
-      AsyncAction('_LoginController.changePageState', context: context);
+      AsyncAction('_RegisterController.changePageState', context: context);
 
   @override
   Future<void> changePageState(PageState state) {
@@ -74,7 +74,7 @@ mixin _$LoginController on _LoginController, Store {
   }
 
   late final _$changePasswordVisibilityAsyncAction = AsyncAction(
-      '_LoginController.changePasswordVisibility',
+      '_RegisterController.changePasswordVisibility',
       context: context);
 
   @override
