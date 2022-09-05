@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
-import 'package:rarovideowall/src/w_system/atoms/texts/w_text.dart';
+import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_text_form_field.dart';
 
 class WNewComment extends StatelessWidget {
@@ -14,8 +14,9 @@ class WNewComment extends StatelessWidget {
       children: [
         Container(
           margin: const EdgeInsets.only(bottom: 8),
-          child: const WText(
-            text: 'Comentários',
+          child: const Text(
+            'Comentários',
+            style: TextStyles.black24w700Urbanist,
           ),
         ),
         Row(
