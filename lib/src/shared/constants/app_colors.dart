@@ -12,12 +12,4 @@ class AppColors {
   static const black = Color(0xFF000000);
   static const favorite = Color(0xFFCF2928);
   static const errorColor = Colors.red;
-
-
-  static const greyGradient = LinearGradient(
-  colors: [darkGrey, Color.fromARGB(0, 0, 0, 0)],
-  begin: Alignment.bottomCenter,
-  end: Alignment.topCenter,
-  );
-
 }
