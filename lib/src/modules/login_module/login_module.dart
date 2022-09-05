@@ -4,6 +4,7 @@ import 'package:rarovideowall/src/modules/login_module/features/login/controller
 import 'package:rarovideowall/src/modules/login_module/features/login/view/login_page.dart';
 import 'package:rarovideowall/src/modules/login_module/features/register/controller/register_controller.dart';
 import 'package:rarovideowall/src/modules/login_module/features/register/view/register_page.dart';
+import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
 import 'package:rarovideowall/src/modules_route_names.dart';
 
 class LoginModule extends Module {
@@ -27,9 +28,9 @@ class LoginModule extends Module {
   @override
   List<ModularRoute> get routes => [
         ChildRoute(Modular.initialRoute, child: (_, __) => const LoginPage()),
-        ChildRoute(ModulesRouteNames.registerRoute,
+        ChildRoute('/${LoginRouteNames.register}',
             child: (_, __) => const RegisterPage()),
-        ChildRoute(ModulesRouteNames.confirmRegisterRoute,
+        ChildRoute('/${LoginRouteNames.confirmRegister}',
             child: (_, __) => const ConfirmRegisterPage())
       ];
 }

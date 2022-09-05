@@ -24,15 +24,19 @@ class AppModule extends Module {
     Bind<LocalStorageService>((i) => SharedPreferencesService.instance),
     Bind<LoggedState>((i) => LoggedState.instance),
     Bind<VideosState>((i) => VideosState.instance),
-    Bind<ILoginRepository>((i) => LoginRepository(
-          loggedState: i(),
-          service: i(),
-        )),
-    Bind<IVideosRepository>((i) => VideosRepository(
-          service: i(),
-          videosState: i(),
-          loggedState: i(),
-        )),
+    Bind<ILoginRepository>(
+      (i) => LoginRepository(
+        loggedState: i(),
+        service: i(),
+      ),
+    ),
+    Bind<IVideosRepository>(
+      (i) => VideosRepository(
+        service: i(),
+        videosState: i(),
+        loggedState: i(),
+      ),
+    ),
     Bind<LocalStorageUserRepository>(
       (i) => LocalStorageUserRepository(service: i()),
     ),
