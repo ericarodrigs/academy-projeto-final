@@ -3,9 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-
+import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 import 'package:rarovideowall/src/shared/models/login_user_model.dart';
-import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
 
 part 'login_controller.g.dart';
 
