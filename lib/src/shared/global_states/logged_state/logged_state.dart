@@ -1,8 +1,9 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/shared/models/user_model.dart';
 part 'logged_state.g.dart';
 
-// ignore: library_private_types_in_public_api
 class LoggedState extends _LoggedStateBase with _$LoggedState {
   LoggedState._();
   static final LoggedState _instance = LoggedState._();

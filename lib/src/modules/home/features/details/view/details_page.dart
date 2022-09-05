@@ -7,13 +7,28 @@ import '../../../../../shared/constants/app_text_styles.dart';
 import '../../../../../w_system/atoms/texts/w_title_and_text.dart';
 import '../../../../../w_system/molecules/w_related_video_card.dart';
 
-class DetailsPage extends StatefulWidget {
-  const DetailsPage({
+
+class DetailsPage extends StatelessWidget {
+  DetailsPage({
     Key? key,
     required this.videoId,
   }) : super(key: key);
 
   final String videoId;
+  ICommentRepository commentRepository = Modular.get();
+
+  get() async {
+    print(await commentRepository.voteComment(
+      videoId,
+      '3e93f2c6-03d0-4690-a3fd-eac2fa3ec0ba',
+      isUpVote: true,
+      resetVote: true,
+    ));
+    var resp = (await commentRepository.getComments(videoId));
+    //TODO = Unhandled Exception: Bad state: No element
+    resp.fold(
+        (l) => null, (r) => print('${r.last.upVotes}, ${r.last.downVotes}'));
+  }
 
   @override
   State<DetailsPage> createState() => _DetailsPageState();
@@ -32,6 +47,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    get();
     return Scaffold(
       body: SafeArea(
         child: Observer(

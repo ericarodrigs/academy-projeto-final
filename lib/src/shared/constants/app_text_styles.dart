@@ -63,6 +63,12 @@ class TextStyles {
     color: Colors.white,
   );
 
-
+  static const TextStyle black24w700Urbanist = TextStyle(
+    fontFamily: 'Urbanist',
+    fontWeight: FontWeight.w700,
+    fontSize: 24,
+    color: AppColors.black,
+    letterSpacing: 0.02,
+  );
 
 }

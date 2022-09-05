@@ -1,7 +1,9 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:rarovideowall/src/modules/home/features/details/model/comment_repository.dart';
 import 'package:rarovideowall/src/modules/home/features/details/view/details_page.dart';
 import 'package:rarovideowall/src/modules/home/features/home/controller/home_controller.dart';
 import 'package:rarovideowall/src/modules/home/features/home/view/home_page.dart';
+import 'package:rarovideowall/src/modules/home/interfaces/comment_repository_interface.dart';
 
 class HomeModule extends Module {
   @override
@@ -13,7 +15,13 @@ class HomeModule extends Module {
         videosRepository: i(),
         loginRepository: i(),
       ),
-    )
+    ),
+    Bind<ICommentRepository>(
+      (i) => CommentRepository(
+        service: i(),
+        loggedState: i(),
+      ),
+    ),
   ];
 
   @override
