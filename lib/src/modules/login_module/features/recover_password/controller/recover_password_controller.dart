@@ -1,11 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:dartz/dartz.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'package:rarovideowall/src/modules/login_module/features/recover_password/controller/recover_password_validator.dart';
-import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/recover_password.dart';
 import 'package:rarovideowall/src/shared/models/request_code_model.dart';
 import 'package:rarovideowall/src/shared/repositories/recover_password_repository.dart';
@@ -17,7 +14,6 @@ class RecoverPasswordController = _RecoverPasswordController
 
 abstract class _RecoverPasswordController with Store {
   final recoverPasswordRepository = Modular.get<RecoverPasswordRepository>();
-  final recoverPasswordValidator = Modular.get<RecoverPasswordValidator>();
   final GlobalKey<FormState> formKeyEmail = GlobalKey<FormState>();
   final GlobalKey<FormState> formKeyCode = GlobalKey<FormState>();
   final GlobalKey<FormState> formKeyNewPassword = GlobalKey<FormState>();
@@ -33,6 +29,12 @@ abstract class _RecoverPasswordController with Store {
   @observable
   PageState pageState = PageState.fine;
 
+  @observable
+  bool isHiddenPassword = true;
+
+  @observable
+  bool isHiddenConfirmPassword = true;
+
   @action
   Future<void> changeLoadState(LoadState state) async {
     loadState = state;
@@ -43,28 +45,22 @@ abstract class _RecoverPasswordController with Store {
     pageState = state;
   }
 
+  @action
+  Future<void> changePasswordVisibility() async {
+    isHiddenPassword = !isHiddenPassword;
+  }
+
+  @action
+  Future<void> changeConfirmPasswordVisibility() async {
+    isHiddenConfirmPassword = !isHiddenConfirmPassword;
+  }
+
   bool get isTryRecoverWithEmail => formKeyEmail.currentState!.validate();
   bool get isTryRecoverWithCode => formKeyCode.currentState!.validate();
   bool get isTryRecoverNewPassword => formKeyNewPassword.currentState!.validate();
 
   RequestCodeModel getRegister() {
     return RequestCodeModel(email: emailController.text);
-  }
-
-  Future<Either<Failure, Map>> getUsers() async {
-    changeLoadState(LoadState.loading);
-    changePageState(PageState.fine);
-    errorText = null;
-
-    (await recoverPasswordRepository.getUsers()).fold((fail) {
-      errorText = fail.message;
-      changePageState(PageState.error);
-      changeLoadState(LoadState.done);
-    }, (sucess) {
-      changeLoadState(LoadState.done);
-      return getUsers();
-    });
-    return Left(Failure(''));
   }
 
   Future<void> verifyEmail() async {
@@ -89,7 +85,17 @@ abstract class _RecoverPasswordController with Store {
     );
   }
 
-  Future<void> updatePassword() async {
+  void _showSnackBar(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Senha alterada com sucesso!'),
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
+
+  Future<void> updatePassword(BuildContext context) async {
     changeLoadState(LoadState.loading);
     changePageState(PageState.fine);
     errorText = null;
@@ -100,7 +106,8 @@ abstract class _RecoverPasswordController with Store {
       changeLoadState(LoadState.done);
     }, (sucess) {
       changeLoadState(LoadState.done);
-      Modular.to.pop();
+        Modular.to.popUntil((p0) => false);
+        _showSnackBar(context);
     });
   }
 

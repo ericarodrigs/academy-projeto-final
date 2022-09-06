@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rarovideowall/src/modules/login_module/features/recover_password/controller/recover_password_controller.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
+import 'package:rarovideowall/src/shared/constants/validator.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_text_form_field.dart';
 
@@ -48,12 +49,14 @@ class _ChangePasswordState extends State<ChangePassword> {
                         text: 'Digite sua nova senha',
                         isEnabled: recoverController.isFieldEnabled(),
                         controller: recoverController.passwordController,
-                        validator: recoverController
-                            .recoverPasswordValidator.validateNewPassword,
+                        validator: Validator.validatePassword,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.visiblePassword,
-                        obscureText: true,
                         onChangend: (value) => _password = value,
+                        obscureText: recoverController.isHiddenPassword,
+                        togglePasswordView: (){
+                          recoverController.changePasswordVisibility();
+                        },
                       ),
                     ),
                     Padding(
@@ -67,9 +70,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                           }
                           return null;
                         },
-                        textInputAction: TextInputAction.next,
+                        textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.visiblePassword,
-                        obscureText: true,
+                        obscureText: recoverController.isHiddenConfirmPassword,
+                        togglePasswordView: (){
+                          recoverController.changeConfirmPasswordVisibility();
+                        },
                       ),
                     ),
                     Visibility(
@@ -91,7 +97,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         text: 'Alterar senha',
                         function: () {
                           if (recoverController.isTryRecoverNewPassword) {
-                            recoverController.updatePassword();
+                            recoverController.updatePassword(context);
                           }
                         },
                       ),

@@ -49,22 +49,4 @@ class RecoverPasswordRepository {
     }
   }
 
-  Future<Either<Failure, Map>> getUsers() async {
-    try {
-      var response = await service.request(
-        '/auth/codigos', 
-        'GET',
-      );
-    return Right(response.data);
-    } on Failure catch (fail) {
-      return Left(fail);
-    } catch (err, stackTrace) {
-      return Left(Failure(
-        'Erro inesperado',
-        object: err,
-        stackTrace: stackTrace,
-      ));
-    }
-  }
-
 }

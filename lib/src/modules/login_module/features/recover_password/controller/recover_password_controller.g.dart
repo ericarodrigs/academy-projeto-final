@@ -41,6 +41,40 @@ mixin _$RecoverPasswordController on _RecoverPasswordController, Store {
     });
   }
 
+  late final _$isHiddenPasswordAtom = Atom(
+      name: '_RecoverPasswordController.isHiddenPassword', context: context);
+
+  @override
+  bool get isHiddenPassword {
+    _$isHiddenPasswordAtom.reportRead();
+    return super.isHiddenPassword;
+  }
+
+  @override
+  set isHiddenPassword(bool value) {
+    _$isHiddenPasswordAtom.reportWrite(value, super.isHiddenPassword, () {
+      super.isHiddenPassword = value;
+    });
+  }
+
+  late final _$isHiddenConfirmPasswordAtom = Atom(
+      name: '_RecoverPasswordController.isHiddenConfirmPassword',
+      context: context);
+
+  @override
+  bool get isHiddenConfirmPassword {
+    _$isHiddenConfirmPasswordAtom.reportRead();
+    return super.isHiddenConfirmPassword;
+  }
+
+  @override
+  set isHiddenConfirmPassword(bool value) {
+    _$isHiddenConfirmPasswordAtom
+        .reportWrite(value, super.isHiddenConfirmPassword, () {
+      super.isHiddenConfirmPassword = value;
+    });
+  }
+
   late final _$changeLoadStateAsyncAction = AsyncAction(
       '_RecoverPasswordController.changeLoadState',
       context: context);
@@ -59,11 +93,33 @@ mixin _$RecoverPasswordController on _RecoverPasswordController, Store {
     return _$changePageStateAsyncAction.run(() => super.changePageState(state));
   }
 
+  late final _$changePasswordVisibilityAsyncAction = AsyncAction(
+      '_RecoverPasswordController.changePasswordVisibility',
+      context: context);
+
+  @override
+  Future<void> changePasswordVisibility() {
+    return _$changePasswordVisibilityAsyncAction
+        .run(() => super.changePasswordVisibility());
+  }
+
+  late final _$changeConfirmPasswordVisibilityAsyncAction = AsyncAction(
+      '_RecoverPasswordController.changeConfirmPasswordVisibility',
+      context: context);
+
+  @override
+  Future<void> changeConfirmPasswordVisibility() {
+    return _$changeConfirmPasswordVisibilityAsyncAction
+        .run(() => super.changeConfirmPasswordVisibility());
+  }
+
   @override
   String toString() {
     return '''
 loadState: ${loadState},
-pageState: ${pageState}
+pageState: ${pageState},
+isHiddenPassword: ${isHiddenPassword},
+isHiddenConfirmPassword: ${isHiddenConfirmPassword}
     ''';
   }
 }
