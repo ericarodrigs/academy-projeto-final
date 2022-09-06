@@ -10,6 +10,7 @@ class WTextFormField extends StatelessWidget {
     this.textInputAction,
     this.keyboardType,
     this.obscureText,
+    this.togglePasswordView,
     this.isEnabled = true,
     this.onChangend,
     Key? key, 
@@ -21,6 +22,7 @@ class WTextFormField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
   final bool? obscureText;
+  final VoidCallback? togglePasswordView;
   final bool isEnabled;
   final Function(String)? onChangend;
 
@@ -36,16 +38,26 @@ class WTextFormField extends StatelessWidget {
       keyboardType: keyboardType,
       obscureText: obscureText ?? false,
       decoration: InputDecoration(
-          labelText: text,
-          errorText: errorText,
-          filled: !isEnabled,
-          labelStyle: const TextStyle(color: Colors.black),
-          enabledBorder: customOutlineInputBorder(AppColors.lightGrey),
-          disabledBorder: customOutlineInputBorder(AppColors.lightGrey),
-          focusedBorder: customOutlineInputBorder(AppColors.darkGrey),
-          errorBorder: customOutlineInputBorder(Colors.red),
-          focusedErrorBorder: customOutlineInputBorder(Colors.red),
-          errorStyle: const TextStyle(color: Colors.red)),
+        labelText: text,
+        errorText: errorText,
+        errorMaxLines: 5,
+        filled: !isEnabled,
+        labelStyle: const TextStyle(color: Colors.black),
+        enabledBorder: customOutlineInputBorder(AppColors.lightGrey),
+        disabledBorder: customOutlineInputBorder(AppColors.lightGrey),
+        focusedBorder: customOutlineInputBorder(AppColors.darkGrey),
+        errorBorder: customOutlineInputBorder(Colors.red),
+        focusedErrorBorder: customOutlineInputBorder(Colors.red),
+        errorStyle: const TextStyle(color: Colors.red),
+        suffixIcon: togglePasswordView != null
+            ? IconButton(
+                icon: Icon(
+                  obscureText! ? Icons.visibility_off : Icons.visibility,
+                ),
+                onPressed: togglePasswordView,
+              )
+            : null,
+      ),
     );
   }
 }

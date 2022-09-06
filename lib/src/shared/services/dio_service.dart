@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
@@ -15,14 +17,18 @@ class DioService implements ApiService {
   Future<dynamic> request(
     String url,
     String mode, {
-    dynamic body,
+    Map<String, dynamic>? body,
     Map<String, dynamic>? queryParams,
+    Map<String, dynamic>? headers,
   }) async {
     try {
       return await dio.request(url,
           data: body,
           queryParameters: queryParams,
-          options: Options(method: mode));
+          options: Options(
+            method: mode,
+            headers: headers,
+          ));
     } on DioError catch (err, stackTrace) {
       switch (err.type) {
         case DioErrorType.connectTimeout:
@@ -36,14 +42,29 @@ class DioService implements ApiService {
         case DioErrorType.response:
           switch (err.response?.statusCode) {
             case 400:
-              throw Failure(
-                'Requisição inválida',
-                object: err,
-                stackTrace: stackTrace,
-              );
+              if (err.response.toString()
+                  .contains("usuario_ja_existe")) {
+                throw Failure(
+                  'Email já cadastrado',
+                  object: err,
+                  stackTrace: stackTrace,
+                );
+              } else {
+                throw Failure(
+                  'Requisição inválida',
+                  object: err,
+                  stackTrace: stackTrace,
+                );
+              }
             case 401:
               throw Failure(
                 'Usuário ou senha inválidos.',
+                object: err,
+                stackTrace: stackTrace,
+              );
+            case 403:
+              throw Failure(
+                'Operação não permitida.',
                 object: err,
                 stackTrace: stackTrace,
               );
@@ -72,9 +93,23 @@ class DioService implements ApiService {
             object: err,
             stackTrace: stackTrace,
           );
+        case DioErrorType.other:
+          if (err.error is SocketException) {
+            throw Failure(
+              'Você está sem conexão, verifique sua internet.',
+              object: err,
+              stackTrace: stackTrace,
+            );
+          } else {
+            throw Failure(
+              'Erro de requisição não conhecido.',
+              object: err,
+              stackTrace: stackTrace,
+            );
+          }
         default:
           throw Failure(
-            'Sem conexão.',
+            'Erro não reconhecido',
             object: err,
             stackTrace: stackTrace,
           );
