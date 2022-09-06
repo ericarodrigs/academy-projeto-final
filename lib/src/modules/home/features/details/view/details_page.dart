@@ -11,7 +11,10 @@ import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_vote_button.dart';
+import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
+import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_linear_progress_indicator.dart';
 import 'package:rarovideowall/src/w_system/atoms/widgets/w_user_avatar.dart';
+import 'package:rarovideowall/src/w_system/organisms/w_comments_load.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_left_comment.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_right_comment.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_comment_list.dart';
@@ -70,7 +73,7 @@ class _DetailsPageState extends State<DetailsPage> {
             _,
             AsyncSnapshot<Either<Failure, List<CommentModel>>> snapshot,
           ) {
-            if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData) {
               final userId = loggedState.user?.id ?? '';
               return snapshot.data!.fold(
                 (fail) => const Center(child: Text('Deu erro!')),
@@ -92,7 +95,12 @@ class _DetailsPageState extends State<DetailsPage> {
                 ),
               );
             } else {
-              return const CircularProgressIndicator();
+              return const Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 44.0),
+                  child: WCommentsLoad(),
+                ),
+              );
             }
           },
         ),
