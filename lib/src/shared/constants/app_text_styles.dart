@@ -62,4 +62,11 @@ class TextStyles {
     color: AppColors.black,
     letterSpacing: 0.02,
   );
+
+  static const TextStyle white10Urbanist = TextStyle(
+    fontFamily: 'Urbanist',
+    fontWeight: FontWeight.bold,
+    fontSize: 10,
+    color: Colors.white,
+  );
 }

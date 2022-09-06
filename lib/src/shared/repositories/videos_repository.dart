@@ -141,6 +141,26 @@ class VideosRepository implements IVideosRepository {
     }
   }
 
+  Future<Either<Failure, List<VideoModel>>> getRelatedVideos(String topico) async {
+    try {
+      Response response = await service.request('/videos', 'GET', queryParams: {'topico': topico});
+      List<dynamic> videos = response.data;
+      List<VideoModel> newVideos = videos.map((video) => VideoModel.fromMap(video)).toList();
+      videosState.syncVideos(newVideos);
+      return Right(newVideos);
+    } on Failure catch (fail) {
+      return Left(fail);
+    } catch (err, stackTrace) {
+      return Left(
+        Failure(
+          'Erro inesperado',
+          object: err,
+          stackTrace: stackTrace,
+        ),
+      );
+    }
+  }
+
   @override
   Future<Either<Failure, bool>> toggleFavorite(
     String videoId, {
