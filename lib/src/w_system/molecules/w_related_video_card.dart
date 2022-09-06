@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../shared/constants/app_colors.dart';
-import '../../shared/constants/app_text_styles.dart';
-import '../../shared/models/video_model.dart';
+import 'package:rarovideowall/src/shared/constants/app_colors.dart';
+import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
+import 'package:rarovideowall/src/shared/models/video_model.dart';
 
 class WvideoRelatedSlider extends StatelessWidget {
   const WvideoRelatedSlider({required this.video, this.onTap, Key? key}) : super(key: key);

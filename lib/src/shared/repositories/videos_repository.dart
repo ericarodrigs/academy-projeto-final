@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-
 import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state.dart';
 import 'package:rarovideowall/src/shared/global_states/videos_state/videos_state.dart';
 import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
@@ -134,26 +132,6 @@ class VideosRepository implements IVideosRepository {
       return Left(
         Failure(
           'Erro inesperado ao buscar video.',
-          object: err,
-          stackTrace: stackTrace,
-        ),
-      );
-    }
-  }
-
-  Future<Either<Failure, List<VideoModel>>> getRelatedVideos(String topico) async {
-    try {
-      Response response = await service.request('/videos', 'GET', queryParams: {'topico': topico});
-      List<dynamic> videos = response.data;
-      List<VideoModel> newVideos = videos.map((video) => VideoModel.fromMap(video)).toList();
-      videosState.syncVideos(newVideos);
-      return Right(newVideos);
-    } on Failure catch (fail) {
-      return Left(fail);
-    } catch (err, stackTrace) {
-      return Left(
-        Failure(
-          'Erro inesperado',
           object: err,
           stackTrace: stackTrace,
         ),

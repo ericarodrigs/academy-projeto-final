@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import '../../modules/home/features/details/controller/video_details_controller.dart';
-import '../../shared/constants/app_text_styles.dart';
-import '../molecules/w_carousel_slider.dart';
-import '../molecules/w_errorText_reloadButton.dart';
+import 'package:rarovideowall/src/modules/home/features/details/controller/video_details_controller.dart';
+import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
+import 'package:rarovideowall/src/w_system/molecules/w_carousel_slider.dart';
+import 'package:rarovideowall/src/w_system/molecules/w_errorText_reloadButton.dart';
 
 class WRelatedClasses extends StatelessWidget {
-  WRelatedClasses({Key? key}) : super(key: key);
-  final videoDetailsController = Modular.get<VideoDetailsController>();
+  const WRelatedClasses({required this.videoDetailsController,Key? key}) : super(key: key);
+  final VideoDetailsController videoDetailsController;
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rarovideowall/src/modules/home/features/details/controller/video_details_controller.dart';
-import '../../../../../w_system/organisms/w_class_video.dart';
-import '../../../../../w_system/organisms/w_related_classes.dart';
+import 'package:rarovideowall/src/w_system/organisms/w_class_video.dart';
+import 'package:rarovideowall/src/w_system/organisms/w_related_classes.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({
@@ -37,9 +36,9 @@ class _DetailsPageState extends State<DetailsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                WClassVideo(),
+                WClassVideo(videoDetailsController: videoDetailsController),
                 const SizedBox(height: 32),
-                WRelatedClasses(),
+                WRelatedClasses(videoDetailsController: videoDetailsController),
                 const SizedBox(height: 32),
               ],
             ),

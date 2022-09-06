@@ -1,8 +1,6 @@
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-
-import '../../../../../shared/models/video_model.dart';
-import '../../../../../shared/repositories/videos_repository.dart';
+import 'package:rarovideowall/src/shared/models/video_model.dart';
+import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
 
 part 'video_details_controller.g.dart';
 
@@ -10,7 +8,10 @@ class VideoDetailsController = _VideoDetailsController with _$VideoDetailsContro
 
 abstract class _VideoDetailsController with Store {
   late Future<void> initializeVideoPlayerFuture;
-  VideosRepository videosRepository = Modular.get<VideosRepository>();
+  VideosRepository videosRepository;
+
+  _VideoDetailsController({required this.videosRepository});
+
   String videoId = '';
 
   String relatedError = '';
@@ -41,7 +42,7 @@ abstract class _VideoDetailsController with Store {
   @action
   Future<void> getRelatedVideos() async {
     changeRelatedState(LoadState.loading);
-    var response = await videosRepository.getRelatedVideos(video.topico);
+    var response = await videosRepository.getRecommendedVideos(video.id);
     response.fold((l) => {changeRelatedState(LoadState.error), relatedError = l.message},
         (r) => {r.removeWhere((e) => e.id == videoId), relatedVideos = r, changeRelatedState(LoadState.done)});
   }
@@ -64,7 +65,6 @@ abstract class _VideoDetailsController with Store {
   Future<void> changeRelatedState(LoadState state) async {
     relatedState = state;
   }
-
 }
 
 enum LoadState { loading, done, error }
