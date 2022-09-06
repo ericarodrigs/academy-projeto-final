@@ -3,6 +3,7 @@ import 'package:rarovideowall/src/modules/home/features/details/model/comment_re
 import 'package:rarovideowall/src/modules/home/features/details/view/details_page.dart';
 import 'package:rarovideowall/src/modules/home/features/home/controller/home_controller.dart';
 import 'package:rarovideowall/src/modules/home/features/home/view/home_page.dart';
+import 'package:rarovideowall/src/modules/home/home_route_names.dart';
 import 'package:rarovideowall/src/modules/home/interfaces/comment_repository_interface.dart';
 
 class HomeModule extends Module {
@@ -33,7 +34,7 @@ class HomeModule extends Module {
       ),
     ),
     ChildRoute(
-      '/details/:videoId',
+      '/${HomeRouteNames.details(':videoId')}',
       child: (_, args) => DetailsPage(
         videoId: args.params['videoId'],
       ),

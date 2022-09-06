@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/modules/home/features/home/model/play_list_content.dart';
+import 'package:rarovideowall/src/modules/home/home_route_names.dart';
 
 import 'package:rarovideowall/src/modules_route_names.dart';
 import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state.dart';
@@ -83,7 +84,7 @@ abstract class _HomeControllerBase with Store {
   }
 
   void detailsNavigate(VideoModel video) {
-    Modular.to.pushNamed('details/${video.id}');
+    Modular.to.pushNamed(HomeRouteNames.details(video.id));
   }
 
   List<PlayListContent> createPlayList() {
