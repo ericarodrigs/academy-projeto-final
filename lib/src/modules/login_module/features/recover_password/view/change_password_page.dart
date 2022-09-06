@@ -52,7 +52,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         validator: Validator.validatePassword,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.visiblePassword,
-                        onChangend: (value) => _password = value,
+                        onChanged: (value) => _password = value,
                         obscureText: recoverController.isHiddenPassword,
                         togglePasswordView: (){
                           recoverController.changePasswordVisibility();

@@ -9,7 +9,6 @@ import 'package:rarovideowall/src/shared/interfaces/videos_repository_interface.
 
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
-import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
 
 class SplashController implements ISplashController {
   final LocalStorageUserRepository localStorageUserRepository;

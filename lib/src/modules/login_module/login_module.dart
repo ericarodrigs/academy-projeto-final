@@ -8,7 +8,7 @@ import 'package:rarovideowall/src/modules/login_module/features/login/controller
 import 'package:rarovideowall/src/modules/login_module/features/login/view/login_page.dart';
 import 'package:rarovideowall/src/modules/login_module/features/register/controller/register_controller.dart';
 import 'package:rarovideowall/src/modules/login_module/features/register/view/register_page.dart';
-import 'package:rarovideowall/src/modules_route_names.dart';
+import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
 import 'package:rarovideowall/src/shared/repositories/recover_password_repository.dart';
 
 class LoginModule extends Module {
@@ -26,12 +26,15 @@ class LoginModule extends Module {
   @override
   List<ModularRoute> get routes => [
         ChildRoute(Modular.initialRoute, child: (_, __) => const LoginPage()),
-        ChildRoute(ModulesRouteNames.registerRoute,
+        ChildRoute('/${LoginRouteNames.register}',
             child: (_, __) => const RegisterPage()),
-        ChildRoute(ModulesRouteNames.confirmRegisterRoute,
+
+        ChildRoute('/${LoginRouteNames.confirmRegister}',
             child: (_, __) => const ConfirmRegisterPage()),
-        ChildRoute(ModulesRouteNames.requestEmailRoute, child: (_, __) => const EmailRequest()),
-        ChildRoute(ModulesRouteNames.requestCodeRoute, child: (_, __) => const CodeRequest()),
-        ChildRoute(ModulesRouteNames.changePasswordRoute, child: (_, __) => const ChangePassword()),
+
+        ChildRoute(LoginRouteNames.requestEmailRoute, child: (_, __) => const EmailRequest()),
+        ChildRoute(LoginRouteNames.requestCodeRoute, child: (_, __) => const CodeRequest()),
+        ChildRoute(LoginRouteNames.changePasswordRoute, child: (_, __) => const ChangePassword()),
+
       ];
 }
