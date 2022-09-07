@@ -16,7 +16,6 @@ class WTextFormField extends StatelessWidget {
   final int? minLines;
   final bool isEnabled;
   final EdgeInsets? contentPadding;
-  final Function(String)? onChanged;
 
   const WTextFormField({
     this.text,
@@ -33,10 +32,8 @@ class WTextFormField extends StatelessWidget {
     this.maxLines,
     this.isEnabled = true,
     this.contentPadding,
-    this.onChanged,
-    Key? key, 
+    Key? key,
   }) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +42,6 @@ class WTextFormField extends StatelessWidget {
       style: const TextStyle(color: Colors.black),
       validator: validator,
       controller: controller,
-      onChanged: onChanged,
       textInputAction: textInputAction,
       keyboardType: keyboardType,
       obscureText: obscureText,

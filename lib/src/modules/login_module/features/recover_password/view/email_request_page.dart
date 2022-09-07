@@ -7,14 +7,14 @@ import 'package:rarovideowall/src/shared/constants/validator.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_text_form_field.dart';
 
-class EmailRequest extends StatefulWidget {
-  const EmailRequest({Key? key}) : super(key: key);
+class EmailRequestPage extends StatefulWidget {
+  const EmailRequestPage({Key? key}) : super(key: key);
 
   @override
-  State<EmailRequest> createState() => _EmailRequestState();
+  State<EmailRequestPage> createState() => _EmailRequestPageState();
 }
 
-class _EmailRequestState extends State<EmailRequest> {
+class _EmailRequestPageState extends State<EmailRequestPage> {
   final recoverController = Modular.get<RecoverPasswordController>();
 
   @override
@@ -30,50 +30,46 @@ class _EmailRequestState extends State<EmailRequest> {
         return SingleChildScrollView(
           child: Form(
             key: recoverController.formKeyEmail,
-            child: Container(
-              color: const Color.fromRGBO(240, 240, 240, 1),
-              child: Column(children: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(75, 80, 51, 0),
-                  child: Text('Digite seu email',
-                      style: TextStyles.purple30w700Urbanist),
+            child: Column(children: [
+              const Padding(
+                padding: EdgeInsets.only(left: 18,top: 64,right: 18),
+                child: Text('Digite seu email',
+                    style: TextStyles.purple30w700Urbanist),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(18, 176, 18, 20),
+                child: WTextFormField(
+                  isEnabled: recoverController.isFieldEnabled(),
+                  controller: recoverController.emailController,
+                  validator: Validator.validateEmail,
+                  keyboardType: TextInputType.emailAddress,
+                  text: 'Digite seu email',
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 200, 20, 20),
-                  child: WTextFormField(
-                    text: 'Digite seu email',
-                    isEnabled: recoverController.isFieldEnabled(),
-                    controller: recoverController.emailController,
-                    validator: Validator.validateEmail,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
+              ),
+              Visibility(
+                  visible: !recoverController.isFieldEnabled(),
+                  child: const CircularProgressIndicator()),
+              Visibility(
+                  visible: recoverController.errorText != null ? true : false,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 18, top: 8, right: 18),
+                    child: Text(
+                      recoverController.errorText ?? '',
+                      style: TextStyles.errorRed,
+                    ),
+                  )),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(44, 50, 44, 16),
+                child: WElevatedButton(
+                  text: 'Enviar código',
+                  function: () {
+                    if (recoverController.isTryRecoverWithEmail) {
+                      recoverController.verifyEmail();
+                    }
+                  },
                 ),
-                Visibility(
-                    visible: !recoverController.isFieldEnabled(),
-                    child: const CircularProgressIndicator()),
-                Visibility(
-                    visible: true,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 16, 20, 0),
-                      child: Text(
-                        recoverController.errorText ?? '',
-                        style: TextStyles.errorRed,
-                        textAlign: TextAlign.center,
-                      ),
-                    )),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 77, 40, 0),
-                  child: WElevatedButton(
-                    text: 'Enviar codigo',
-                    function: () {
-                      if (recoverController.isTryRecoverWithEmail) {
-                        recoverController.verifyEmail();
-                      }
-                    },
-                  ),
-                ),
-              ]),
-            ),
+              ),
+            ]),
           ),
         );
       }),

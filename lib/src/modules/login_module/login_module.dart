@@ -3,7 +3,6 @@ import 'package:rarovideowall/src/modules/login_module/features/recover_password
 import 'package:rarovideowall/src/modules/login_module/features/recover_password/view/code_request_page.dart';
 import 'package:rarovideowall/src/modules/login_module/features/recover_password/view/email_request_page.dart';
 import 'package:rarovideowall/src/modules/login_module/features/recover_password/view/change_password_page.dart';
-import 'package:rarovideowall/src/modules/login_module/features/register/view/confirm_register_page.dart';
 import 'package:rarovideowall/src/modules/login_module/features/login/controller/login_controller.dart';
 import 'package:rarovideowall/src/modules/login_module/features/login/view/login_page.dart';
 import 'package:rarovideowall/src/modules/login_module/features/register/controller/register_controller.dart';
@@ -23,13 +22,11 @@ class LoginModule extends Module {
         ChildRoute(Modular.initialRoute, child: (_, __) => const LoginPage()),
         ChildRoute('/${LoginRouteNames.register}',
             child: (_, __) => const RegisterPage()),
-
-        ChildRoute('/${LoginRouteNames.confirmRegister}',
-            child: (_, __) => const ConfirmRegisterPage()),
-
-        ChildRoute(LoginRouteNames.requestEmailRoute, child: (_, __) => const EmailRequest()),
-        ChildRoute(LoginRouteNames.requestCodeRoute, child: (_, __) => const CodeRequest()),
-        ChildRoute(LoginRouteNames.changePasswordRoute, child: (_, __) => const ChangePassword()),
-
+        ChildRoute('/${LoginRouteNames.requestEmailRoute}',
+            child: (_, __) => const EmailRequestPage()),
+        ChildRoute('/${LoginRouteNames.requestCodeRoute}',
+            child: (_, __) => const CodeRequestPage()),
+        ChildRoute('/${LoginRouteNames.changePasswordRoute}',
+            child: (_, __) => const ChangePasswordPage()),
       ];
 }

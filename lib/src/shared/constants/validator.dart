@@ -35,15 +35,22 @@ class Validator {
     return null;
   }
 
-  static String? validateCodeClass(String? valueCodeClass) {
-    if (valueCodeClass == null || valueCodeClass.isEmpty) {
-      return 'Por favor, informe o código da sua turma';
+  static String? validatePasswordConfirmation(
+      String? valuePasswordConfirmation, String? valuePassword) {
+    if (valuePasswordConfirmation == null ||
+        valuePasswordConfirmation.isEmpty) {
+      return 'Por favor, informe a senha';
     }
-
-    if (valueCodeClass != '55402f9b-ca01-4cb4-ae36-dc85d7e154b8') {
-      return 'Código da turma inválido';
+    if (valuePasswordConfirmation != valuePassword) {
+      return 'As senhas não coincidem';
     }
     return null;
+  }
+
+  static String? validateCodeClass(String? valueCodeClass) {
+    return valueCodeClass == null || valueCodeClass.isEmpty
+        ? 'Por favor, informe o código da sua turma'
+        : null;
   }
 
   static String? validateCodeVerification(String? valueCodeVerification) {

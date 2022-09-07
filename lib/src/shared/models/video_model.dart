@@ -13,6 +13,7 @@ class VideoModel {
   final String dataPublicacao;
   final String topico;
   final List<String> tags;
+
   VideoModel({
     required this.id,
     required this.nome,

@@ -3,9 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
+import 'package:rarovideowall/src/modules_route_names.dart';
+import 'package:rarovideowall/src/shared/constants/app_colors.dart';
+import 'package:rarovideowall/src/shared/constants/custom_snack_bar.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
-import 'package:rarovideowall/src/shared/models/recover_password.dart';
-import 'package:rarovideowall/src/shared/models/request_code_model.dart';
+import 'package:rarovideowall/src/modules/login_module/features/recover_password/model/recover_password_model.dart';
+import 'package:rarovideowall/src/modules/login_module/features/recover_password/model/request_code_model.dart';
 
 part 'recover_password_controller.g.dart';
 
@@ -21,6 +25,8 @@ abstract class _RecoverPasswordController with Store {
   final TextEditingController recuperationCodeController =
       TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordConfirmationController =
+      TextEditingController();
 
   String? errorText;
 
@@ -65,39 +71,33 @@ abstract class _RecoverPasswordController with Store {
   bool get isTryRecoverNewPassword =>
       formKeyNewPassword.currentState!.validate();
 
-  RequestCodeModel getRegister() {
-    return RequestCodeModel(email: emailController.text);
-  }
+  RequestCodeModel _getRegister() => RequestCodeModel(email: emailController.text);
 
   Future<void> verifyEmail() async {
     changeLoadState(LoadState.loading);
     changePageState(PageState.fine);
     errorText = null;
 
-    (await loginRepository.requestCode(getRegister())).fold((fail) {
+    (await loginRepository.requestCode(_getRegister())).fold((fail) {
       errorText = fail.message;
       changePageState(PageState.error);
       changeLoadState(LoadState.done);
     }, (success) {
       changeLoadState(LoadState.done);
-      Modular.to.pushNamed('request_code');
+      Modular.to.pushNamed(LoginRouteNames.requestCodeRoute);
     });
   }
 
-  RecoverPasswordModel getData() {
+  void goToChangePasswordPage() {
+    Modular.to
+        .pushNamed(LoginRouteNames.changePasswordRoute)
+        .then((value) => recoverInitState());
+  }
+
+  RecoverPasswordModel _getData() {
     return RecoverPasswordModel(
       code: recuperationCodeController.text,
       newPassword: passwordController.text,
-    );
-  }
-
-  void _showSnackBar(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Senha alterada com sucesso!'),
-        duration: Duration(seconds: 5),
-        backgroundColor: Colors.green,
-      ),
     );
   }
 
@@ -106,24 +106,31 @@ abstract class _RecoverPasswordController with Store {
     changePageState(PageState.fine);
     errorText = null;
 
-    (await loginRepository.updatePassword(getData())).fold((fail) {
+    (await loginRepository.updatePassword(_getData())).fold((fail) {
       errorText = fail.message;
       changePageState(PageState.error);
       changeLoadState(LoadState.done);
     }, (success) {
       changeLoadState(LoadState.done);
-      Modular.to.popUntil((p0) => false);
-      _showSnackBar(context);
+      _clearTextFields();
+      Modular.to.popUntil(ModalRoute.withName(ModulesRouteNames.loginModule));
+      CustomSnackBar.showSnackBar(
+          context, 'Senha alterada com sucesso!', AppColors.purple);
     });
   }
 
-  bool isFieldEnabled() {
-    return loadState == LoadState.loading ? false : true;
-  }
+  bool isFieldEnabled() => loadState == LoadState.loading ? false : true;
 
   void recoverInitState() {
     changePageState(PageState.fine);
     changeLoadState(LoadState.done);
+  }
+
+  void _clearTextFields() {
+    emailController.text = '';
+    recuperationCodeController.text = '';
+    passwordController.text = '';
+    passwordConfirmationController.text = '';
   }
 }
 

@@ -7,14 +7,14 @@ import 'package:rarovideowall/src/shared/constants/validator.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_text_form_field.dart';
 
-class CodeRequest extends StatefulWidget {
-  const CodeRequest({Key? key}) : super(key: key);
+class CodeRequestPage extends StatefulWidget {
+  const CodeRequestPage({Key? key}) : super(key: key);
 
   @override
-  State<CodeRequest> createState() => _CodeRequestState();
+  State<CodeRequestPage> createState() => _CodeRequestPageState();
 }
 
-class _CodeRequestState extends State<CodeRequest> {
+class _CodeRequestPageState extends State<CodeRequestPage> {
   final recoverController = Modular.get<RecoverPasswordController>();
 
   @override
@@ -31,55 +31,52 @@ class _CodeRequestState extends State<CodeRequest> {
           return SingleChildScrollView(
             child: Form(
               key: recoverController.formKeyCode,
-              child: Container(
-                color: const Color.fromRGBO(240, 240, 240, 1),
-                child: Column(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(65, 80, 51, 0),
-                      child: Text(
-                        'Digite seu codigo de confirmação enviado para seu email',
-                        style: TextStyles.purple30w700Urbanist,
-                        textAlign: TextAlign.center,
-                      ),
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 18, top: 64, right: 18),
+                    child: Text(
+                      'Digite seu código de confirmação enviado para seu email',
+                      style: TextStyles.purple30w700Urbanist,
+                      textAlign: TextAlign.center,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 100, 20, 20),
-                      child: WTextFormField(
-                        text: 'Digite o codigo',
-                        isEnabled: recoverController.isFieldEnabled(),
-                        controller:
-                            recoverController.recuperationCodeController,
-                        validator: Validator.validateCodeVerification,
-                        keyboardType: TextInputType.text,
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(18, 100, 18, 20),
+                    child: WTextFormField(
+                      isEnabled: recoverController.isFieldEnabled(),
+                      controller: recoverController.recuperationCodeController,
+                      validator: Validator.validateCodeVerification,
+                      keyboardType: TextInputType.text,
+                      text: 'Digite o código',
                     ),
-                    Visibility(
-                        visible: !recoverController.isFieldEnabled(),
-                        child: const CircularProgressIndicator()),
-                    Visibility(
-                        visible: true,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(30, 16, 20, 0),
-                          child: Text(
-                            recoverController.errorText ?? '',
-                            style: TextStyles.errorRed,
-                            textAlign: TextAlign.center,
-                          ),
-                        )),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(40, 76, 40, 0),
-                      child: WElevatedButton(
-                        text: 'Confirmar',
-                        function: () {
-                          if (recoverController.isTryRecoverWithCode) {
-                            Modular.to.pushNamed('change_password').then((value) => recoverController.recoverInitState());     
-                          }
-                        },
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                  Visibility(
+                      visible: !recoverController.isFieldEnabled(),
+                      child: const CircularProgressIndicator()),
+                  Visibility(
+                      visible:
+                          recoverController.errorText != null ? true : false,
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 18, top: 8, right: 18),
+                        child: Text(
+                          recoverController.errorText ?? '',
+                          style: TextStyles.errorRed,
+                        ),
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(44, 72, 44, 16),
+                    child: WElevatedButton(
+                      text: 'Confirmar',
+                      function: () {
+                        if (recoverController.isTryRecoverWithCode) {
+                          recoverController.goToChangePasswordPage();
+                        }
+                      },
+                    ),
+                  )
+                ],
               ),
             ),
           );

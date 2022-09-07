@@ -6,6 +6,7 @@ class UserModel {
   final bool admin;
   final String foto;
   final String id;
+
   UserModel({
     required this.accessToken,
     required this.name,
