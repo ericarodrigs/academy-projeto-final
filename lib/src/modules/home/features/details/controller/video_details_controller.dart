@@ -63,7 +63,7 @@ abstract class _VideoDetailsController with Store {
   List<VideoModel> relatedVideos = [];
 
   @observable
-  List<CommentModel> comments = [];
+  ObservableList<CommentModel> comments = ObservableList.of([]);
 
   @observable
   bool hasImgAvatarError = false;
@@ -91,29 +91,34 @@ abstract class _VideoDetailsController with Store {
     ScaffoldMessengerState().showSnackBar(snackBarError);
   }
 
+  final List<String> _upVoteComments = [];
+  final List<String> _downVoteComments = [];
+  //Revisar essa logica pq ficou muito complexa
   @action
   void _updateCommentVote(String commentId, bool isUp) {
-    // ignore: avoid_function_literals_in_foreach_calls
-    List<CommentModel> auxComments = comments.map(
-      (comment) {
-        if (comment.id == commentId) {
-          if (isUp) {
-            return comment.copyWith(
-              upVotes: comment.upVotes > 1 ? comment.upVotes : 1,
-              downVotes: comment.downVotes > 1 ? comment.downVotes : 0,
-            );
-          } else {
-            return comment.copyWith(
-              upVotes: comment.upVotes > 1 ? comment.upVotes : 0,
-              downVotes: comment.downVotes > 1 ? comment.downVotes : 1,
-            );
-          }
-        } else {
-          return comment;
-        }
-      },
-    ).toList();
-    comments = auxComments;
+    int indexComment =
+        comments.indexWhere((comment) => comment.id == commentId);
+    CommentModel auxComment = comments[indexComment];
+
+    if (isUp) {
+      if (!_upVoteComments.contains(auxComment.id)) {
+        _upVoteComments.add(auxComment.id);
+        _downVoteComments.remove(auxComment.id);
+        comments[indexComment] = auxComment.copyWith(
+          upVotes: auxComment.upVotes + 1,
+          downVotes: auxComment.downVotes == 0 ? 0 : auxComment.downVotes - 1,
+        );
+      }
+    } else {
+      if (!_downVoteComments.contains(auxComment.id)) {
+        _downVoteComments.add(auxComment.id);
+        _upVoteComments.remove(auxComment.id);
+        comments[indexComment] = auxComment.copyWith(
+          upVotes: auxComment.upVotes == 0 ? 0 : auxComment.upVotes - 1,
+          downVotes: auxComment.downVotes + 1,
+        );
+      }
+    }
   }
 
   Future<void> voteComment(String commentId, bool isUp) async {
@@ -145,7 +150,7 @@ abstract class _VideoDetailsController with Store {
         commentsError = fail.message;
       },
       (newComments) {
-        comments = newComments;
+        comments = ObservableList.of(newComments);
         changeCommentsState(LoadState.done);
       },
     );

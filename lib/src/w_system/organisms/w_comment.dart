@@ -31,7 +31,7 @@ class WComment extends StatelessWidget {
               onUpVote: (comment) {
                 videoDetailsController.voteComment(comment.id, true);
               },
-              comments: videoDetailsController.comments,
+              comments: videoDetailsController.comments.toList(),
               hasImgAvatarError: videoDetailsController.hasImgAvatarError,
               onLoadImgAvatarError: videoDetailsController.onLoadImgAvatarError,
               isLogged: videoDetailsController.loggedState.isLogged,

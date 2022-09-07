@@ -93,13 +93,13 @@ mixin _$VideoDetailsController on _VideoDetailsController, Store {
       Atom(name: '_VideoDetailsController.comments', context: context);
 
   @override
-  List<CommentModel> get comments {
+  ObservableList<CommentModel> get comments {
     _$commentsAtom.reportRead();
     return super.comments;
   }
 
   @override
-  set comments(List<CommentModel> value) {
+  set comments(ObservableList<CommentModel> value) {
     _$commentsAtom.reportWrite(value, super.comments, () {
       super.comments = value;
     });
