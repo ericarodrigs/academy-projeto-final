@@ -6,6 +6,8 @@ import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.d
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/login_user_model.dart';
 import 'package:rarovideowall/src/modules/login_module/features/register/model/register_user_model.dart';
+import 'package:rarovideowall/src/shared/models/recover_password.dart';
+import 'package:rarovideowall/src/shared/models/request_code_model.dart';
 import 'package:rarovideowall/src/shared/models/user_model.dart';
 
 class LoginRepository implements ILoginRepository {
@@ -60,6 +62,45 @@ class LoginRepository implements ILoginRepository {
     }
   }
 
+  @override
+  Future<Either<Failure, void>> requestCode(RequestCodeModel model) async {
+    try {
+      await service.request(
+        '/auth/solicitar-codigo',
+        'POST',
+        body: model.toMap(),
+      );
+      return const Right(null);
+    } on Failure catch (fail) {
+      return Left(fail);
+    } catch (err, stackTrace) {
+      return Left(Failure(
+        'Erro inesperado',
+        object: err,
+        stackTrace: stackTrace,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updatePassword(RecoverPasswordModel model) async {
+    try {
+      await service.request(
+        '/auth/recuperar-senha',
+        'PATCH',
+        body: model.toMap(),
+      );
+      return const Right(null);
+    } on Failure catch (fail) {
+      return Left(fail);
+    } catch (err, stackTrace) {
+      return Left(Failure(
+        'Erro inesperado',
+        object: err,
+        stackTrace: stackTrace,
+      ));
+    }
+  }
 
   @override
   void logout() {

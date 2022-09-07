@@ -20,6 +20,8 @@ abstract class _RegisterController with Store {
 
   String? errorText;
 
+  _RegisterController({required this.loginRepository});
+
   @observable
   LoadState loadState = LoadState.done;
 
@@ -28,8 +30,6 @@ abstract class _RegisterController with Store {
 
   @observable
   bool isHiddenPassword = true;
-
-  _RegisterController({required this.loginRepository});
 
   @action
   Future<void> changeLoadState(LoadState state) async {
@@ -61,7 +61,6 @@ abstract class _RegisterController with Store {
         changeLoadState(LoadState.done);
         clearTextFields();
         Modular.to.pop();
-        // Modular.to.pushNamed('/confirmRegister/');
       },
     );
   }

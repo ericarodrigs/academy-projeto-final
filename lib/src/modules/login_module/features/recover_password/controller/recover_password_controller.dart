@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 import 'package:rarovideowall/src/shared/models/recover_password.dart';
 import 'package:rarovideowall/src/shared/models/request_code_model.dart';
-import 'package:rarovideowall/src/shared/repositories/recover_password_repository.dart';
 
 part 'recover_password_controller.g.dart';
 
@@ -13,15 +13,18 @@ class RecoverPasswordController = _RecoverPasswordController
     with _$RecoverPasswordController;
 
 abstract class _RecoverPasswordController with Store {
-  final recoverPasswordRepository = Modular.get<RecoverPasswordRepository>();
+  final ILoginRepository loginRepository;
   final GlobalKey<FormState> formKeyEmail = GlobalKey<FormState>();
   final GlobalKey<FormState> formKeyCode = GlobalKey<FormState>();
   final GlobalKey<FormState> formKeyNewPassword = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController recuperationCodeController = TextEditingController();
+  final TextEditingController recuperationCodeController =
+      TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   String? errorText;
+
+  _RecoverPasswordController({required this.loginRepository});
 
   @observable
   LoadState loadState = LoadState.done;
@@ -56,8 +59,11 @@ abstract class _RecoverPasswordController with Store {
   }
 
   bool get isTryRecoverWithEmail => formKeyEmail.currentState!.validate();
+
   bool get isTryRecoverWithCode => formKeyCode.currentState!.validate();
-  bool get isTryRecoverNewPassword => formKeyNewPassword.currentState!.validate();
+
+  bool get isTryRecoverNewPassword =>
+      formKeyNewPassword.currentState!.validate();
 
   RequestCodeModel getRegister() {
     return RequestCodeModel(email: emailController.text);
@@ -68,11 +74,11 @@ abstract class _RecoverPasswordController with Store {
     changePageState(PageState.fine);
     errorText = null;
 
-    (await recoverPasswordRepository.requestCode(getRegister())).fold((fail) {
+    (await loginRepository.requestCode(getRegister())).fold((fail) {
       errorText = fail.message;
       changePageState(PageState.error);
       changeLoadState(LoadState.done);
-    }, (sucess) {
+    }, (success) {
       changeLoadState(LoadState.done);
       Modular.to.pushNamed('request_code');
     });
@@ -100,14 +106,14 @@ abstract class _RecoverPasswordController with Store {
     changePageState(PageState.fine);
     errorText = null;
 
-    (await recoverPasswordRepository.updatePassword(getData())).fold((fail) {
+    (await loginRepository.updatePassword(getData())).fold((fail) {
       errorText = fail.message;
       changePageState(PageState.error);
       changeLoadState(LoadState.done);
-    }, (sucess) {
+    }, (success) {
       changeLoadState(LoadState.done);
-        Modular.to.popUntil((p0) => false);
-        _showSnackBar(context);
+      Modular.to.popUntil((p0) => false);
+      _showSnackBar(context);
     });
   }
 
