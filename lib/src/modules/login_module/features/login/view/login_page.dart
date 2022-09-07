@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rarovideowall/src/modules/login_module/features/login/controller/login_controller.dart';
-import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/validator.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
@@ -72,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: WTextButton(
                           isEnabled: loginController.isFieldEnabled(),
                           onTap: () {
-                            // Modular.to.pushNamed('recover').then((value) => loginController.loginInitState(););
+                            loginController.goToRequestEmailPage();
                           },
                           text: 'Esqueci minha senha...',
                           style: TextStyles.black14BoldUrbanist),
@@ -82,16 +81,16 @@ class _LoginPageState extends State<LoginPage> {
                       visible: !loginController.isFieldEnabled(),
                       child: const CircularProgressIndicator()),
                   Visibility(
-                      visible: true,
+                      visible: loginController.errorText != null ? true : false,
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(44, 20, 44, 10),
                         child: Text(
                           loginController.errorText ?? '',
                           style: TextStyles.errorRed,
                         ),
                       )),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(44, 60, 44, 20),
+                    padding: const EdgeInsets.fromLTRB(44, 50, 44, 10),
                     child: WElevatedButton(
                       text: 'Entrar',
                       isEnabled: loginController.isFieldEnabled(),
@@ -103,14 +102,12 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 44.0),
+                    padding: const EdgeInsets.fromLTRB(44, 10, 44, 16),
                     child: WElevatedButton(
                       text: 'Registrar',
                       isEnabled: loginController.isFieldEnabled(),
                       function: () {
-                        Modular.to
-                            .pushNamed(LoginRouteNames.register)
-                            .then((value) => loginController.loginInitState());
+                        loginController.goToRegisterPage();
                       },
                     ),
                   ),

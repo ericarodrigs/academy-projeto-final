@@ -4,9 +4,10 @@ import 'package:mobx/mobx.dart';
 
 part 'w_star_rating_controller.g.dart';
 
-class WStarRatingController = _WStarRatingController with _$WStarRatingController;
+class WStarRatingController = _WStarRatingController
+    with _$WStarRatingController;
 
-abstract class _WStarRatingController with Store{
+abstract class _WStarRatingController with Store {
   @observable
   double? ratingValue;
 

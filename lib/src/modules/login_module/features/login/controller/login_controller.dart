@@ -3,8 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
-import 'package:rarovideowall/src/shared/models/login_user_model.dart';
+import 'package:rarovideowall/src/modules/login_module/features/login/model/login_user_model.dart';
 
 part 'login_controller.g.dart';
 
@@ -71,14 +72,24 @@ abstract class _LoginController with Store {
 
   bool get isTryLogin => formKey.currentState!.validate();
 
-  bool isFieldEnabled() {
-    return loadState == LoadState.loading ? false : true;
-  }
+  bool isFieldEnabled() => loadState == LoadState.loading ? false : true;
 
   void loginInitState() {
     changePageState(PageState.fine);
     changeLoadState(LoadState.done);
     errorText = null;
+  }
+
+  void goToRegisterPage() {
+    Modular.to
+        .pushNamed(LoginRouteNames.register)
+        .then((value) => loginInitState());
+  }
+
+  void goToRequestEmailPage() {
+    Modular.to
+        .pushNamed(LoginRouteNames.requestEmailRoute)
+        .then((value) => loginInitState());
   }
 }
 

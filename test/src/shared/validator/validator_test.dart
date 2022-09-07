@@ -126,20 +126,5 @@ void main() {
       var result = Validator.validateCodeClass(null);
       expect(result, 'Por favor, informe o código da sua turma');
     });
-
-    test(
-        'Should return the result of the validation codeClass when the field is invalid',
-        () {
-      var result = Validator.validateCodeClass('code-class');
-      expect(result, 'Código da turma inválido');
-    });
-
-    test(
-        'Should return the result of the validation codeClass when the field is valid',
-        () {
-      var result =
-          Validator.validateCodeClass('55402f9b-ca01-4cb4-ae36-dc85d7e154b8');
-      expect(result, null);
-    });
   });
 }
