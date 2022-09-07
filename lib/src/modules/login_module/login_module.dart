@@ -5,7 +5,6 @@ import 'package:rarovideowall/src/modules/login_module/features/login/view/login
 import 'package:rarovideowall/src/modules/login_module/features/register/controller/register_controller.dart';
 import 'package:rarovideowall/src/modules/login_module/features/register/view/register_page.dart';
 import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
-import 'package:rarovideowall/src/modules_route_names.dart';
 
 class LoginModule extends Module {
   @override

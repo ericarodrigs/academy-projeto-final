@@ -1,13 +1,15 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
 import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
 
 part 'video_details_controller.g.dart';
 
-class VideoDetailsController = _VideoDetailsController with _$VideoDetailsController;
+class VideoDetailsController = _VideoDetailsController
+    with _$VideoDetailsController;
 
 abstract class _VideoDetailsController with Store {
-  late Future<void> initializeVideoPlayerFuture;
   VideosRepository videosRepository;
 
   _VideoDetailsController({required this.videosRepository});
@@ -15,6 +17,7 @@ abstract class _VideoDetailsController with Store {
   String videoId = '';
 
   String relatedError = '';
+
   String videoError = '';
 
   @observable
@@ -39,21 +42,40 @@ abstract class _VideoDetailsController with Store {
   @observable
   List<VideoModel> relatedVideos = [];
 
+  void initializePageInfo(String id) {
+    videoId = id;
+    getVideo();
+    getRecommendedVideos();
+  }
+
   @action
-  Future<void> getRelatedVideos() async {
+  Future<void> getRecommendedVideos() async {
     changeRelatedState(LoadState.loading);
-    var response = await videosRepository.getRecommendedVideos(video.id);
-    response.fold((l) => {changeRelatedState(LoadState.error), relatedError = l.message},
-        (r) => {r.removeWhere((e) => e.id == videoId), relatedVideos = r, changeRelatedState(LoadState.done)});
+    (await videosRepository.getRecommendedVideos(videoId)).fold(
+      (fail) {
+        changeRelatedState(LoadState.error);
+        relatedError = fail.message;
+      },
+      (videos) {
+        relatedVideos = videos;
+        changeRelatedState(LoadState.done);
+      },
+    );
   }
 
   @action
   Future<void> getVideo() async {
     changeVideoLoadState(LoadState.loading);
-    var response = await videosRepository.getVideo(videoId);
-    response.fold((l) => {changeVideoLoadState(LoadState.error), videoError = l.message}, (r) => {video = r});
-    changeVideoLoadState(LoadState.done);
-    getRelatedVideos();
+    (await videosRepository.getVideo(videoId)).fold(
+      (fail) {
+        changeVideoLoadState(LoadState.error);
+        videoError = fail.message;
+      },
+      (videoInfo) {
+        video = videoInfo;
+        changeVideoLoadState(LoadState.done);
+      },
+    );
   }
 
   @action
