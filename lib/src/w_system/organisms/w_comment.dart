@@ -24,17 +24,24 @@ class WComment extends StatelessWidget {
           case LoadState.done:
             return WCommentList(
               userId: videoDetailsController.loggedState.user?.id ?? '',
-              onDelete: (_) {},
+              onDelete: (comment) =>
+                  videoDetailsController.deleteComment(context, comment),
               onEdit: (_) {},
               onDownVote: (comment) {
-                videoDetailsController.voteComment(comment.id, false);
+                videoDetailsController.voteComment(context, comment.id, false);
               },
               onUpVote: (comment) {
-                videoDetailsController.voteComment(comment.id, true);
+                videoDetailsController.voteComment(context, comment.id, true);
               },
               comments: videoDetailsController.comments.toList(),
               hasImgAvatarError: videoDetailsController.hasImgAvatarError,
-              onLoadImgAvatarError: videoDetailsController.onLoadImgAvatarError,
+              onLoadImgAvatarError: (err, stackTrace) {
+                videoDetailsController.onLoadImgAvatarError(
+                  context,
+                  err,
+                  stackTrace,
+                );
+              },
               isLogged: videoDetailsController.loggedState.isLogged,
             );
           case LoadState.error:

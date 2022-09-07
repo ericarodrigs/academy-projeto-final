@@ -6,7 +6,7 @@ import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
 import 'package:rarovideowall/src/modules_route_names.dart';
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
-import 'package:rarovideowall/src/shared/constants/custom_snack_bar.dart';
+import 'package:rarovideowall/src/shared/constants/show_popups.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 import 'package:rarovideowall/src/modules/login_module/features/recover_password/model/recover_password_model.dart';
 import 'package:rarovideowall/src/modules/login_module/features/recover_password/model/request_code_model.dart';
@@ -71,7 +71,8 @@ abstract class _RecoverPasswordController with Store {
   bool get isTryRecoverNewPassword =>
       formKeyNewPassword.currentState!.validate();
 
-  RequestCodeModel _getRegister() => RequestCodeModel(email: emailController.text);
+  RequestCodeModel _getRegister() =>
+      RequestCodeModel(email: emailController.text);
 
   Future<void> verifyEmail() async {
     changeLoadState(LoadState.loading);
@@ -114,7 +115,7 @@ abstract class _RecoverPasswordController with Store {
       changeLoadState(LoadState.done);
       _clearTextFields();
       Modular.to.popUntil(ModalRoute.withName(ModulesRouteNames.loginModule));
-      CustomSnackBar.showSnackBar(
+      ShowPopups.showSnackBar(
           context, 'Senha alterada com sucesso!', AppColors.purple);
     });
   }
