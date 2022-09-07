@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/modules/login_module/features/register/model/register_user_model.dart';
+import 'package:rarovideowall/src/shared/constants/app_colors.dart';
+import 'package:rarovideowall/src/shared/constants/custom_snack_bar.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 
 part 'register_controller.g.dart';
@@ -20,6 +22,8 @@ abstract class _RegisterController with Store {
 
   String? errorText;
 
+  _RegisterController({required this.loginRepository});
+
   @observable
   LoadState loadState = LoadState.done;
 
@@ -28,8 +32,6 @@ abstract class _RegisterController with Store {
 
   @observable
   bool isHiddenPassword = true;
-
-  _RegisterController({required this.loginRepository});
 
   @action
   Future<void> changeLoadState(LoadState state) async {
@@ -46,12 +48,12 @@ abstract class _RegisterController with Store {
     isHiddenPassword = !isHiddenPassword;
   }
 
-  Future<void> register() async {
+  Future<void> register(BuildContext context) async {
     changeLoadState(LoadState.loading);
     changePageState(PageState.fine);
     errorText = null;
 
-    (await loginRepository.register(getRegister())).fold(
+    (await loginRepository.register(_getRegister())).fold(
       (fail) {
         errorText = fail.message;
         changePageState(PageState.error);
@@ -59,14 +61,15 @@ abstract class _RegisterController with Store {
       },
       (success) {
         changeLoadState(LoadState.done);
-        clearTextFields();
+        _clearTextFields();
         Modular.to.pop();
-        // Modular.to.pushNamed('/confirmRegister/');
+        CustomSnackBar.showSnackBar(
+            context, 'Usuário cadastrado com sucesso!', AppColors.purple);
       },
     );
   }
 
-  RegisterUserModel getRegister() {
+  RegisterUserModel _getRegister() {
     return RegisterUserModel(
       name: nameController.text,
       email: emailController.text,
@@ -77,9 +80,7 @@ abstract class _RegisterController with Store {
 
   bool get isTryRegister => formKey.currentState!.validate();
 
-  bool isFieldEnabled() {
-    return loadState == LoadState.loading ? false : true;
-  }
+  bool isFieldEnabled() => loadState == LoadState.loading ? false : true;
 
   void registerInitState() {
     changePageState(PageState.fine);
@@ -87,7 +88,7 @@ abstract class _RegisterController with Store {
     errorText = null;
   }
 
-  void clearTextFields() {
+  void _clearTextFields() {
     nameController.text = "";
     emailController.text = "";
     passwordController.text = "";

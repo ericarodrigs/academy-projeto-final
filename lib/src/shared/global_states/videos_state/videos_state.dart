@@ -2,11 +2,14 @@
 
 import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
+
 part 'videos_state.g.dart';
 
 class VideosState extends _VideosStateBase with _$VideosState {
   VideosState._();
+
   static final VideosState _instance = VideosState._();
+
   static VideosState get instance => _instance;
 }
 

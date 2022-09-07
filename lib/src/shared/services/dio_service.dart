@@ -42,8 +42,7 @@ class DioService implements ApiService {
         case DioErrorType.response:
           switch (err.response?.statusCode) {
             case 400:
-              if (err.response.toString()
-                  .contains("usuario_ja_existe")) {
+              if (err.response.toString().contains("usuario_ja_existe")) {
                 throw Failure(
                   'Email já cadastrado',
                   object: err,
