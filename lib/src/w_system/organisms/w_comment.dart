@@ -24,7 +24,8 @@ class WComment extends StatelessWidget {
           case LoadState.done:
             return WCommentList(
               userId: videoDetailsController.loggedState.user?.id ?? '',
-              onLongPress: (_) {},
+              onDelete: (_) {},
+              onEdit: (_) {},
               onDownVote: (comment) {
                 videoDetailsController.voteComment(comment.id, false);
               },

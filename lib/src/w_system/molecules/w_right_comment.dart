@@ -13,7 +13,8 @@ class WRightComment extends StatelessWidget {
     required this.onUpVote,
     this.onLoadImgAvatarError,
     this.hasImgAvatarError = false,
-    required this.onLongPress,
+    required this.onDelete,
+    required this.onEdit,
   }) : super(key: key);
 
   final CommentModel comment;
@@ -21,7 +22,8 @@ class WRightComment extends StatelessWidget {
   final Null Function() onUpVote;
   final void Function(Object?, StackTrace?)? onLoadImgAvatarError;
   final bool hasImgAvatarError;
-  final VoidCallback onLongPress;
+  final VoidCallback onDelete;
+  final VoidCallback onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class WRightComment extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         InkWell(
-          onLongPress: onLongPress,
+          onLongPress: onDelete,
           child: WUserAvatar(
             user: comment.aluno,
             isRight: true,
@@ -46,9 +48,12 @@ class WRightComment extends StatelessWidget {
                   minHeight: 50,
                   minWidth: 60,
                 ),
-                child: Text(
-                  comment.texto,
-                  style: TextStyles.black14w400Urbanist,
+                child: InkWell(
+                  onLongPress: onEdit,
+                  child: Text(
+                    comment.texto,
+                    style: TextStyles.black14w400Urbanist,
+                  ),
                 ),
               ),
               Positioned(

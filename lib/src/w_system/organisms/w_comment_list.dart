@@ -10,7 +10,8 @@ class WCommentList extends StatelessWidget {
     Key? key,
     this.height = 170,
     required this.userId,
-    required this.onLongPress,
+    required this.onDelete,
+    required this.onEdit,
     required this.onDownVote,
     required this.onUpVote,
     required this.comments,
@@ -21,7 +22,8 @@ class WCommentList extends StatelessWidget {
 
   final double height;
   final String userId;
-  final void Function(CommentModel) onLongPress;
+  final void Function(CommentModel) onDelete;
+  final void Function(CommentModel) onEdit;
   final void Function(CommentModel) onDownVote;
   final void Function(CommentModel) onUpVote;
   final List<CommentModel> comments;
@@ -51,7 +53,8 @@ class WCommentList extends StatelessWidget {
           bool isLoggedUser = comments[index].aluno.id == userId;
           return isLoggedUser
               ? WRightComment(
-                  onLongPress: () => onLongPress(comments[index]),
+                  onDelete: () => onDelete(comments[index]),
+                  onEdit: () => onEdit(comments[index]),
                   comment: comments[index],
                   onDownVote: () {
                     onDownVote(comments[index]);
