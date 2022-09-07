@@ -23,12 +23,13 @@ class WNewComment extends StatelessWidget {
           children: [
             const Expanded(
               child: WTextFormField(
-                  hintText: 'Deixe seu comentário',
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  keyboardType: TextInputType.multiline,
-                  minLines: 1,
-                  maxLines: 4,
-                  contentPadding: EdgeInsets.all(16)),
+                hintText: 'Deixe seu comentário',
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                keyboardType: TextInputType.multiline,
+                minLines: 1,
+                maxLines: 4,
+                contentPadding: EdgeInsets.all(16),
+              ),
             ),
             IconButton(
               icon: const Icon(

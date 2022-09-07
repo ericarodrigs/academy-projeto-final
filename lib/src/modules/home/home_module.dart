@@ -25,7 +25,14 @@ class HomeModule extends Module {
         loggedState: i(),
       ),
     ),
-    Bind.singleton((i) => VideoDetailsController(videosRepository: i())),
+    Bind<VideoDetailsController>(
+      (i) => VideoDetailsController(
+        videosRepository: i(),
+        commentRepository: i(),
+        loggedState: i(),
+      ),
+      isSingleton: false,
+    ),
   ];
 
   @override

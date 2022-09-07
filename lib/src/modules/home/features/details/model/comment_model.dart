@@ -8,8 +8,8 @@ class CommentModel {
   final bool editado;
   final String createdAt;
   final UserModel aluno;
-  final int upVotes;
-  final int downVotes;
+  int upVotes;
+  int downVotes;
 
   CommentModel({
     required this.id,

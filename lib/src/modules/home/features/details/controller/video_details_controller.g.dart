@@ -57,6 +57,22 @@ mixin _$VideoDetailsController on _VideoDetailsController, Store {
     });
   }
 
+  late final _$commentsStateAtom =
+      Atom(name: '_VideoDetailsController.commentsState', context: context);
+
+  @override
+  LoadState get commentsState {
+    _$commentsStateAtom.reportRead();
+    return super.commentsState;
+  }
+
+  @override
+  set commentsState(LoadState value) {
+    _$commentsStateAtom.reportWrite(value, super.commentsState, () {
+      super.commentsState = value;
+    });
+  }
+
   late final _$relatedVideosAtom =
       Atom(name: '_VideoDetailsController.relatedVideos', context: context);
 
@@ -73,12 +89,53 @@ mixin _$VideoDetailsController on _VideoDetailsController, Store {
     });
   }
 
-  late final _$getRelatedVideosAsyncAction =
-      AsyncAction('_VideoDetailsController.getRelatedVideos', context: context);
+  late final _$commentsAtom =
+      Atom(name: '_VideoDetailsController.comments', context: context);
+
+  @override
+  ObservableList<CommentModel> get comments {
+    _$commentsAtom.reportRead();
+    return super.comments;
+  }
+
+  @override
+  set comments(ObservableList<CommentModel> value) {
+    _$commentsAtom.reportWrite(value, super.comments, () {
+      super.comments = value;
+    });
+  }
+
+  late final _$hasImgAvatarErrorAtom =
+      Atom(name: '_VideoDetailsController.hasImgAvatarError', context: context);
+
+  @override
+  bool get hasImgAvatarError {
+    _$hasImgAvatarErrorAtom.reportRead();
+    return super.hasImgAvatarError;
+  }
+
+  @override
+  set hasImgAvatarError(bool value) {
+    _$hasImgAvatarErrorAtom.reportWrite(value, super.hasImgAvatarError, () {
+      super.hasImgAvatarError = value;
+    });
+  }
+
+  late final _$getCommentsAsyncAction =
+      AsyncAction('_VideoDetailsController.getComments', context: context);
+
+  @override
+  Future<void> getComments() {
+    return _$getCommentsAsyncAction.run(() => super.getComments());
+  }
+
+  late final _$getRecommendedVideosAsyncAction = AsyncAction(
+      '_VideoDetailsController.getRecommendedVideos',
+      context: context);
 
   @override
   Future<void> getRecommendedVideos() {
-    return _$getRelatedVideosAsyncAction
+    return _$getRecommendedVideosAsyncAction
         .run(() => super.getRecommendedVideos());
   }
 
@@ -110,13 +167,40 @@ mixin _$VideoDetailsController on _VideoDetailsController, Store {
         .run(() => super.changeRelatedState(state));
   }
 
+  late final _$changeCommentsStateAsyncAction = AsyncAction(
+      '_VideoDetailsController.changeCommentsState',
+      context: context);
+
+  @override
+  Future<void> changeCommentsState(LoadState state) {
+    return _$changeCommentsStateAsyncAction
+        .run(() => super.changeCommentsState(state));
+  }
+
+  late final _$_VideoDetailsControllerActionController =
+      ActionController(name: '_VideoDetailsController', context: context);
+
+  @override
+  void _updateCommentVote(String commentId, bool isUp) {
+    final _$actionInfo = _$_VideoDetailsControllerActionController.startAction(
+        name: '_VideoDetailsController._updateCommentVote');
+    try {
+      return super._updateCommentVote(commentId, isUp);
+    } finally {
+      _$_VideoDetailsControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 video: ${video},
 videoLoadState: ${videoLoadState},
 relatedState: ${relatedState},
-relatedVideos: ${relatedVideos}
+commentsState: ${commentsState},
+relatedVideos: ${relatedVideos},
+comments: ${comments},
+hasImgAvatarError: ${hasImgAvatarError}
     ''';
   }
 }
