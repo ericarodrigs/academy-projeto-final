@@ -13,6 +13,7 @@ class WLeftComment extends StatelessWidget {
     required this.onUpVote,
     this.onLoadImgAvatarError,
     this.hasImgAvatarError = false,
+    this.isLogged = false,
   }) : super(key: key);
 
   final CommentModel comment;
@@ -20,6 +21,7 @@ class WLeftComment extends StatelessWidget {
   final Null Function() onUpVote;
   final void Function(Object?, StackTrace?)? onLoadImgAvatarError;
   final bool hasImgAvatarError;
+  final bool isLogged;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +56,7 @@ class WLeftComment extends StatelessWidget {
                   downVotes: comment.downVotes,
                   upVotes: comment.upVotes,
                   mainAxisAlignment: MainAxisAlignment.end,
+                  isLogged: isLogged,
                 ),
               ),
             ],

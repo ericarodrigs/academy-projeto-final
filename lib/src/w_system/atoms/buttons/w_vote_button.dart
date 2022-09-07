@@ -10,6 +10,7 @@ class WVoteButton extends StatelessWidget {
     required this.downVotes,
     required this.upVotes,
     this.mainAxisAlignment = MainAxisAlignment.start,
+    required this.isLogged,
   }) : super(key: key);
 
   final VoidCallback onDownVote;
@@ -17,6 +18,7 @@ class WVoteButton extends StatelessWidget {
   final int downVotes;
   final int upVotes;
   final MainAxisAlignment mainAxisAlignment;
+  final bool isLogged;
 
   final double maxWidth = 20;
   final double iconSize = 22;
@@ -29,7 +31,7 @@ class WVoteButton extends StatelessWidget {
         IconButton(
           constraints: BoxConstraints(maxWidth: maxWidth),
           iconSize: iconSize,
-          onPressed: onDownVote,
+          onPressed: isLogged ? onDownVote : null,
           icon: Icon(
             Icons.thumb_down_alt_outlined,
             color: downVotes > 0 ? AppColors.favorite : AppColors.black,
@@ -41,7 +43,7 @@ class WVoteButton extends StatelessWidget {
         IconButton(
           constraints: BoxConstraints(maxWidth: maxWidth),
           iconSize: iconSize,
-          onPressed: onUpVote,
+          onPressed: isLogged ? onUpVote : null,
           icon: Icon(
             Icons.thumb_up_alt_outlined,
             color: upVotes > 0 ? AppColors.deepPurple : AppColors.black,

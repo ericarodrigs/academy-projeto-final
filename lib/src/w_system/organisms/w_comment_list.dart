@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:rarovideowall/src/modules/home/features/details/model/comment_model.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_left_comment.dart';
@@ -7,14 +8,15 @@ import 'package:rarovideowall/src/w_system/molecules/w_right_comment.dart';
 class WCommentList extends StatelessWidget {
   const WCommentList({
     Key? key,
+    this.height = 170,
     required this.userId,
     required this.onLongPress,
     required this.onDownVote,
     required this.onUpVote,
     required this.comments,
-    this.height = 170,
     this.onLoadImgAvatarError,
     this.hasImgAvatarError = false,
+    this.isLogged = false,
   }) : super(key: key);
 
   final double height;
@@ -25,6 +27,7 @@ class WCommentList extends StatelessWidget {
   final List<CommentModel> comments;
   final void Function(Object?, StackTrace?)? onLoadImgAvatarError;
   final bool hasImgAvatarError;
+  final bool isLogged;
 
   @override
   Widget build(BuildContext context) {
@@ -47,19 +50,17 @@ class WCommentList extends StatelessWidget {
         itemBuilder: (_, index) {
           bool isLoggedUser = comments[index].aluno.id == userId;
           return isLoggedUser
-              ? InkWell(
+              ? WRightComment(
                   onLongPress: () => onLongPress(comments[index]),
-                  child: WRightComment(
-                    comment: comments[index],
-                    onDownVote: () {
-                      onDownVote(comments[index]);
-                    },
-                    onUpVote: () {
-                      onUpVote(comments[index]);
-                    },
-                    onLoadImgAvatarError: onLoadImgAvatarError,
-                    hasImgAvatarError: hasImgAvatarError,
-                  ),
+                  comment: comments[index],
+                  onDownVote: () {
+                    onDownVote(comments[index]);
+                  },
+                  onUpVote: () {
+                    onUpVote(comments[index]);
+                  },
+                  onLoadImgAvatarError: onLoadImgAvatarError,
+                  hasImgAvatarError: hasImgAvatarError,
                 )
               : WLeftComment(
                   comment: comments[index],
@@ -71,6 +72,7 @@ class WCommentList extends StatelessWidget {
                   },
                   hasImgAvatarError: hasImgAvatarError,
                   onLoadImgAvatarError: onLoadImgAvatarError,
+                  isLogged: isLogged,
                 );
         },
       );

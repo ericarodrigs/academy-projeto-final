@@ -17,6 +17,14 @@ class TextStyles {
     color: AppColors.black,
   );
 
+  static const TextStyle white14BoldUrbanist = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Urbanist',
+    fontSize: 14,
+    letterSpacing: 0.02,
+    color: Colors.white,
+  );
+
   static const TextStyle errorRed = TextStyle(
     fontWeight: FontWeight.bold,
     fontSize: 20,
