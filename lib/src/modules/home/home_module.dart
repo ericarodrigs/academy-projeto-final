@@ -6,6 +6,8 @@ import 'package:rarovideowall/src/modules/home/features/home/view/home_page.dart
 import 'package:rarovideowall/src/modules/home/home_route_names.dart';
 import 'package:rarovideowall/src/modules/home/interfaces/comment_repository_interface.dart';
 
+import 'features/details/controller/video_details_controller.dart';
+
 class HomeModule extends Module {
   @override
   final List<Bind> binds = [
@@ -23,6 +25,7 @@ class HomeModule extends Module {
         loggedState: i(),
       ),
     ),
+    Bind.singleton((i) => VideoDetailsController(videosRepository: i())),
   ];
 
   @override
@@ -38,6 +41,6 @@ class HomeModule extends Module {
       child: (_, args) => DetailsPage(
         videoId: args.params['videoId'],
       ),
-    )
+    ),
   ];
 }
