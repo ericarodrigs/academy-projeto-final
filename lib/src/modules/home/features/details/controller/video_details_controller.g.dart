@@ -73,12 +73,13 @@ mixin _$VideoDetailsController on _VideoDetailsController, Store {
     });
   }
 
-  late final _$getRelatedVideosAsyncAction =
-      AsyncAction('_VideoDetailsController.getRelatedVideos', context: context);
+  late final _$getRecommendedVideosAsyncAction = AsyncAction(
+      '_VideoDetailsController.getRecommendedVideos',
+      context: context);
 
   @override
   Future<void> getRecommendedVideos() {
-    return _$getRelatedVideosAsyncAction
+    return _$getRecommendedVideosAsyncAction
         .run(() => super.getRecommendedVideos());
   }
 

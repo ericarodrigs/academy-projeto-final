@@ -12,7 +12,10 @@ import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
 class LoginModule extends Module {
   @override
   List<Bind<Object>> get binds => [
-        Bind.singleton((i) => LoginController(loginRepository: i())),
+        Bind.singleton((i) => LoginController(
+              loginRepository: i(),
+              localStorageUserRepository: i(),
+            )),
         Bind.singleton((i) => RegisterController(loginRepository: i())),
         Bind.singleton((i) => RecoverPasswordController(loginRepository: i())),
       ];
