@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
@@ -14,17 +15,28 @@ import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state
 import 'package:rarovideowall/src/shared/global_states/videos_state/videos_state.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
 import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 part 'video_details_controller.g.dart';
 
-class VideoDetailsController = _VideoDetailsController
-    with _$VideoDetailsController;
+class VideoDetailsController = _VideoDetailsController with _$VideoDetailsController;
 
 abstract class _VideoDetailsController with Store {
+
   VideosRepository videosRepository;
   CommentRepository commentRepository;
   LoggedState loggedState;
   VideosState videosState;
+
+  late YoutubePlayerController youtubePlayerController;
+  TextEditingController textController = TextEditingController();
+  final GlobalKey<FormState> commentsKey = GlobalKey<FormState>();
+ 
+  String videoId = '';
+  String relatedError = '';
+  String videoError = '';
+  String commentsError = '';
+  String _editCommentId = '';
 
   _VideoDetailsController({
     required this.videosRepository,
@@ -32,18 +44,6 @@ abstract class _VideoDetailsController with Store {
     required this.loggedState,
     required this.videosState,
   });
-
-  String videoId = '';
-
-  String relatedError = '';
-
-  String videoError = '';
-
-  String commentsError = '';
-  final GlobalKey<FormState> commentsKey = GlobalKey<FormState>();
-
-  TextEditingController textController = TextEditingController();
-  String _editCommentId = '';
 
   @observable
   VideoModel video = VideoModel(
@@ -80,6 +80,9 @@ abstract class _VideoDetailsController with Store {
   bool hasImgAvatarError = false;
 
   void initializePageInfo(String id) {
+    changeVideoLoadState(LoadState.loading);
+    changeRelatedState(LoadState.loading);
+    changeCommentsState(LoadState.loading);
     videoId = id;
     getVideo();
     getRecommendedVideos();
@@ -98,10 +101,8 @@ abstract class _VideoDetailsController with Store {
   void _setIsFavorite(bool value) => isFavorite = value;
 
   void favoriteVideo(BuildContext context) async {
-    ///Toggle favorite
     _setIsFavorite(!isFavorite);
 
-    ///Recover the toggled favorite
     (await videosRepository.toggleFavorite(
       videoId,
       isFavorite: !isFavorite,
@@ -159,8 +160,7 @@ abstract class _VideoDetailsController with Store {
     }
   }
 
-  void onLoadImgAvatarError(
-      BuildContext context, Object? err, StackTrace? stackTrace) {
+  void onLoadImgAvatarError(BuildContext context, Object? err, StackTrace? stackTrace) {
     log(err.toString());
     if (!hasImgAvatarError) {
       _showSnackBarError(
@@ -187,8 +187,7 @@ abstract class _VideoDetailsController with Store {
         (await commentRepository.deleteComment(videoId, comment.id)).fold(
           (fail) {
             comments.insert(index, comment);
-            _showSnackBarError(
-                context, 'Houve um erro ao deletar o comentário.');
+            _showSnackBarError(context, 'Houve um erro ao deletar o comentário.');
           },
           (success) => null,
         );
@@ -196,13 +195,13 @@ abstract class _VideoDetailsController with Store {
       () {
         Modular.to.pop();
       },
-      content:
-          'Tem certeza que deseja deletar o comentário: \n ${comment.text}',
+      content: 'Tem certeza que deseja deletar o comentário: \n ${comment.texto}',
     );
   }
 
   final List<String> _upVoteComments = [];
   final List<String> _downVoteComments = [];
+
   //Revisar essa logica pq ficou muito complexa
   @action
   void _updateCommentVote(String commentId, bool isUp) {
@@ -232,8 +231,7 @@ abstract class _VideoDetailsController with Store {
     }
   }
 
-  Future<void> voteComment(
-      BuildContext context, String commentId, bool isUp) async {
+  Future<void> voteComment(BuildContext context, String commentId, bool isUp) async {
     if (loggedState.isLogged) {
       _updateCommentVote(commentId, isUp);
       (await commentRepository.voteComment(
@@ -286,16 +284,16 @@ abstract class _VideoDetailsController with Store {
   @action
   Future<void> getVideo() async {
     changeVideoLoadState(LoadState.loading);
-    (await videosRepository.getVideo(videoId)).fold(
-      (fail) {
-        changeVideoLoadState(LoadState.error);
-        videoError = fail.message;
-      },
-      (videoInfo) {
-        video = videoInfo;
-        changeVideoLoadState(LoadState.done);
-      },
-    );
+    (await videosRepository.getVideo(videoId)).fold((fail) {
+      changeVideoLoadState(LoadState.error);
+      videoError = fail.message;
+    }, (videoInfo) {
+      video = videoInfo;
+      if (getIsYoutube()) {
+        initYoutubeController();
+      }
+      changeVideoLoadState(LoadState.done);
+    });
   }
 
   @action
@@ -311,6 +309,31 @@ abstract class _VideoDetailsController with Store {
   @action
   Future<void> changeCommentsState(LoadState state) async {
     commentsState = state;
+  }
+
+  bool getIsYoutube() {
+    return video.url.contains('youtube') ? true : false;
+  }
+
+  void initYoutubeController() {
+    youtubePlayerController = YoutubePlayerController(
+      initialVideoId: YoutubePlayerController.convertUrlToId(video.url)!,
+      params: const YoutubePlayerParams(autoPlay: false, showFullscreenButton: true),
+    )
+      ..onEnterFullscreen = () {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.landscapeRight,
+          DeviceOrientation.landscapeLeft,
+        ]);
+      }
+      ..onExitFullscreen = () {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitDown,
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.landscapeRight,
+          DeviceOrientation.landscapeLeft,
+        ]);
+      };
   }
 }
 
