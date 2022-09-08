@@ -29,27 +29,31 @@ class _DetailsPageState extends State<DetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: videoDetailsController.scaffoldKey,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: AppColors.backGroundPageColor,
-        foregroundColor: AppColors.black,
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                WClassVideo(videoDetailsController: videoDetailsController),
-                const SizedBox(height: 32),
-                WComment(videoDetailsController: videoDetailsController),
-                const SizedBox(height: 32),
-                WRelatedClasses(videoDetailsController: videoDetailsController),
-                const SizedBox(height: 32),
-              ],
+    return GestureDetector(
+      onTap: FocusScope.of(context).unfocus,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: AppColors.backGroundPageColor,
+          foregroundColor: AppColors.black,
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  WClassVideo(videoDetailsController: videoDetailsController),
+                  const SizedBox(height: 12),
+                  WComment(videoDetailsController: videoDetailsController),
+                  const SizedBox(height: 12),
+                  WRelatedClasses(
+                      videoDetailsController: videoDetailsController),
+                  const SizedBox(height: 32),
+                ],
+              ),
             ),
           ),
         ),

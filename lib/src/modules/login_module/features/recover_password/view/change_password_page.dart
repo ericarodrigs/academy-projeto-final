@@ -5,6 +5,7 @@ import 'package:rarovideowall/src/modules/login_module/features/recover_password
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/validator.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
+import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_text_form_field.dart';
 
 class ChangePasswordPage extends StatefulWidget {
@@ -49,9 +50,14 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.visiblePassword,
                       obscureText: recoverController.isHiddenPassword,
-                      togglePasswordView: () {
-                        recoverController.changePasswordVisibility();
-                      },
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          recoverController.isHiddenPassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: recoverController.changePasswordVisibility,
+                      ),
                       text: 'Digite sua nova senha',
                     ),
                   ),
@@ -69,15 +75,20 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       textInputAction: TextInputAction.done,
                       keyboardType: TextInputType.visiblePassword,
                       obscureText: recoverController.isHiddenConfirmPassword,
-                      togglePasswordView: () {
-                        recoverController.changeConfirmPasswordVisibility();
-                      },
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          recoverController.isHiddenPassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: recoverController.changePasswordVisibility,
+                      ),
                       text: 'Digite sua nova senha novamente',
                     ),
                   ),
                   Visibility(
                       visible: !recoverController.isFieldEnabled(),
-                      child: const CircularProgressIndicator()),
+                      child: const WCircularProgressIndicator()),
                   Visibility(
                       visible: false,
                       child: Padding(

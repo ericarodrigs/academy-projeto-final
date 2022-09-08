@@ -6,6 +6,7 @@ import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/validator.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_text_button.dart';
+import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_text_form_field.dart';
 
 class LoginPage extends StatefulWidget {
@@ -59,9 +60,14 @@ class _LoginPageState extends State<LoginPage> {
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: loginController.isHiddenPassword,
-                        togglePasswordView: () {
-                          loginController.changePasswordVisibility();
-                        },
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            loginController.isHiddenPassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          onPressed: loginController.changePasswordVisibility,
+                        ),
                         text: 'Senha'),
                   ),
                   Padding(
@@ -79,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Visibility(
                       visible: !loginController.isFieldEnabled(),
-                      child: const CircularProgressIndicator()),
+                      child: const WCircularProgressIndicator()),
                   Visibility(
                       visible: loginController.errorText != null ? true : false,
                       child: Padding(

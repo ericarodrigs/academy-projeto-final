@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
+import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
+import 'package:rarovideowall/src/w_system/atoms/texts/w_vote_text.dart';
 
 class WVoteButton extends StatelessWidget {
   const WVoteButton({
@@ -20,35 +22,35 @@ class WVoteButton extends StatelessWidget {
   final MainAxisAlignment mainAxisAlignment;
   final bool isLogged;
 
-  final double maxWidth = 20;
-  final double iconSize = 22;
+  final double iconSize = 25;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: mainAxisAlignment,
       children: [
-        IconButton(
-          constraints: BoxConstraints(maxWidth: maxWidth),
-          iconSize: iconSize,
-          onPressed: isLogged ? onDownVote : null,
-          icon: Icon(
-            Icons.thumb_down_alt_outlined,
-            color: downVotes > 0 ? AppColors.favorite : AppColors.black,
-          ),
-        ),
-        const SizedBox(
-          width: 15,
-        ),
-        IconButton(
-          constraints: BoxConstraints(maxWidth: maxWidth),
-          iconSize: iconSize,
-          onPressed: isLogged ? onUpVote : null,
-          icon: Icon(
+        InkWell(
+          onTap: isLogged ? onUpVote : null,
+          child: Icon(
             Icons.thumb_up_alt_outlined,
             color: upVotes > 0 ? AppColors.deepPurple : AppColors.black,
+            size: iconSize,
           ),
         ),
+        const SizedBox(width: 5),
+        WVoteText(votes: upVotes),
+        const SizedBox(width: 5),
+        InkWell(
+          onTap: isLogged ? onDownVote : null,
+          child: Icon(
+            Icons.thumb_down_alt_outlined,
+            color: downVotes > 0 ? AppColors.favorite : AppColors.black,
+            size: iconSize,
+            textDirection: TextDirection.rtl,
+          ),
+        ),
+        const SizedBox(width: 5),
+        WVoteText(votes: downVotes),
       ],
     );
   }

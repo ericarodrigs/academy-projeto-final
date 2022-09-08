@@ -30,6 +30,7 @@ class HomeModule extends Module {
         videosRepository: i(),
         commentRepository: i(),
         loggedState: i(),
+        videosState: i(),
       ),
       isSingleton: false,
     ),

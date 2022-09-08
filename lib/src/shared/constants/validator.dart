@@ -59,4 +59,11 @@ class Validator {
     }
     return null;
   }
+
+  static String? validateComment(String? message) {
+    if (message == null || message.isEmpty) {
+      return 'A mensagem não pode ser vazia.';
+    }
+    return null;
+  }
 }
