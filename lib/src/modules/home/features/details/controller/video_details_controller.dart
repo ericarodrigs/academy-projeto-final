@@ -19,10 +19,10 @@ import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 part 'video_details_controller.g.dart';
 
-class VideoDetailsController = _VideoDetailsController with _$VideoDetailsController;
+class VideoDetailsController = _VideoDetailsController
+    with _$VideoDetailsController;
 
 abstract class _VideoDetailsController with Store {
-
   VideosRepository videosRepository;
   CommentRepository commentRepository;
   LoggedState loggedState;
@@ -31,7 +31,7 @@ abstract class _VideoDetailsController with Store {
   late YoutubePlayerController youtubePlayerController;
   TextEditingController textController = TextEditingController();
   final GlobalKey<FormState> commentsKey = GlobalKey<FormState>();
- 
+
   String videoId = '';
   String relatedError = '';
   String videoError = '';
@@ -160,7 +160,8 @@ abstract class _VideoDetailsController with Store {
     }
   }
 
-  void onLoadImgAvatarError(BuildContext context, Object? err, StackTrace? stackTrace) {
+  void onLoadImgAvatarError(
+      BuildContext context, Object? err, StackTrace? stackTrace) {
     log(err.toString());
     if (!hasImgAvatarError) {
       _showSnackBarError(
@@ -187,7 +188,8 @@ abstract class _VideoDetailsController with Store {
         (await commentRepository.deleteComment(videoId, comment.id)).fold(
           (fail) {
             comments.insert(index, comment);
-            _showSnackBarError(context, 'Houve um erro ao deletar o comentário.');
+            _showSnackBarError(
+                context, 'Houve um erro ao deletar o comentário.');
           },
           (success) => null,
         );
@@ -195,7 +197,8 @@ abstract class _VideoDetailsController with Store {
       () {
         Modular.to.pop();
       },
-      content: 'Tem certeza que deseja deletar o comentário: \n ${comment.texto}',
+      content:
+          'Tem certeza que deseja deletar o comentário: \n ${comment.text}',
     );
   }
 
@@ -231,7 +234,8 @@ abstract class _VideoDetailsController with Store {
     }
   }
 
-  Future<void> voteComment(BuildContext context, String commentId, bool isUp) async {
+  Future<void> voteComment(
+      BuildContext context, String commentId, bool isUp) async {
     if (loggedState.isLogged) {
       _updateCommentVote(commentId, isUp);
       (await commentRepository.voteComment(
@@ -318,7 +322,8 @@ abstract class _VideoDetailsController with Store {
   void initYoutubeController() {
     youtubePlayerController = YoutubePlayerController(
       initialVideoId: YoutubePlayerController.convertUrlToId(video.url)!,
-      params: const YoutubePlayerParams(autoPlay: false, showFullscreenButton: true),
+      params: const YoutubePlayerParams(
+          autoPlay: false, showFullscreenButton: true),
     )
       ..onEnterFullscreen = () {
         SystemChrome.setPreferredOrientations([
