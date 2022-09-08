@@ -3,43 +3,40 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/modules/home/features/details/model/comment_model.dart';
 
 import 'package:rarovideowall/src/modules/home/features/details/model/comment_repository.dart';
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
-import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/show_popups.dart';
 import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
 import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 part 'video_details_controller.g.dart';
 
-class VideoDetailsController = _VideoDetailsController
-    with _$VideoDetailsController;
+class VideoDetailsController = _VideoDetailsController with _$VideoDetailsController;
 
 abstract class _VideoDetailsController with Store {
   VideosRepository videosRepository;
   CommentRepository commentRepository;
   LoggedState loggedState;
+  late YoutubePlayerController youtubePlayerController;
+  String videoId = '';
+  String relatedError = '';
+  String videoError = '';
+  String commentsError = '';
+
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   _VideoDetailsController({
     required this.videosRepository,
     required this.commentRepository,
     required this.loggedState,
   });
-
-  String videoId = '';
-
-  String relatedError = '';
-
-  String videoError = '';
-
-  String commentsError = '';
-
-  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @observable
   VideoModel video = VideoModel(
@@ -79,8 +76,7 @@ abstract class _VideoDetailsController with Store {
     getComments();
   }
 
-  void onLoadImgAvatarError(
-      BuildContext context, Object? err, StackTrace? stackTrace) {
+  void onLoadImgAvatarError(BuildContext context, Object? err, StackTrace? stackTrace) {
     log(err.toString());
     if (!hasImgAvatarError) {
       _showSnackBarError(
@@ -104,8 +100,7 @@ abstract class _VideoDetailsController with Store {
         (await commentRepository.deleteComment(videoId, comment.id)).fold(
           (fail) {
             comments.insert(index, comment);
-            _showSnackBarError(
-                context, 'Houve um erro ao deletar o comentário.');
+            _showSnackBarError(context, 'Houve um erro ao deletar o comentário.');
           },
           (success) => null,
         );
@@ -114,13 +109,13 @@ abstract class _VideoDetailsController with Store {
       () {
         Modular.to.pop();
       },
-      content:
-          'Tem certeza que deseja deletar o comentário: \n ${comment.texto}',
+      content: 'Tem certeza que deseja deletar o comentário: \n ${comment.texto}',
     );
   }
 
   final List<String> _upVoteComments = [];
   final List<String> _downVoteComments = [];
+
   //Revisar essa logica pq ficou muito complexa
   @action
   void _updateCommentVote(String commentId, bool isUp) {
@@ -150,8 +145,7 @@ abstract class _VideoDetailsController with Store {
     }
   }
 
-  Future<void> voteComment(
-      BuildContext context, String commentId, bool isUp) async {
+  Future<void> voteComment(BuildContext context, String commentId, bool isUp) async {
     if (loggedState.isLogged) {
       _updateCommentVote(commentId, isUp);
       (await commentRepository.voteComment(
@@ -204,16 +198,16 @@ abstract class _VideoDetailsController with Store {
   @action
   Future<void> getVideo() async {
     changeVideoLoadState(LoadState.loading);
-    (await videosRepository.getVideo(videoId)).fold(
-      (fail) {
-        changeVideoLoadState(LoadState.error);
-        videoError = fail.message;
-      },
-      (videoInfo) {
-        video = videoInfo;
-        changeVideoLoadState(LoadState.done);
-      },
-    );
+    (await videosRepository.getVideo(videoId)).fold((fail) {
+      changeVideoLoadState(LoadState.error);
+      videoError = fail.message;
+    }, (videoInfo) {
+      video = videoInfo;
+      if (getIsYoutube()) {
+        initYoutubeController();
+      }
+      changeVideoLoadState(LoadState.done);
+    });
   }
 
   @action
@@ -229,6 +223,31 @@ abstract class _VideoDetailsController with Store {
   @action
   Future<void> changeCommentsState(LoadState state) async {
     commentsState = state;
+  }
+
+  bool getIsYoutube() {
+    return video.url.contains('youtube') ? true : false;
+  }
+
+  void initYoutubeController() {
+    youtubePlayerController = YoutubePlayerController(
+      initialVideoId: YoutubePlayerController.convertUrlToId(video.url)!,
+      params: const YoutubePlayerParams(autoPlay: false, showFullscreenButton: true),
+    )
+      ..onEnterFullscreen = () {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.landscapeRight,
+          DeviceOrientation.landscapeLeft,
+        ]);
+      }
+      ..onExitFullscreen = () {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitDown,
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.landscapeRight,
+          DeviceOrientation.landscapeLeft,
+        ]);
+      };
   }
 }
 

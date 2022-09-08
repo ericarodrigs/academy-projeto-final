@@ -5,6 +5,7 @@ import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_title_and_text.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_error_reload.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_inapp_webview.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class WClassVideo extends StatelessWidget {
   const WClassVideo({
@@ -36,7 +37,9 @@ class WClassVideo extends StatelessWidget {
                     onPressed: videoDetailsController.getVideo,
                   );
                 case LoadState.done:
-                  return SizedBox(
+                  return videoDetailsController.getIsYoutube() ? YoutubePlayerIFrame(
+                    controller: videoDetailsController.youtubePlayerController,
+                  ) : SizedBox(
                     height: MediaQuery.of(context).size.width / 1.5,
                     width: MediaQuery.of(context).size.width,
                     child: WInappWebView(
