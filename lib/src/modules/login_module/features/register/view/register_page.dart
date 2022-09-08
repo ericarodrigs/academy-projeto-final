@@ -5,6 +5,7 @@ import 'package:rarovideowall/src/modules/login_module/features/register/control
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/validator.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
+import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_text_form_field.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -67,9 +68,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.visiblePassword,
                       obscureText: registerController.isHiddenPassword,
-                      togglePasswordView: () {
-                        registerController.changePasswordVisibility();
-                      },
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          registerController.isHiddenPassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: registerController.changePasswordVisibility,
+                      ),
                       text: 'Digite sua senha',
                     ),
                   ),
@@ -85,7 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   Visibility(
                       visible: !registerController.isFieldEnabled(),
-                      child: const CircularProgressIndicator()),
+                      child: const WCircularProgressIndicator()),
                   Visibility(
                       visible:
                           registerController.errorText != null ? true : false,
