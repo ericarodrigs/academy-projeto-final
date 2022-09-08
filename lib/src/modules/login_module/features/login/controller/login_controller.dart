@@ -17,7 +17,7 @@ abstract class _LoginController with Store {
   final LocalStorageUserRepository localStorageUserRepository;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController pwController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   _LoginController({
     required this.loginRepository,
@@ -69,14 +69,14 @@ abstract class _LoginController with Store {
     );
   }
 
-  Future<void> saveLocalStorageLogin(LoginUserModel userLogin) async {
-    localStorageUserRepository.save(userLogin);
+  Future<void> saveLocalStorageLogin(LoginUserModel loginUserModel) async {
+    localStorageUserRepository.save(loginUserModel);
   }
 
   LoginUserModel _getLogin() {
     return LoginUserModel(
       email: emailController.text,
-      senha: pwController.text,
+      password: passwordController.text,
     );
   }
 

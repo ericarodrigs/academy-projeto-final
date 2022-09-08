@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 18),
                     child: WTextFormField(
                         isEnabled: loginController.isFieldEnabled(),
-                        controller: loginController.pwController,
+                        controller: loginController.passwordController,
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: loginController.isHiddenPassword,

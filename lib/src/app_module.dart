@@ -9,25 +9,26 @@ import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
 import 'package:rarovideowall/src/shared/interfaces/local_storage_service.dart';
 import 'package:rarovideowall/src/shared/interfaces/videos_repository_interface.dart';
 
-import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
 import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
 import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
-import 'package:rarovideowall/src/shared/services/dio_service.dart';
-import 'package:rarovideowall/src/shared/services/shared_preferences_service.dart';
 
 import 'shared/interfaces/login_repository_interface.dart';
+import 'shared/repositories/local_storage_user_repository.dart';
+import 'shared/services/dio/dio_service.dart';
+import 'shared/services/storage_service.dart';
 
 class AppModule extends Module {
   @override
   final List<Bind> binds = [
     Bind<ApiService>((i) => DioService.instance),
-    Bind<LocalStorageService>((i) => SharedPreferencesService.instance),
+    Bind<LocalStorageService>((i) => StorageService.instance),
     Bind<LoggedState>((i) => LoggedState.instance),
     Bind<VideosState>((i) => VideosState.instance),
     Bind<ILoginRepository>(
       (i) => LoginRepository(
         loggedState: i(),
         service: i(),
+        localStorageUserRepository: i(),
       ),
     ),
     Bind<IVideosRepository>(

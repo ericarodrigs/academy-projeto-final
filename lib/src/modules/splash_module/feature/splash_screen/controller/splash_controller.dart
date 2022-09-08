@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
@@ -5,6 +7,8 @@ import 'package:rarovideowall/src/modules/home/features/home/controller/home_con
 
 import 'package:rarovideowall/src/modules/splash_module/interfaces/splash_controller_interface.dart';
 import 'package:rarovideowall/src/modules_route_names.dart';
+import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state.dart';
+import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 import 'package:rarovideowall/src/shared/interfaces/videos_repository_interface.dart';
 
@@ -16,13 +20,17 @@ part 'splash_controller.g.dart';
 class SplashController = _SplashController with _$SplashController;
 
 abstract class _SplashController with Store implements ISplashController {
-  final LocalStorageUserRepository localStorageUserRepository;
   final ILoginRepository loginRepository;
+  final LocalStorageUserRepository localStorageUserRepository;
+  final LoggedState loggedState;
+  final ApiService service;
   final IVideosRepository videosRepository;
 
   _SplashController({
-    required this.localStorageUserRepository,
     required this.loginRepository,
+    required this.localStorageUserRepository,
+    required this.loggedState,
+    required this.service,
     required this.videosRepository,
   });
 
@@ -37,18 +45,15 @@ abstract class _SplashController with Store implements ISplashController {
   @override
   Future<void> tryLocalStorageLogin() async {
     (await localStorageUserRepository.get()).fold(
-      (error) => _getAllVideos(),
-      (userLogin) async {
-        (await loginRepository.login(userLogin)).fold(
-          _failStateNavigate,
-          (success) => {
-            _syncLoggedVideos(),
-            _getAllVideos(),
-            changePageState(PageState.fine),
-          },
-        );
-      },
-    );
+        (error) => _getAllVideos(),
+        (loginUserModel) async =>
+            (await loginRepository.login(loginUserModel)).fold(
+                (error) => _getAllVideos(),
+                (success) => {
+                      _syncLoggedVideos(),
+                      _getAllVideos(),
+                      changePageState(PageState.fine),
+                    }));
   }
 
   void _getAllVideos() async => (await videosRepository.getAllVideos()).fold(

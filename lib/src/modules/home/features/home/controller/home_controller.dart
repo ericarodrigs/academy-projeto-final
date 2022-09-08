@@ -13,7 +13,6 @@ import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.d
 import 'package:rarovideowall/src/shared/interfaces/videos_repository_interface.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
-import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
 
 part 'home_controller.g.dart';
 
@@ -24,14 +23,12 @@ abstract class _HomeControllerBase with Store {
   final VideosState videosState;
   final IVideosRepository videosRepository;
   final ILoginRepository loginRepository;
-  final LocalStorageUserRepository localStorageUserRepository;
 
   _HomeControllerBase({
     required this.loggedState,
     required this.videosState,
     required this.videosRepository,
     required this.loginRepository,
-    required this.localStorageUserRepository,
   });
 
   bool get isLogged => loggedState.isLogged;
@@ -83,7 +80,6 @@ abstract class _HomeControllerBase with Store {
 
   Future<void> logoutAction() async {
     loginRepository.logout();
-    localStorageUserRepository.delete();
     refreshVideos();
   }
 

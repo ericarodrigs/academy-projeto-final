@@ -3,5 +3,5 @@ abstract class LocalStorageService {
 
   Future<String?> read(String key);
 
-  Future<void> delete(String key);
+  Future<void> deleteAll();
 }
