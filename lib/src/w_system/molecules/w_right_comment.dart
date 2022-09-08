@@ -30,45 +30,40 @@ class WRightComment extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        InkWell(
-          onLongPress: onDelete,
-          child: WUserAvatar(
-            user: comment.aluno,
-            isRight: true,
-            onLoadError: onLoadImgAvatarError,
-            hasError: hasImgAvatarError,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            WVoteButton(
+              onDownVote: onDownVote,
+              onUpVote: onUpVote,
+              downVotes: comment.downVotes,
+              upVotes: comment.upVotes,
+              mainAxisAlignment: MainAxisAlignment.end,
+              isLogged: true,
+            ),
+            const SizedBox(width: 18),
+            InkWell(
+              onLongPress: onDelete,
+              child: WUserAvatar(
+                user: comment.aluno,
+                isRight: true,
+                onLoadError: onLoadImgAvatarError,
+                hasError: hasImgAvatarError,
+              ),
+            ),
+          ],
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(24, 5, 30, 0),
-          child: Stack(
-            children: [
-              ConstrainedBox(
-                constraints: const BoxConstraints(
-                  minHeight: 50,
-                  minWidth: 60,
-                ),
-                child: InkWell(
-                  onLongPress: onEdit,
-                  child: Text(
-                    comment.texto,
-                    style: TextStyles.black14w400Urbanist,
-                  ),
-                ),
+          padding: const EdgeInsets.fromLTRB(30, 6, 24, 0),
+          child: InkWell(
+            onLongPress: onEdit,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 20),
+              child: Text(
+                comment.texto,
+                style: TextStyles.black14w400Urbanist,
               ),
-              Positioned(
-                left: 0,
-                bottom: 2,
-                child: WVoteButton(
-                  onDownVote: onDownVote,
-                  onUpVote: onUpVote,
-                  downVotes: comment.downVotes,
-                  upVotes: comment.upVotes,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  isLogged: true,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ],

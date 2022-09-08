@@ -52,30 +52,36 @@ class WCommentList extends StatelessWidget {
         itemBuilder: (_, index) {
           bool isLoggedUser = comments[index].aluno.id == userId;
           return isLoggedUser
-              ? WRightComment(
-                  onDelete: () => onDelete(comments[index]),
-                  onEdit: () => onEdit(comments[index]),
-                  comment: comments[index],
-                  onDownVote: () {
-                    onDownVote(comments[index]);
-                  },
-                  onUpVote: () {
-                    onUpVote(comments[index]);
-                  },
-                  onLoadImgAvatarError: onLoadImgAvatarError,
-                  hasImgAvatarError: hasImgAvatarError,
+              ? Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: WRightComment(
+                    onDelete: () => onDelete(comments[index]),
+                    onEdit: () => onEdit(comments[index]),
+                    comment: comments[index],
+                    onDownVote: () {
+                      onDownVote(comments[index]);
+                    },
+                    onUpVote: () {
+                      onUpVote(comments[index]);
+                    },
+                    onLoadImgAvatarError: onLoadImgAvatarError,
+                    hasImgAvatarError: hasImgAvatarError,
+                  ),
                 )
-              : WLeftComment(
-                  comment: comments[index],
-                  onDownVote: () {
-                    onDownVote(comments[index]);
-                  },
-                  onUpVote: () {
-                    onUpVote(comments[index]);
-                  },
-                  hasImgAvatarError: hasImgAvatarError,
-                  onLoadImgAvatarError: onLoadImgAvatarError,
-                  isLogged: isLogged,
+              : Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: WLeftComment(
+                    comment: comments[index],
+                    onDownVote: () {
+                      onDownVote(comments[index]);
+                    },
+                    onUpVote: () {
+                      onUpVote(comments[index]);
+                    },
+                    hasImgAvatarError: hasImgAvatarError,
+                    onLoadImgAvatarError: onLoadImgAvatarError,
+                    isLogged: isLogged,
+                  ),
                 );
         },
       );

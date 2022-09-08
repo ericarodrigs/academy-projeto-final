@@ -28,38 +28,33 @@ class WLeftComment extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        WUserAvatar(
-          user: comment.aluno,
-          onLoadError: onLoadImgAvatarError,
-          hasError: hasImgAvatarError,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            WUserAvatar(
+              user: comment.aluno,
+              onLoadError: onLoadImgAvatarError,
+              hasError: hasImgAvatarError,
+            ),
+            const SizedBox(width: 18),
+            WVoteButton(
+              onDownVote: onDownVote,
+              onUpVote: onUpVote,
+              downVotes: comment.downVotes,
+              upVotes: comment.upVotes,
+              mainAxisAlignment: MainAxisAlignment.end,
+              isLogged: isLogged,
+            ),
+          ],
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(30, 5, 24, 0),
-          child: Stack(
-            children: [
-              ConstrainedBox(
-                constraints: const BoxConstraints(
-                  minHeight: 50,
-                  minWidth: 60,
-                ),
-                child: Text(
-                  comment.texto,
-                  style: TextStyles.black14w400Urbanist,
-                ),
-              ),
-              Positioned(
-                right: 0,
-                bottom: 2,
-                child: WVoteButton(
-                  onDownVote: onDownVote,
-                  onUpVote: onUpVote,
-                  downVotes: comment.downVotes,
-                  upVotes: comment.upVotes,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  isLogged: isLogged,
-                ),
-              ),
-            ],
+          padding: const EdgeInsets.fromLTRB(24, 6, 30, 0),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 20),
+            child: Text(
+              comment.texto,
+              style: TextStyles.black14w400Urbanist,
+            ),
           ),
         ),
       ],
