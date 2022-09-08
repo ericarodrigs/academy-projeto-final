@@ -3,6 +3,7 @@ import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/models/user_model.dart';
+import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
 
 class WUserAvatar extends StatelessWidget {
   const WUserAvatar({
@@ -41,7 +42,7 @@ class WUserAvatar extends StatelessWidget {
                 radius: 20,
                 child: hasError
                     ? const Icon(Icons.warning_amber, color: AppColors.black)
-                    : const CircularProgressIndicator(),
+                    : const WCircularProgressIndicator(),
               ),
             ]
           : [
@@ -52,7 +53,7 @@ class WUserAvatar extends StatelessWidget {
                 radius: 20,
                 child: hasError
                     ? const Icon(Icons.warning_amber, color: AppColors.black)
-                    : const CircularProgressIndicator(),
+                    : const WCircularProgressIndicator(),
               ),
               const SizedBox(
                 width: 10,

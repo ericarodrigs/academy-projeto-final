@@ -4,38 +4,38 @@ import 'package:rarovideowall/src/shared/models/user_model.dart';
 
 class CommentModel {
   final String id;
-  final String texto;
-  final bool editado;
+  final String text;
+  final bool edited;
   final String createdAt;
-  final UserModel aluno;
+  final UserModel student;
   int upVotes;
   int downVotes;
 
   CommentModel({
     required this.id,
-    required this.texto,
-    required this.editado,
+    required this.text,
+    required this.edited,
     required this.createdAt,
-    required this.aluno,
+    required this.student,
     required this.upVotes,
     required this.downVotes,
   });
 
   CommentModel copyWith({
     String? id,
-    String? texto,
-    bool? editado,
+    String? text,
+    bool? edited,
     String? createdAt,
-    UserModel? aluno,
+    UserModel? student,
     int? upVotes,
     int? downVotes,
   }) {
     return CommentModel(
       id: id ?? this.id,
-      texto: texto ?? this.texto,
-      editado: editado ?? this.editado,
+      text: text ?? this.text,
+      edited: edited ?? this.edited,
       createdAt: createdAt ?? this.createdAt,
-      aluno: aluno ?? this.aluno,
+      student: student ?? this.student,
       upVotes: upVotes ?? this.upVotes,
       downVotes: downVotes ?? this.downVotes,
     );
@@ -44,10 +44,10 @@ class CommentModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'texto': texto,
-      'editado': editado,
+      'texto': text,
+      'editado': edited,
       'createdAt': createdAt,
-      'aluno': aluno.toMap(),
+      'aluno': student.toMap(),
       'upVotes': upVotes,
       'downVotes': downVotes,
     };
@@ -56,10 +56,10 @@ class CommentModel {
   factory CommentModel.fromMap(Map<String, dynamic> map) {
     return CommentModel(
       id: map['id'] ?? '',
-      texto: map['texto'] ?? '',
-      editado: map['editado'] ?? false,
+      text: map['texto'] ?? '',
+      edited: map['editado'] ?? false,
       createdAt: map['createdAt'] ?? '',
-      aluno: UserModel.fromMap(map['aluno'] ?? {}),
+      student: UserModel.fromMap(map['aluno'] ?? {}),
       upVotes: map['upVotes']?.toInt() ?? 0,
       downVotes: map['downVotes']?.toInt() ?? 0,
     );
@@ -72,7 +72,7 @@ class CommentModel {
 
   @override
   String toString() {
-    return 'CommentModel(id: $id, texto: $texto, editado: $editado, createdAt: $createdAt, aluno: $aluno, upVotes: $upVotes, downVotes: $downVotes)';
+    return 'CommentModel(id: $id, texto: $text, editado: $edited, createdAt: $createdAt, aluno: $student, upVotes: $upVotes, downVotes: $downVotes)';
   }
 
   @override
@@ -81,10 +81,10 @@ class CommentModel {
 
     return other is CommentModel &&
         other.id == id &&
-        other.texto == texto &&
-        other.editado == editado &&
+        other.text == text &&
+        other.edited == edited &&
         other.createdAt == createdAt &&
-        other.aluno == aluno &&
+        other.student == student &&
         other.upVotes == upVotes &&
         other.downVotes == downVotes;
   }
@@ -92,10 +92,10 @@ class CommentModel {
   @override
   int get hashCode {
     return id.hashCode ^
-        texto.hashCode ^
-        editado.hashCode ^
+        text.hashCode ^
+        edited.hashCode ^
         createdAt.hashCode ^
-        aluno.hashCode ^
+        student.hashCode ^
         upVotes.hashCode ^
         downVotes.hashCode;
   }
