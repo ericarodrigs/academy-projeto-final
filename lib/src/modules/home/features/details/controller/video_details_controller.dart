@@ -118,7 +118,7 @@ abstract class _VideoDetailsController with Store {
   @action
   void enterEditMode(CommentModel comment) {
     isEditMode = true;
-    textController.text = comment.texto;
+    textController.text = comment.text;
     _editCommentId = comment.id;
   }
 
@@ -197,7 +197,7 @@ abstract class _VideoDetailsController with Store {
         Modular.to.pop();
       },
       content:
-          'Tem certeza que deseja deletar o comentário: \n ${comment.texto}',
+          'Tem certeza que deseja deletar o comentário: \n ${comment.text}',
     );
   }
 

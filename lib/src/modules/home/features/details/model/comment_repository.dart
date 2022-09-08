@@ -30,11 +30,8 @@ class CommentRepository implements ICommentRepository {
           'itensPorPagina': 100,
         },
       );
-      List<dynamic> commentsMap = response.data;
-
-      return Right(
-        commentsMap.map((comment) => CommentModel.fromMap(comment)).toList(),
-      );
+      List<CommentModel> listComments = _getListComments(response.data);
+      return Right(listComments);
     } on Failure catch (fail) {
       log(fail.message);
       return Left(fail);
@@ -158,5 +155,19 @@ class CommentRepository implements ICommentRepository {
         stackTrace: stackTrace,
       ));
     }
+  }
+
+  List<CommentModel> _getListComments(dynamic data) {
+    List<CommentModel> listComments =
+        data.map((comment) => CommentModel.fromMap(comment)).toList();
+
+    listComments.sort((commentA, commentB) {
+      int commentADate =
+          DateTime.parse(commentA.createdAt).microsecondsSinceEpoch;
+      int commentBDate =
+          DateTime.parse(commentB.createdAt).microsecondsSinceEpoch;
+      return commentBDate.compareTo(commentADate);
+    });
+    return listComments;
   }
 }

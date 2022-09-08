@@ -45,7 +45,7 @@ class WRightComment extends StatelessWidget {
             InkWell(
               onLongPress: onDelete,
               child: WUserAvatar(
-                user: comment.aluno,
+                user: comment.student,
                 isRight: true,
                 onLoadError: onLoadImgAvatarError,
                 hasError: hasImgAvatarError,
@@ -60,7 +60,7 @@ class WRightComment extends StatelessWidget {
             child: ConstrainedBox(
               constraints: const BoxConstraints(minHeight: 20),
               child: Text(
-                comment.texto,
+                comment.text,
                 style: TextStyles.black14w400Urbanist,
               ),
             ),

@@ -50,7 +50,7 @@ class WCommentList extends StatelessWidget {
   Widget _listView() => ListView.builder(
         itemCount: comments.length,
         itemBuilder: (_, index) {
-          bool isLoggedUser = comments[index].aluno.id == userId;
+          bool isLoggedUser = comments[index].student.id == userId;
           return isLoggedUser
               ? Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),

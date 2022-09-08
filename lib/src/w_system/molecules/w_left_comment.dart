@@ -32,7 +32,7 @@ class WLeftComment extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             WUserAvatar(
-              user: comment.aluno,
+              user: comment.student,
               onLoadError: onLoadImgAvatarError,
               hasError: hasImgAvatarError,
             ),
@@ -52,7 +52,7 @@ class WLeftComment extends StatelessWidget {
           child: ConstrainedBox(
             constraints: const BoxConstraints(minHeight: 20),
             child: Text(
-              comment.texto,
+              comment.text,
               style: TextStyles.black14w400Urbanist,
             ),
           ),
