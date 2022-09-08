@@ -9,6 +9,7 @@ import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_text_button.dart';
+import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_error_card.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_favorite_video_list.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_title_video_list.dart';
@@ -74,7 +75,7 @@ class HomePage extends StatelessWidget {
               );
             case HomeState.loading:
               return const Center(
-                child: CircularProgressIndicator(),
+                child: WCircularProgressIndicator(),
               );
             case HomeState.fail:
               return Padding(

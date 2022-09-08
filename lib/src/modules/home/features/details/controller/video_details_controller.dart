@@ -5,13 +5,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'package:rarovideowall/src/modules/home/features/details/model/comment_model.dart';
 
+import 'package:rarovideowall/src/modules/home/features/details/model/comment_model.dart';
 import 'package:rarovideowall/src/modules/home/features/details/model/comment_repository.dart';
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
-import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/show_popups.dart';
 import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state.dart';
+import 'package:rarovideowall/src/shared/global_states/videos_state/videos_state.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
 import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
 
@@ -24,11 +24,13 @@ abstract class _VideoDetailsController with Store {
   VideosRepository videosRepository;
   CommentRepository commentRepository;
   LoggedState loggedState;
+  VideosState videosState;
 
   _VideoDetailsController({
     required this.videosRepository,
     required this.commentRepository,
     required this.loggedState,
+    required this.videosState,
   });
 
   String videoId = '';
@@ -38,8 +40,10 @@ abstract class _VideoDetailsController with Store {
   String videoError = '';
 
   String commentsError = '';
+  final GlobalKey<FormState> commentsKey = GlobalKey<FormState>();
 
-  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController textController = TextEditingController();
+  String _editCommentId = '';
 
   @observable
   VideoModel video = VideoModel(
@@ -53,6 +57,9 @@ abstract class _VideoDetailsController with Store {
       topico: '',
       thumbUrl: '',
       url: '');
+
+  @observable
+  bool isFavorite = false;
 
   @observable
   LoadState videoLoadState = LoadState.loading;
@@ -77,6 +84,79 @@ abstract class _VideoDetailsController with Store {
     getVideo();
     getRecommendedVideos();
     getComments();
+    _setIsFavorite(
+      videosState.favoriteVideos.any(
+        (video) => video.id == videoId,
+      ),
+    );
+  }
+
+  @observable
+  bool isEditMode = false;
+
+  @action
+  void _setIsFavorite(bool value) => isFavorite = value;
+
+  void favoriteVideo(BuildContext context) async {
+    ///Toggle favorite
+    _setIsFavorite(!isFavorite);
+
+    ///Recover the toggled favorite
+    (await videosRepository.toggleFavorite(
+      videoId,
+      isFavorite: !isFavorite,
+    ))
+        .fold(
+      (fail) {
+        _showSnackBarError(context, fail.message);
+        _setIsFavorite(!isFavorite);
+      },
+      (success) => videosRepository.getFavoriteVideos(),
+    );
+  }
+
+  @action
+  void enterEditMode(CommentModel comment) {
+    isEditMode = true;
+    textController.text = comment.text;
+    _editCommentId = comment.id;
+  }
+
+  @action
+  void exitEditMode() {
+    if (isEditMode) {
+      textController.clear();
+      isEditMode = false;
+    }
+  }
+
+  void editComment(BuildContext context) async {
+    if (commentsKey.currentState?.validate() ?? false) {
+      (await commentRepository.editComment(
+        videoId,
+        _editCommentId,
+        textController.text,
+      ))
+          .fold(
+        (fail) {
+          _showSnackBarError(context, fail.message);
+        },
+        (comment) => getComments(),
+      );
+      exitEditMode();
+    }
+  }
+
+  Future<void> sendComment(BuildContext context) async {
+    if (commentsKey.currentState?.validate() ?? false) {
+      (await commentRepository.postComment(videoId, textController.text)).fold(
+        (fail) => _showSnackBarError(context, fail.message),
+        (comment) {
+          getComments();
+          textController.clear();
+        },
+      );
+    }
   }
 
   void onLoadImgAvatarError(
@@ -96,9 +176,12 @@ abstract class _VideoDetailsController with Store {
   }
 
   void deleteComment(BuildContext context, CommentModel comment) {
+    FocusScope.of(context).unfocus();
     ShowPopups.showDeleteAlertDialog(
       context,
       () async {
+        exitEditMode();
+        Modular.to.pop();
         int index = comments.indexOf(comment);
         comments.remove(comment);
         (await commentRepository.deleteComment(videoId, comment.id)).fold(
@@ -109,13 +192,12 @@ abstract class _VideoDetailsController with Store {
           },
           (success) => null,
         );
-        Modular.to.pop();
       },
       () {
         Modular.to.pop();
       },
       content:
-          'Tem certeza que deseja deletar o comentário: \n ${comment.texto}',
+          'Tem certeza que deseja deletar o comentário: \n ${comment.text}',
     );
   }
 

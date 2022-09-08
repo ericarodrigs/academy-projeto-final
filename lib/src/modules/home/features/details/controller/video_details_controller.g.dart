@@ -25,6 +25,22 @@ mixin _$VideoDetailsController on _VideoDetailsController, Store {
     });
   }
 
+  late final _$isFavoriteAtom =
+      Atom(name: '_VideoDetailsController.isFavorite', context: context);
+
+  @override
+  bool get isFavorite {
+    _$isFavoriteAtom.reportRead();
+    return super.isFavorite;
+  }
+
+  @override
+  set isFavorite(bool value) {
+    _$isFavoriteAtom.reportWrite(value, super.isFavorite, () {
+      super.isFavorite = value;
+    });
+  }
+
   late final _$videoLoadStateAtom =
       Atom(name: '_VideoDetailsController.videoLoadState', context: context);
 
@@ -121,6 +137,22 @@ mixin _$VideoDetailsController on _VideoDetailsController, Store {
     });
   }
 
+  late final _$isEditModeAtom =
+      Atom(name: '_VideoDetailsController.isEditMode', context: context);
+
+  @override
+  bool get isEditMode {
+    _$isEditModeAtom.reportRead();
+    return super.isEditMode;
+  }
+
+  @override
+  set isEditMode(bool value) {
+    _$isEditModeAtom.reportWrite(value, super.isEditMode, () {
+      super.isEditMode = value;
+    });
+  }
+
   late final _$getCommentsAsyncAction =
       AsyncAction('_VideoDetailsController.getComments', context: context);
 
@@ -181,6 +213,39 @@ mixin _$VideoDetailsController on _VideoDetailsController, Store {
       ActionController(name: '_VideoDetailsController', context: context);
 
   @override
+  void _setIsFavorite(bool value) {
+    final _$actionInfo = _$_VideoDetailsControllerActionController.startAction(
+        name: '_VideoDetailsController._setIsFavorite');
+    try {
+      return super._setIsFavorite(value);
+    } finally {
+      _$_VideoDetailsControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void enterEditMode(CommentModel comment) {
+    final _$actionInfo = _$_VideoDetailsControllerActionController.startAction(
+        name: '_VideoDetailsController.enterEditMode');
+    try {
+      return super.enterEditMode(comment);
+    } finally {
+      _$_VideoDetailsControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void exitEditMode() {
+    final _$actionInfo = _$_VideoDetailsControllerActionController.startAction(
+        name: '_VideoDetailsController.exitEditMode');
+    try {
+      return super.exitEditMode();
+    } finally {
+      _$_VideoDetailsControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void _updateCommentVote(String commentId, bool isUp) {
     final _$actionInfo = _$_VideoDetailsControllerActionController.startAction(
         name: '_VideoDetailsController._updateCommentVote');
@@ -195,12 +260,14 @@ mixin _$VideoDetailsController on _VideoDetailsController, Store {
   String toString() {
     return '''
 video: ${video},
+isFavorite: ${isFavorite},
 videoLoadState: ${videoLoadState},
 relatedState: ${relatedState},
 commentsState: ${commentsState},
 relatedVideos: ${relatedVideos},
 comments: ${comments},
-hasImgAvatarError: ${hasImgAvatarError}
+hasImgAvatarError: ${hasImgAvatarError},
+isEditMode: ${isEditMode}
     ''';
   }
 }
