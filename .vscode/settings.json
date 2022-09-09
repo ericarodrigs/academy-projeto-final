@@ -5,12 +5,15 @@
         "dartz",
         "descricao",
         "duracao",
+        "Fullscreen",
+        "iframe",
         "inapp",
         "Inapp",
         "Publicacao",
         "r'aul",
         "rarovideowall",
         "recomendacoes",
-        "topico"
+        "topico",
+        "youtube"
     ]
 }

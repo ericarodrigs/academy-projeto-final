@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'package:rarovideowall/src/modules/home/features/details/controller/video_details_controller.dart';
-import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_favorite.dart';
 import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
@@ -41,15 +40,18 @@ class WClassVideo extends StatelessWidget {
                     onPressed: videoDetailsController.getVideo,
                   );
                 case LoadState.done:
-                  return videoDetailsController.getIsYoutube() ? YoutubePlayerIFrame(
-                    controller: videoDetailsController.youtubePlayerController,
-                  ) : SizedBox(
-                    height: MediaQuery.of(context).size.width / 1.5,
-                    width: MediaQuery.of(context).size.width,
-                    child: WInappWebView(
-                      url: videoDetailsController.video.url,
-                    ),
-                  );
+                  return videoDetailsController.getIsYoutube()
+                      ? YoutubePlayerIFrame(
+                          controller:
+                              videoDetailsController.youtubePlayerController,
+                        )
+                      : SizedBox(
+                          height: MediaQuery.of(context).size.width / 1.5,
+                          width: MediaQuery.of(context).size.width,
+                          child: WInappWebView(
+                            url: videoDetailsController.video.url,
+                          ),
+                        );
               }
             },
           ),

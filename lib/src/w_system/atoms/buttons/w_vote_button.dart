@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
-import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_vote_text.dart';
 
 class WVoteButton extends StatelessWidget {
