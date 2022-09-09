@@ -49,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                         controller: loginController.emailController,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.emailAddress,
+                        validator: Validator.validateEmailFilled,
                         text: 'E-mail'),
                   ),
                   Padding(
@@ -58,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                         controller: loginController.passwordController,
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.visiblePassword,
+                        validator: Validator.validatePasswordFilled,
                         obscureText: loginController.isHiddenPassword,
                         suffixIcon: IconButton(
                           icon: Icon(
