@@ -11,7 +11,6 @@ class WEmptyFavoriteInstruction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
       width: double.infinity,
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.purple, width: 1),
@@ -36,18 +35,29 @@ class WEmptyFavoriteInstruction extends StatelessWidget {
               style: TextStyles.black14BoldUrbanist,
             ),
             const WDotText(text: 'Clique em qualquer video.'),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                WDotText(
-                  text: 'Na pagina de detalhes clique em Favoritar.',
+            Column(
+              children: [
+                const WDotText(
+                  text: 'Na pagina de detalhes clique em',
                 ),
-                SizedBox(
-                  width: 5,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      'Favoritar:',
+                      style: TextStyles.black14BoldUrbanist,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Icon(Icons.favorite, color: AppColors.favorite)
+                  ],
                 ),
-                Icon(Icons.favorite, color: AppColors.favorite)
               ],
+            ),
+            const SizedBox(
+              height: 5,
             ),
             const Center(
               child: Text(
