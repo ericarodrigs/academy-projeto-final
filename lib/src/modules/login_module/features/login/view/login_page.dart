@@ -47,7 +47,6 @@ class _LoginPageState extends State<LoginPage> {
                     child: WTextFormField(
                         isEnabled: loginController.isFieldEnabled(),
                         controller: loginController.emailController,
-                        validator: Validator.validateEmail,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.emailAddress,
                         text: 'E-mail'),
@@ -56,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 18),
                     child: WTextFormField(
                         isEnabled: loginController.isFieldEnabled(),
-                        controller: loginController.pwController,
+                        controller: loginController.passwordController,
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: loginController.isHiddenPassword,
