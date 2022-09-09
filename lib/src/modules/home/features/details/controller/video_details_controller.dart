@@ -197,8 +197,7 @@ abstract class _VideoDetailsController with Store {
       () {
         Modular.to.pop();
       },
-      content:
-          'Tem certeza que deseja deletar o comentário: \n ${comment.text}',
+      content: 'Tem certeza que deseja deletar o comentário: \n ${comment.text}',
     );
   }
 

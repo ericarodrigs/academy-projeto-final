@@ -104,7 +104,8 @@ abstract class _HomeControllerBase with Store {
     List<VideoModel> weekVideos = [];
 
     for (VideoModel video in videos) {
-      if (video.tags.any((tag) => tag.contains(publicRegExp))) {
+      if (video.tags.any((tag) => tag.contains(publicRegExp)) ||
+          video.url.contains('youtube')) {
         publicVideos.add(video);
       } else if (video.topico.contains(weekRegExp)) {
         weekVideos.add(video);
