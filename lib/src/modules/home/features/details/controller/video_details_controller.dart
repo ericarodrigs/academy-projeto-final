@@ -10,6 +10,7 @@ import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/modules/home/features/details/model/comment_model.dart';
 import 'package:rarovideowall/src/modules/home/features/details/model/comment_repository.dart';
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
+import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/shared/constants/show_popups.dart';
 import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state.dart';
 import 'package:rarovideowall/src/shared/global_states/videos_state/videos_state.dart';
@@ -276,7 +277,7 @@ abstract class _VideoDetailsController with Store {
       },
       (newComments) {
         comments = ObservableList.of(newComments);
-        changeCommentsState(LoadState.done);
+        changeCommentsState(LoadState.success);
       },
     );
   }
@@ -291,7 +292,7 @@ abstract class _VideoDetailsController with Store {
       },
       (videos) {
         relatedVideos = videos;
-        changeRelatedState(LoadState.done);
+        changeRelatedState(LoadState.success);
       },
     );
   }
@@ -307,7 +308,7 @@ abstract class _VideoDetailsController with Store {
       if (getIsYoutube()) {
         initYoutubeController();
       }
-      changeVideoLoadState(LoadState.done);
+      changeVideoLoadState(LoadState.success);
     });
   }
 
@@ -352,5 +353,3 @@ abstract class _VideoDetailsController with Store {
       };
   }
 }
-
-enum LoadState { loading, done, error }

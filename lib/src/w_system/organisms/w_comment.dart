@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'package:rarovideowall/src/modules/home/features/details/controller/video_details_controller.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
+import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/w_system/atoms/widgets/w_divider.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_error_reload.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_new_comment.dart';
@@ -53,7 +54,7 @@ class WComment extends StatelessWidget {
             switch (videoDetailsController.commentsState) {
               case LoadState.loading:
                 return const WCommentsLoad();
-              case LoadState.done:
+              case LoadState.success:
                 return WCommentList(
                   userId: videoDetailsController.loggedState.user?.id ?? '',
                   onDelete: (comment) =>

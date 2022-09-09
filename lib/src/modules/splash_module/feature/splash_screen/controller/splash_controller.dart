@@ -2,11 +2,10 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:mobx/mobx.dart';
-import 'package:rarovideowall/src/modules/home/features/home/controller/home_controller.dart';
 
 import 'package:rarovideowall/src/modules/splash_module/interfaces/splash_controller_interface.dart';
 import 'package:rarovideowall/src/modules_route_names.dart';
+import 'package:rarovideowall/src/shared/constants/load_states.dart';
 
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 import 'package:rarovideowall/src/shared/interfaces/videos_repository_interface.dart';
@@ -45,7 +44,7 @@ class SplashController implements ISplashController {
         _failStateNavigate,
         (success) => Modular.to.pushReplacementNamed(
           ModulesRouteNames.homeModule,
-          arguments: const Right<Failure, HomeState>(HomeState.success),
+          arguments: const Right<Failure, LoadState>(LoadState.success),
         ),
       );
 
@@ -57,6 +56,6 @@ class SplashController implements ISplashController {
 
   void _failStateNavigate(Failure fail) => Modular.to.pushReplacementNamed(
         ModulesRouteNames.homeModule,
-        arguments: Left<Failure, HomeState>(fail),
+        arguments: Left<Failure, LoadState>(fail),
       );
 }
