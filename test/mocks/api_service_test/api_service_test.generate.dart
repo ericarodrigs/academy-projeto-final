@@ -8,7 +8,7 @@ import 'package:rarovideowall/src/modules/login_module/features/register/model/r
 import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
 
 import '../mock_data.dart';
-import 'api_service_test.mocks.dart';
+import 'api_service_test.generate.mocks.dart';
 
 @GenerateMocks([ApiService<Response>])
 class ApiServiceStubs {
