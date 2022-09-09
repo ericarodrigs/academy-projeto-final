@@ -7,8 +7,7 @@ import 'package:rarovideowall/src/modules/home/features/home/controller/home_con
 
 import 'package:rarovideowall/src/modules/splash_module/interfaces/splash_controller_interface.dart';
 import 'package:rarovideowall/src/modules_route_names.dart';
-import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state.dart';
-import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
+
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 import 'package:rarovideowall/src/shared/interfaces/videos_repository_interface.dart';
 
@@ -22,15 +21,12 @@ class SplashController = _SplashController with _$SplashController;
 abstract class _SplashController with Store implements ISplashController {
   final ILoginRepository loginRepository;
   final LocalStorageUserRepository localStorageUserRepository;
-  final LoggedState loggedState;
-  final ApiService service;
+
   final IVideosRepository videosRepository;
 
   _SplashController({
     required this.loginRepository,
     required this.localStorageUserRepository,
-    required this.loggedState,
-    required this.service,
     required this.videosRepository,
   });
 

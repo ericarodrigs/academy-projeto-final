@@ -8,8 +8,6 @@ class SplashModule extends Module {
     Bind<SplashController>((i) => SplashController(
           loginRepository: i(),
           localStorageUserRepository: i(),
-          loggedState: i(),
-          service: i(),
           videosRepository: i(),
         ))
   ];
