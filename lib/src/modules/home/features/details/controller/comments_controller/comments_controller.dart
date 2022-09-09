@@ -25,6 +25,7 @@ abstract class _CommentsControllerBase with Store {
   String _videoId = '';
   final List<String> _upVoteComments = [];
   final List<String> _downVoteComments = [];
+  final FocusNode focusNode = FocusNode();
 
   final ICommentRepository _commentRepository;
   final LoggedState _loggedState;
@@ -60,7 +61,13 @@ abstract class _CommentsControllerBase with Store {
   @action
   void enterEditMode(CommentModel comment) {
     isEditMode = true;
-    textController.text = comment.text;
+    focusNode.requestFocus();
+    textController.text = comment.text.trim();
+    textController.selection = TextSelection.fromPosition(
+      TextPosition(
+        offset: textController.text.length,
+      ),
+    );
     _editCommentId = comment.id;
   }
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:rarovideowall/src/modules/home/features/details/controller/comments_controller/comments_controller.dart';
 
-import 'package:rarovideowall/src/modules/home/features/details/controller/details_controller.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/w_system/atoms/widgets/w_divider.dart';
@@ -38,8 +37,9 @@ class WComment extends StatelessWidget {
               return Visibility(
                 visible: commentController.isLogged,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 16),
+                  padding: const EdgeInsets.fromLTRB(8, 0, 0, 16),
                   child: WNewComment(
+                    focusNode: commentController.focusNode,
                     onSend: () => commentController.sendComment(context),
                     onEdit: () => commentController.editComment(context),
                     onEditCancel: commentController.exitEditMode,
