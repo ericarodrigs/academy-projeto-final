@@ -197,7 +197,8 @@ abstract class _VideoDetailsController with Store {
       () {
         Modular.to.pop();
       },
-      content: 'Tem certeza que deseja deletar o comentário: \n ${comment.text}',
+      content:
+          'Tem certeza que deseja deletar o comentário: \n ${comment.text}',
     );
   }
 
@@ -212,13 +213,20 @@ abstract class _VideoDetailsController with Store {
     );
     CommentModel auxComment = comments[indexComment];
 
+    bool isFirst = !(_upVoteComments.contains(auxComment.id) ||
+        _downVoteComments.contains(auxComment.id));
+
     if (isUp) {
       if (!_upVoteComments.contains(auxComment.id)) {
         _upVoteComments.add(auxComment.id);
         _downVoteComments.remove(auxComment.id);
         comments[indexComment] = auxComment.copyWith(
           upVotes: auxComment.upVotes + 1,
-          downVotes: auxComment.downVotes == 0 ? 0 : auxComment.downVotes - 1,
+          downVotes: isFirst
+              ? auxComment.downVotes
+              : auxComment.downVotes == 0
+                  ? 0
+                  : auxComment.downVotes - 1,
         );
       }
     } else {
@@ -226,7 +234,11 @@ abstract class _VideoDetailsController with Store {
         _downVoteComments.add(auxComment.id);
         _upVoteComments.remove(auxComment.id);
         comments[indexComment] = auxComment.copyWith(
-          upVotes: auxComment.upVotes == 0 ? 0 : auxComment.upVotes - 1,
+          upVotes: isFirst
+              ? auxComment.upVotes
+              : auxComment.upVotes == 0
+                  ? 0
+                  : auxComment.upVotes - 1,
           downVotes: auxComment.downVotes + 1,
         );
       }
