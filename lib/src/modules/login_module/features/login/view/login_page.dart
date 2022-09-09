@@ -47,7 +47,6 @@ class _LoginPageState extends State<LoginPage> {
                     child: WTextFormField(
                         isEnabled: loginController.isFieldEnabled(),
                         controller: loginController.emailController,
-                        validator: Validator.validateEmail,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.emailAddress,
                         text: 'E-mail'),

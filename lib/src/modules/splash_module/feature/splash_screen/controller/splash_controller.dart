@@ -29,14 +29,16 @@ class SplashController implements ISplashController {
   @override
   Future<void> tryLocalStorageLogin() async {
     (await localStorageUserRepository.get()).fold(
+      (error) => _getAllVideos(),
+      (loginUserModel) async =>
+          (await loginRepository.login(loginUserModel)).fold(
         (error) => _getAllVideos(),
-        (loginUserModel) async =>
-            (await loginRepository.login(loginUserModel)).fold(
-                (error) => _getAllVideos(),
-                (success) => {
-                      _syncLoggedVideos(),
-                      _getAllVideos(),
-                    }));
+        (success) => {
+          _syncLoggedVideos(),
+          _getAllVideos(),
+        },
+      ),
+    );
   }
 
   void _getAllVideos() async => (await videosRepository.getAllVideos()).fold(

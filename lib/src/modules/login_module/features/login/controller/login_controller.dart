@@ -63,14 +63,10 @@ abstract class _LoginController with Store {
       },
       (success) {
         changeLoadState(LoadState.done);
-        saveLocalStorageLogin(_getLogin());
+        localStorageUserRepository.save(_getLogin());
         Modular.to.pop();
       },
     );
-  }
-
-  Future<void> saveLocalStorageLogin(LoginUserModel loginUserModel) async {
-    localStorageUserRepository.save(loginUserModel);
   }
 
   LoginUserModel _getLogin() {
