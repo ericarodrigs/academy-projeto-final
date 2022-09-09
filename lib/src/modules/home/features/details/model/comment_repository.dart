@@ -157,7 +157,7 @@ class CommentRepository implements ICommentRepository {
     }
   }
 
-  List<CommentModel> _getListComments(dynamic data) {
+  List<CommentModel> _getListComments(List<dynamic> data) {
     List<CommentModel> listComments =
         data.map((comment) => CommentModel.fromMap(comment)).toList();
 
