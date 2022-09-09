@@ -2,7 +2,6 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/modules/home/features/home/controller/home_controller.dart';
 
 import 'package:rarovideowall/src/modules/splash_module/interfaces/splash_controller_interface.dart';
