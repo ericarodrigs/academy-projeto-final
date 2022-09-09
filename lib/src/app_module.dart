@@ -14,7 +14,7 @@ import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
 
 import 'shared/interfaces/login_repository_interface.dart';
 import 'shared/repositories/local_storage_user_repository.dart';
-import 'shared/services/dio/dio_service.dart';
+import 'shared/services/dio_service.dart';
 import 'shared/services/storage_service.dart';
 
 class AppModule extends Module {

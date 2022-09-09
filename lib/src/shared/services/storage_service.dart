@@ -2,7 +2,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rarovideowall/src/shared/interfaces/local_storage_service.dart';
 
 class StorageService implements LocalStorageService {
-
   StorageService._();
 
   static final StorageService _instance = StorageService._();
@@ -13,12 +12,17 @@ class StorageService implements LocalStorageService {
 
   @override
   Future<String?> read(String key) async {
-   return await storage.read(key: key, aOptions: _getAndroidOptions());
+    return await storage.read(key: key, aOptions: _getAndroidOptions());
   }
 
   @override
   Future<void> save(String key, String value) async {
-    await storage.write(key: key, value: value,  aOptions: _getAndroidOptions());
+    await storage.write(key: key, value: value, aOptions: _getAndroidOptions());
+  }
+
+  @override
+  Future<void> delete(String key) async {
+    await storage.delete(key: key, aOptions: _getAndroidOptions());
   }
 
   @override
@@ -27,7 +31,6 @@ class StorageService implements LocalStorageService {
   }
 
   AndroidOptions _getAndroidOptions() => const AndroidOptions(
-    encryptedSharedPreferences: true,
-  );
-
+        encryptedSharedPreferences: true,
+      );
 }

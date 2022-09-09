@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:rarovideowall/src/shared/constants/keys_storage.dart';
+import 'package:rarovideowall/src/shared/interfaces/local_storage_service.dart';
 
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/modules/login_module/features/login/model/login_user_model.dart';
-import 'package:rarovideowall/src/shared/services/storage_service.dart';
 
 class LocalStorageUserRepository {
-  StorageService service;
+  LocalStorageService service;
 
   LocalStorageUserRepository({
     required this.service,
