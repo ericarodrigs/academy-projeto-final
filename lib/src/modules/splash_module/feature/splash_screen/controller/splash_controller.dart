@@ -14,29 +14,17 @@ import 'package:rarovideowall/src/shared/interfaces/videos_repository_interface.
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
 
-part 'splash_controller.g.dart';
-
-class SplashController = _SplashController with _$SplashController;
-
-abstract class _SplashController with Store implements ISplashController {
+class SplashController implements ISplashController {
   final ILoginRepository loginRepository;
   final LocalStorageUserRepository localStorageUserRepository;
 
   final IVideosRepository videosRepository;
 
-  _SplashController({
+  SplashController({
     required this.loginRepository,
     required this.localStorageUserRepository,
     required this.videosRepository,
   });
-
-  @observable
-  PageState pageState = PageState.fine;
-
-  @action
-  Future<void> changePageState(PageState state) async {
-    pageState = state;
-  }
 
   @override
   Future<void> tryLocalStorageLogin() async {
@@ -48,7 +36,6 @@ abstract class _SplashController with Store implements ISplashController {
                 (success) => {
                       _syncLoggedVideos(),
                       _getAllVideos(),
-                      changePageState(PageState.fine),
                     }));
   }
 
@@ -71,5 +58,3 @@ abstract class _SplashController with Store implements ISplashController {
         arguments: Left<Failure, HomeState>(fail),
       );
 }
-
-enum PageState { error, fine }
