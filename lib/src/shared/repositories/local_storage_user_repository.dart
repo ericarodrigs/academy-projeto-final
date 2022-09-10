@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
-
+import 'package:rarovideowall/src/shared/constants/keys_storage.dart';
 import 'package:rarovideowall/src/shared/interfaces/local_storage_service.dart';
+
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/modules/login_module/features/login/model/login_user_model.dart';
 
@@ -13,9 +14,10 @@ class LocalStorageUserRepository {
 
   Future<Either<Failure, LoginUserModel>> get() async {
     try {
-      String? loginUserModelJson = await service.read('userLogin');
-      if (loginUserModelJson != null) {
-        return Right(LoginUserModel.fromJson(loginUserModelJson));
+      String? email = await service.read(KeysStorage.email);
+      String? password = await service.read(KeysStorage.password);
+      if (email != null && password != null) {
+        return Right(LoginUserModel(email: email, password: password));
       } else {
         return Left(Failure('Usuário não encontrado.'));
       }
@@ -24,19 +26,20 @@ class LocalStorageUserRepository {
     }
   }
 
-  Future<Either<Failure, bool>> save(LoginUserModel userLogin) async {
+  Future<Either<Failure, void>> save(LoginUserModel userLogin) async {
     try {
-      bool serviceResp = await service.save('userLogin', userLogin.toJson());
-      return Right(serviceResp);
+      await service.save(KeysStorage.email, userLogin.email);
+      await service.save(KeysStorage.password, userLogin.password);
+      return const Right(null);
     } catch (err, stackTrace) {
       return Left(Failure(err.toString(), object: err, stackTrace: stackTrace));
     }
   }
 
-  Future<Either<Failure, bool>> delete() async {
+  Future<Either<Failure, void>> deleteAll() async {
     try {
-      bool serviceResp = await service.delete('userLogin');
-      return Right(serviceResp);
+      await service.deleteAll();
+      return const Right(null);
     } catch (err, stackTrace) {
       return Left(Failure(err.toString(), object: err, stackTrace: stackTrace));
     }

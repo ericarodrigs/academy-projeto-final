@@ -7,8 +7,10 @@ import 'package:rarovideowall/src/modules/home/features/home/controller/home_con
 import 'package:rarovideowall/src/modules/home/features/home/model/play_list_content.dart';
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
+import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_text_button.dart';
+import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_error_card.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_favorite_video_list.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_title_video_list.dart';
@@ -16,7 +18,7 @@ import 'package:rarovideowall/src/w_system/organisms/w_title_video_list.dart';
 class HomePage extends StatelessWidget {
   HomePage({Key? key, required this.initialState}) : super(key: key);
 
-  final Either<Failure, HomeState> initialState;
+  final Either<Failure, LoadState> initialState;
 
   final HomeController homeController = Modular.get();
 
@@ -60,7 +62,7 @@ class HomePage extends StatelessWidget {
         name: 'Home State',
         builder: (_) {
           switch (homeController.homeState) {
-            case HomeState.success:
+            case LoadState.success:
               List<WTitleVideoList> playListWidget = _createPlayListWidgets();
               return Padding(
                 padding: const EdgeInsets.symmetric(
@@ -72,11 +74,11 @@ class HomePage extends StatelessWidget {
                   itemBuilder: (_, index) => playListWidget[index],
                 ),
               );
-            case HomeState.loading:
+            case LoadState.loading:
               return const Center(
-                child: CircularProgressIndicator(),
+                child: WCircularProgressIndicator(),
               );
-            case HomeState.fail:
+            case LoadState.error:
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: WErrorCard(

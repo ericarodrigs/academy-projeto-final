@@ -21,6 +21,12 @@ class Validator {
     return null;
   }
 
+  static String? validateEmailFilled(String? valueEmail) {
+    return valueEmail == null || valueEmail.isEmpty
+        ? 'Por favor, informe o email'
+        : null;
+  }
+
   static String? validatePassword(String? valuePassword) {
     if (valuePassword == null || valuePassword.isEmpty) {
       return 'Por favor, informe a senha';
@@ -47,6 +53,15 @@ class Validator {
     return null;
   }
 
+
+
+  static String? validatePasswordFilled(String? valuePassword) {
+    return valuePassword == null || valuePassword.isEmpty
+        ? 'Por favor, informe o a senha'
+        : null;
+  }
+
+
   static String? validateCodeClass(String? valueCodeClass) {
     return valueCodeClass == null || valueCodeClass.isEmpty
         ? 'Por favor, informe o código da sua turma'
@@ -56,6 +71,13 @@ class Validator {
   static String? validateCodeVerification(String? valueCodeVerification) {
     if (valueCodeVerification == null || valueCodeVerification.isEmpty) {
       return 'Por favor, informe o código de verificação.';
+    }
+    return null;
+  }
+
+  static String? validateComment(String? message) {
+    if (message == null || message.isEmpty) {
+      return 'A mensagem não pode ser vazia.';
     }
     return null;
   }

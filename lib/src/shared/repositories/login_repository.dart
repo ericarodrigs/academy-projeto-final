@@ -9,14 +9,17 @@ import 'package:rarovideowall/src/modules/login_module/features/register/model/r
 import 'package:rarovideowall/src/modules/login_module/features/recover_password/model/recover_password_model.dart';
 import 'package:rarovideowall/src/modules/login_module/features/recover_password/model/request_code_model.dart';
 import 'package:rarovideowall/src/shared/models/user_model.dart';
+import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
 
 class LoginRepository implements ILoginRepository {
-  ApiService service;
-  LoggedState loggedState;
+  final ApiService service;
+  final LoggedState loggedState;
+  final LocalStorageUserRepository localStorageUserRepository;
 
   LoginRepository({
     required this.service,
     required this.loggedState,
+    required this.localStorageUserRepository,
   });
 
   @override
@@ -107,5 +110,6 @@ class LoginRepository implements ILoginRepository {
   void logout() {
     service.clearHeaderToken();
     loggedState.setLogout();
+    localStorageUserRepository.deleteAll();
   }
 }

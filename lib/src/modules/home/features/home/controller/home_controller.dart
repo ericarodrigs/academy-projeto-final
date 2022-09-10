@@ -7,6 +7,7 @@ import 'package:rarovideowall/src/modules/home/features/home/model/play_list_con
 import 'package:rarovideowall/src/modules/home/home_route_names.dart';
 
 import 'package:rarovideowall/src/modules_route_names.dart';
+import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state.dart';
 import 'package:rarovideowall/src/shared/global_states/videos_state/videos_state.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
@@ -38,16 +39,16 @@ abstract class _HomeControllerBase with Store {
   List<VideoModel> get videos => videosState.videos;
 
   @observable
-  HomeState homeState = HomeState.success;
+  LoadState homeState = LoadState.success;
 
   @observable
   String errorText = '';
 
   @action
-  void setHomeState(Either<Failure, HomeState> newStateEither) {
+  void setHomeState(Either<Failure, LoadState> newStateEither) {
     newStateEither.fold(
       (fail) {
-        homeState = HomeState.fail;
+        homeState = LoadState.error;
         errorText = fail.message;
       },
       (state) => homeState = state,
@@ -55,17 +56,17 @@ abstract class _HomeControllerBase with Store {
   }
 
   Future<void> refreshVideos() async {
-    setHomeState(const Right(HomeState.loading));
+    setHomeState(const Right(LoadState.loading));
     (await videosRepository.getAllVideos()).fold(
       (fail) => setHomeState(Left(fail)),
       (success) async {
         if (isLogged) {
           (await videosRepository.getFavoriteVideos()).fold(
             (fail) => setHomeState(Left(fail)),
-            (success) => setHomeState(const Right(HomeState.success)),
+            (success) => setHomeState(const Right(LoadState.success)),
           );
         } else {
-          setHomeState(const Right(HomeState.success));
+          setHomeState(const Right(LoadState.success));
         }
       },
     );
@@ -104,7 +105,8 @@ abstract class _HomeControllerBase with Store {
     List<VideoModel> weekVideos = [];
 
     for (VideoModel video in videos) {
-      if (video.tags.any((tag) => tag.contains(publicRegExp))) {
+      if (video.tags.any((tag) => tag.contains(publicRegExp)) ||
+          video.url.contains('youtube')) {
         publicVideos.add(video);
       } else if (video.topico.contains(weekRegExp)) {
         weekVideos.add(video);
@@ -148,5 +150,3 @@ abstract class _HomeControllerBase with Store {
     return weekPlayList;
   }
 }
-
-enum HomeState { success, fail, loading }

@@ -30,11 +30,13 @@ class CommentRepository implements ICommentRepository {
           'itensPorPagina': 100,
         },
       );
-      List<dynamic> commentsMap = response.data;
+      List<dynamic> listCommentsJson = response.data;
+      List<CommentModel> listComments = listCommentsJson
+          .map((comment) => CommentModel.fromMap(comment))
+          .toList();
+      List<CommentModel> listCommentsReversed = listComments.reversed.toList();
 
-      return Right(
-        commentsMap.map((comment) => CommentModel.fromMap(comment)).toList(),
-      );
+      return Right(listCommentsReversed);
     } on Failure catch (fail) {
       log(fail.message);
       return Left(fail);

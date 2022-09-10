@@ -5,6 +5,7 @@ import 'package:rarovideowall/src/modules/login_module/features/recover_password
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/validator.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
+import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_text_form_field.dart';
 
 class EmailRequestPage extends StatefulWidget {
@@ -32,7 +33,7 @@ class _EmailRequestPageState extends State<EmailRequestPage> {
             key: recoverController.formKeyEmail,
             child: Column(children: [
               const Padding(
-                padding: EdgeInsets.only(left: 18,top: 64,right: 18),
+                padding: EdgeInsets.only(left: 18, top: 64, right: 18),
                 child: Text('Digite seu email',
                     style: TextStyles.purple30w700Urbanist),
               ),
@@ -48,7 +49,7 @@ class _EmailRequestPageState extends State<EmailRequestPage> {
               ),
               Visibility(
                   visible: !recoverController.isFieldEnabled(),
-                  child: const CircularProgressIndicator()),
+                  child: const WCircularProgressIndicator()),
               Visibility(
                   visible: recoverController.errorText != null ? true : false,
                   child: Padding(
