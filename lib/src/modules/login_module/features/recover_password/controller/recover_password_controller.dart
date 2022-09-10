@@ -6,6 +6,7 @@ import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
 import 'package:rarovideowall/src/modules_route_names.dart';
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
+import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/shared/constants/show_popups.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 import 'package:rarovideowall/src/modules/login_module/features/recover_password/model/recover_password_model.dart';
@@ -33,7 +34,7 @@ abstract class _RecoverPasswordController with Store {
   _RecoverPasswordController({required this.loginRepository});
 
   @observable
-  LoadState loadState = LoadState.done;
+  LoadState loadState = LoadState.success;
 
   @observable
   PageState pageState = PageState.fine;
@@ -82,9 +83,9 @@ abstract class _RecoverPasswordController with Store {
     (await loginRepository.requestCode(_getRegister())).fold((fail) {
       errorText = fail.message;
       changePageState(PageState.error);
-      changeLoadState(LoadState.done);
+      changeLoadState(LoadState.success);
     }, (success) {
-      changeLoadState(LoadState.done);
+      changeLoadState(LoadState.success);
       Modular.to.pushNamed(LoginRouteNames.requestCodeRoute);
     });
   }
@@ -110,9 +111,9 @@ abstract class _RecoverPasswordController with Store {
     (await loginRepository.updatePassword(_getData())).fold((fail) {
       errorText = fail.message;
       changePageState(PageState.error);
-      changeLoadState(LoadState.done);
+      changeLoadState(LoadState.success);
     }, (success) {
-      changeLoadState(LoadState.done);
+      changeLoadState(LoadState.success);
       _clearTextFields();
       Modular.to.popUntil(ModalRoute.withName(ModulesRouteNames.loginModule));
       ShowPopups.showSnackBar(
@@ -124,7 +125,7 @@ abstract class _RecoverPasswordController with Store {
 
   void recoverInitState() {
     changePageState(PageState.fine);
-    changeLoadState(LoadState.done);
+    changeLoadState(LoadState.success);
   }
 
   void _clearTextFields() {
@@ -134,7 +135,5 @@ abstract class _RecoverPasswordController with Store {
     passwordConfirmationController.text = '';
   }
 }
-
-enum LoadState { loading, done }
 
 enum PageState { error, fine }
