@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:rarovideowall/src/modules/home/features/details/controller/comments_controller/comments_controller.dart';
 
-import 'package:rarovideowall/src/modules/home/features/details/controller/video_details_controller.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
+import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/w_system/atoms/widgets/w_divider.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_error_reload.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_new_comment.dart';
@@ -12,10 +13,10 @@ import 'package:rarovideowall/src/w_system/organisms/w_comments_load.dart';
 class WComment extends StatelessWidget {
   const WComment({
     Key? key,
-    required this.videoDetailsController,
+    required this.commentController,
   }) : super(key: key);
 
-  final VideoDetailsController videoDetailsController;
+  final CommentsController commentController;
 
   @override
   Widget build(BuildContext context) {
@@ -34,54 +35,53 @@ class WComment extends StatelessWidget {
             name: 'NewComment',
             builder: (_) {
               return Visibility(
-                visible: videoDetailsController.loggedState.isLogged,
+                visible: commentController.isLogged,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 16),
+                  padding: const EdgeInsets.fromLTRB(8, 0, 0, 16),
                   child: WNewComment(
-                    onSend: () => videoDetailsController.sendComment(context),
-                    onEdit: () => videoDetailsController.editComment(context),
-                    onEditCancel: videoDetailsController.exitEditMode,
-                    textController: videoDetailsController.textController,
-                    isEditMode: videoDetailsController.isEditMode,
-                    commentKey: videoDetailsController.commentsKey,
+                    focusNode: commentController.focusNode,
+                    onSend: () => commentController.sendComment(context),
+                    onEdit: () => commentController.editComment(context),
+                    onEditCancel: commentController.exitEditMode,
+                    textController: commentController.textController,
+                    isEditMode: commentController.isEditMode,
+                    commentKey: commentController.commentsKey,
                   ),
                 ),
               );
             }),
         Observer(
           builder: (context) {
-            switch (videoDetailsController.commentsState) {
+            switch (commentController.commentsState) {
               case LoadState.loading:
                 return const WCommentsLoad();
-              case LoadState.done:
+              case LoadState.success:
                 return WCommentList(
-                  userId: videoDetailsController.loggedState.user?.id ?? '',
+                  userId: commentController.userId,
                   onDelete: (comment) =>
-                      videoDetailsController.deleteComment(context, comment),
-                  onEdit: videoDetailsController.enterEditMode,
+                      commentController.deleteComment(context, comment),
+                  onEdit: commentController.enterEditMode,
                   onDownVote: (comment) {
-                    videoDetailsController.voteComment(
-                        context, comment.id, false);
+                    commentController.voteComment(context, comment.id, false);
                   },
                   onUpVote: (comment) {
-                    videoDetailsController.voteComment(
-                        context, comment.id, true);
+                    commentController.voteComment(context, comment.id, true);
                   },
-                  comments: videoDetailsController.comments.toList(),
-                  hasImgAvatarError: videoDetailsController.hasImgAvatarError,
+                  comments: commentController.comments.toList(),
+                  hasImgAvatarError: commentController.hasImgAvatarError,
                   onLoadImgAvatarError: (err, stackTrace) {
-                    videoDetailsController.onLoadImgAvatarError(
+                    commentController.onLoadImgAvatarError(
                       context,
                       err,
                       stackTrace,
                     );
                   },
-                  isLogged: videoDetailsController.loggedState.isLogged,
+                  isLogged: commentController.isLogged,
                 );
               case LoadState.error:
                 return WErrorReload(
-                  errorText: videoDetailsController.commentsError,
-                  onPressed: videoDetailsController.getComments,
+                  errorText: commentController.commentsError,
+                  onPressed: commentController.getComments,
                 );
             }
           },
