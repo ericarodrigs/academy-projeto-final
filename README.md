@@ -5,127 +5,167 @@
 
 ## Documentação
 
-* [Documentação](#-documentação)
-* [Arquitetura](#-arquitetura)
-* [Classes gerais](#-classes-gerais)
-    * [ApiService e DioService](#-apiService-e-dioService)
-    * [LocalStorageService e SharedPreferencesService](#-localStorageService-e-sharedPreferencesService)
-    * [LoggedState](#-loggedState)
-    * [VideoState](#-videoState)
-    * [Models](#-models)
-    * [Repositories](#-repositories)
-    * [Controllers](#-controllers)
-* [Tecnologias](#-tecnologias)
-* [Status do Projeto](#-status-do-projeto)
-* [Features](#-features)
-* [Pré-requisitos](#-pre-requisitos)
+* [Documentação](#documentação)
+* [Apresentação do projeto](#apresentação-do-projeto)
+* [Arquitetura e decisões técnicas](#arquitetura-e-decisões-técnicas)
+* [Classes gerais](#classes-gerais)
+    * [ApiService e DioService](#apiservice-e-dioservice)
+    * [LocalStorageService e SharedPreferencesService](#localstorageservice-e-sharedpreferencesservice)
+    * [LoggedState](#loggedState)
+    * [VideoState](#videoState)
+    * [Models](#models)
+    * [Repositories](#repositories)
+    * [Controllers](#controllers)
+* [Status do Projeto](#status-do-projeto)
+* [Features](#features)
+* [Desafios para o futuro](#desafios-para-o-futuro)
+* [Referências](#referncias)
+* [Pré-requisitos](#pr-requisitos)
 * [Rodando o app](#-rodando-o-app)
-* [Tests](#-testes)
-* [Desenvolvedores](#-desenvolvedores)
+* [Agradecimentos](#-agradecimentos)
+* [Desenvolvedores](#desenvolvedores)
 
-## Arquitetura
+## Apresentação do projeto
 
-MVC, juntamente com design Atômico
+<div style="text-align: justify">
+A aplicação foi desenvolvida para cumprir o desafio final do curso de Flutter da Raro Academy - 2ª Edição - e tem o propósito principal de entregar para os alunos da academy uma melhor solução para a visualização dos conteúdos vistos em aulas síncronas que ficam disponíveis para acessos posteriores.
 
-Serviço de comunicação Dio service
+Atualmente os vídeos podem ser acessados por meio de um link disponibilizado para os alunos em uma planilha. Nesse sentido foi idealizado o portal de vídeos da raro academy para não só disponibilizar os vídeos de forma mais prática, mas também possibilitando uma maior interação entre os alunos das turmas.
+</div>
 
-Estrutura modular Separação de módulos:
--home_modules - features: Home + details -login_module:
+## Arquitetura e decisões técnicas
+<div style="text-align: justify">
 
-- features: login + recuperar + registro -splash_module:
-- features: splash
+Para a organização da estrutura do projeto, foi utilizado o padrão **MVC**, que facilita a comunicação entre as camadas envolvidas, designando responsabilidades separadas para cada uma. A escolha de uma arquitetura consistente auxilia a mantenabilidade do código.
 
-Gerenciamento de estados Usa mobx com code gen
+Adotamos também um padrão de **design atômico** para reaproveitar o código da melhor forma possível, compenentizando itens que aparecem várias vezes, com o objetivo de deixar o código bem enxuto e de fácil entendimento.
+
+A comunicação com a API disponibilizada para nossa aplicação foi feita através da biblioca **DIO**.
+
+Para realizar o gerenciamento de estados em toda a aplicação foi utilizado o **MobX** que se baseia nos conceitos de programação reativa.
+
+Foi utilizado o **Modular** para todo o fluxo de navegação das páginas da aplicação e também para auxiliar na injeção de dependências,
+promovendo o desacoplamento das classes da aplicação e permitindo que as classes dependam das suas abstrações. A separação dos módulos se deu assim:
+
+- Home_module:
+  - features: Home + Details
+- Login_module:
+  - features: Login + Recuperar Senha + Registro
+- Splash_module:
+  - features: Splash page
+</div>
 
 ## Classes gerais
-
-Estão na pasta Shared e são usados em um ou mais modulos
+<div style="text-align: justify">
+Estão na pasta Shared e são usados em um ou mais módulos
+</div>
 
 ### ApiService e DioService
-
-Para o uso da api deve ser recuperada através de Modular.get(). Essa api é uma interface que
-representa todos os métodos http. A url é apenas o caminho adicional depois da url base da api. O
-parâmetro body representa o capo de dados de uma requisição Http. Além disso é necessário passar o
+<div style="text-align: justify">
+Para o uso da API deve ser recuperada através de Modular.get(). Essa API é uma interface que
+representa todos os métodos http. A url é apenas o caminho adicional depois da url base da API. O
+parâmetro body representa o campo de dados de uma requisição Http. Além disso é necessário passar o
 método HTTP a ser usado na requisição. O campo queryParams é usado para pesquisar parâmetros via
 rota. Ele é traduzido para 'nameParam?= value'.
 
-A classe DioService é a classe que implementa de fato as requisições HTTP para a api. Ela mantem a
+A classe DioService é a classe que implementa de fato as requisições HTTP para a API. Ela mantém a
 URL base da API e implementa a primeira tratativa de erro que lança uma exceção de um objeto
 Failure.
+</div>
 
 ### LocalStorageService e SharedPreferencesService
-
+<div style="text-align: justify">
 A classe LocalStorageService é uma interface e a SharedPreferencesService a sua implementação. Essa
-feature será usada para guardar os dados de acesso da página de login na memoria interna do
+feature é usada para guardar os dados de acesso da página de login na memória interna do
 dispositivo evitando a reentrada no aplicativo.
+</div>
 
 ### LoggedState
-
-Essa classe controla o estado globa da aplicação. Ela é única por todo o código (Singleton)    e
-serve para guardar o estado se existe ou não um usuário logado.
+<div style="text-align: justify">
+Essa classe controla o estado global da aplicação. Ela é única por todo o código (Singleton)    e
+serve para guardar o estado e verificar se existe ou não um usuário logado.
+</div>
 
 ### VideoState
-
-Essa classse mantem o estado da lista de videos carregada no aplicativo. Ela permite que outras
-paginas consigam atualizar os videos da pagina principal, por isso ela éfornecida no modulo
-principal. Espera-se que sempre que a lista de videos é buscada da API o estado dessa classe seja
+<div style="text-align: justify">
+Essa classse mantem o estado da lista de vídeos carregada no aplicativo. Ela permite que outras
+páginas consigam atualizar os vídeos da página principal, por isso ela é fornecida no módulo
+principal. Espera-se que sempre que a lista de vídeos for buscada da API o estado dessa classe seja
 atualizado.
+</div>
 
 ### Models
+<div style="text-align: justify">
+Implementa os modelos retornados pelas requisições da API. Os modelos implementados são:
 
-Implementa os modelos retornados pelas requisições da api. Os modelos implementados são:
-LoginUserModel -> usado para traduzir o modelo do login do usuário, usado para gravação no banco
-local, UserModel representa as informações de um usuário logado retornado pela API, VideoModel ->
-Representa as informações dos videos retornado pela API. Além disso No modulo home existe o modelo
-CommentModel que implementa as informações dos comentários de um video. Por fim o failure implementa
-o modelo de falha usado em todo o sistema.
+- LoginUserModel → usado para traduzir o modelo do login do usuário, usado para gravação no banco
+local,
+- UserModel → representa as informações de um usuário logado retornado pela API,
+- VideoModel → representa as informações dos vídeos retornados pela API,
+- CommentModel → implementa as informações dos comentários de um vídeo.
+- FailureModel → implementa o modelo de falha usado em todo o sistema.
+</div>
 
 ### Repositories
-
-Os repositorios implementam as particularidades das rotas fornecidas pela API. Os repositorios
+<div style="text-align: justify">
+Os repositórios implementam as particularidades das rotas fornecidas pela API. Os repositórios
 implementados são:
 
 - Login_repository: implementa as rotas usadas para login, recuperação de senha e cadastros. Essa
-  classe é responsável por atualizar o estado de logado ou não na aplicação. - Videos_repository:
-  implementa as rotas para pegar videos, pegar videos favoritos, favoritar um video e pegar os
-  videos recomendados para um video. - local_storage_user_repository: implementa as funcionalidades
-  de salvar, recuperar e apagar a senha e email de um repositorio - comment_repository: implementas
-  as rotas usadas para tratar de comentários.
+  classe é responsável por atualizar o estado de logado ou não na aplicação.
+- Videos_repository: implementa as rotas para buscar vídeos, buscar vídeos favoritos, favoritar um vídeo e buscar os
+  vídeos recomendados.
+- local_storage_user_repository: implementa as funcionalidades de salvar, recuperar e apagar a senha e email de um repositório
+- comment_repository: implementa as rotas usadas para tratar os comentários.
 
-Todos os repositorios possuem tratamento de exceções das requisições e possuem retorno de dois tipos
+Todos os repositórios possuem tratamento de exceções das requisições e possuem retorno de dois tipos
 com o caso de erro (Failure) e o caso de sucesso.
+</div>
 
 ### Controllers
+<div style="text-align: justify">
 
-	- splash_controller: Com a penas uma função é responsável por verificar se ja existe informações de login salvas no aplicativo e se é possível fazer o login ou deve carregar os videos publicos. Todos as informações necessárias para a home_page são carregadas aqui. (Os videos são carregados na classe video_state)
-	- home_controller: Essa classe controla os estados da home page (Sucesso, carregando e falha) além disso ela é responsável por criar as play list de videos necessária da home page. Além disso ela fornece as informações dos videos carregados e se o usuário está logado ou não. Além disso ela fornece o caminho para o login e para a pagina de detalhes. Por fim, a home page monitora o fluxo de login, caso o usuário realize o login os videos são atualizados.
-	- login_controller:
-	- recover_controller:
-	- register_controller:
-	- detail_controller:
-
-## Tecnologias
+- splash_controller: Com apenas uma função é responsável por verificar se ja existe informações de login salvas no aplicativo e se é possível fazer o login ou deve carregar os videos publicos. Todos as informações necessárias para a home_page são carregadas aqui. (Os videos são carregados na classe video_state)
+- home_controller: Essa classe controla os estados da home page (Sucesso, carregando e falha) além disso ela é responsável por criar as play list de videos necessária da home page. Além disso ela fornece as informações dos videos carregados e se o usuário está logado ou não. Além disso ela fornece o caminho para o login e para a pagina de detalhes. Por fim, a home page monitora o fluxo de login, caso o usuário realize o login os videos são atualizados.
+- login_controller: Essa classe controla os estados da tela para saber se trata de sucesso ou falha e além disso é responsável também pela validação das informações inseridas pelo usuário para realizar login e se tudo estiver ok efetuar o login de fato.
+- recover_controller: Essa classe controla os estados da tela para saber se trata de sucesso ou falha, também avalia se os dados informados estão em conformidade com a API e se tudo estiver ok possibilita que o usuário faça a alteração da sua senha.
+- register_controller: Essa classe controla os estados da tela para saber se trata de sucesso ou falha e além disso é responsável também pela validação das informações inseridas pelo usuário para realizar o cadastro de um novo aluno, caso os dados passem pelas validações deste controlador, um novo usuário será informado na API.
+</div>
 
 ## Status do Projeto
 
 <h3 align="center">
-🚧  Raro Video Wall - Em construção...  🚧
+🚧  Raro Video Wall - Versão entregue  🚧
 </h3>
 
 ## Features
 
-- [x] Cadastro de usuário
-- [x] Login
-- [ ] Recuperar Senha
-- [ ] Visualizar vídeos
-- [ ] Favoritar vídeos
-- [ ] Comentários nos vídeos
+- [X] Cadastro de usuário
+- [X] Login
+- [X] Recuperar Senha
+- [X] Visualizar vídeos
+- [X] Favoritar vídeos
+- [X] Comentários nos vídeos
+
+## Desafios para o futuro
+
+- [ ] Possibilitar que o usuário escolha o modo escuro
+- [ ] Permitir avaliação dos vídeos
+
+## Referências
+<div style="text-align: justify">
+Nos inspiramos em aplicativos bastante consolidados no mercado, como YouTube, Netflix, Instagram, para tomar decisões relacionadas ao layout e toda a identidade visual da nossa aplicação está de acordo com a paleta de cores da Raro Academy.
+</div>
 
 ## Pré-requisitos
-
+<div style="text-align: justify">
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
-[Git](https://git-scm.com), [Flutter](https://flutter.dev/). Além disto é bom ter um editor para
-trabalhar com o código como [VSCode](https://code.visualstudio.com/)
+
+[Git](https://git-scm.com),
+[Flutter](https://flutter.dev/).
+Além disto é bom ter um editor para
+trabalhar com o código como [VSCode](https://code.visualstudio.com/).
+</div>
 
 ## 🎲 Rodando o app
 
@@ -140,7 +180,16 @@ $ cd raroviewowall
 $ flutter pub get
 
 ```
-## Tests
+## 😇🙏 Agradecimentos
+
+<div style="text-align: justify">
+
+- À Raro Academy, na pessoa de Júlia Febraro, pela oportunidade de ingressar no curso e por todo o suporte entregue desde a inscrição até a entrega deste projeto.
+- Ao Lucas Vini por ter estado presente em toda nossa trajetória e ter tornado nossos dias mais leves, escolhendo sempre a melhor trilha sonora kkkkkkk.
+- Aos nossos professores, Roberto Foureaux, Marco Fernandes, Cristian Castro, por todo o ensinamento repassado nessas semanas.
+- Aos nossos monitores, Kaio Costa e Gustavo Silva, por terem amenizado nosso sofrimento em todas as monitorias e durante as aulas.
+
+</div>
 
 ## Desenvolvedores
 
@@ -161,7 +210,7 @@ $ flutter pub get
     <td align="center">
       <a href="https://gitlab.com/guilhermegomes1">
         <img src="https://secure.gravatar.com/avatar/c9218f5ea630bbabc41f6352f5eb26c0?s=800&d=identicon" width=60 style="border-radius:100px" alt="Guilherme Gomes"/>
-        <br /><sub><b>Marcos Willian</b></sub>
+        <br /><sub><b>Guilherme Gomes</b></sub>
       </a>
     </td>
     <td align="center">
