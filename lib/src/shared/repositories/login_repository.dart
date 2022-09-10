@@ -63,7 +63,7 @@ class LoginRepository implements ILoginRepository {
   }
 
   @override
-  Future<Either<Failure, void>> requestCode(RequestCodeModel model) async {
+  Future<Either<Failure, void>> requestCode(model) async {
     try {
       await service.request(
         '/auth/solicitar-codigo',
@@ -84,7 +84,7 @@ class LoginRepository implements ILoginRepository {
 
   @override
   Future<Either<Failure, void>> updatePassword(
-      RecoverPasswordModel model) async {
+      model) async {
     try {
       await service.request(
         '/auth/recuperar-senha',
