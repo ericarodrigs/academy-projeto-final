@@ -49,14 +49,14 @@ abstract class _VideoControllerBase with Store {
 
   @observable
   VideoModel video = VideoModel(
-      dataPublicacao: '',
+      publicationDate: '',
       id: '',
-      descricao: '',
+      description: '',
       tags: [],
-      nome: '',
-      duracao: '',
+      name: '',
+      duration: '',
       createdAt: '',
-      topico: '',
+      topic: '',
       thumbUrl: '',
       url: '');
 
