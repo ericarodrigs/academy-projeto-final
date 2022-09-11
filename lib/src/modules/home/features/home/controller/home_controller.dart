@@ -167,7 +167,7 @@ abstract class _HomeControllerBase with Store {
           PlayListContent(
             name: 'Últimos Vistos',
             videos: historyVideos.reversed.toList().sublist(
-                  historyVideos.length > 5 ? 5 : historyVideos.length,
+                  historyVideos.length > 3 ? 3 : historyVideos.length,
                 ),
           ),
           PlayListContent(name: 'Públicos', videos: publicVideos),

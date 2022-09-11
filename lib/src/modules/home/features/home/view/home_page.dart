@@ -14,9 +14,9 @@ import 'package:rarovideowall/src/w_system/atoms/widgets/w_about_app.dart';
 import 'package:rarovideowall/src/w_system/atoms/widgets/w_divider.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_drawer_header.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_error_card.dart';
+import 'package:rarovideowall/src/w_system/molecules/w_playlist_options.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_user_account_actions.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_favorite_video_list.dart';
-import 'package:rarovideowall/src/w_system/organisms/w_playlist_options.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_title_video_list.dart';
 
 class HomePage extends StatelessWidget {
