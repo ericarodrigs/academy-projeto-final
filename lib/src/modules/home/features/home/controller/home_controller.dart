@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'package:rarovideowall/src/modules/home/features/home/model/play_list_content.dart';
+import 'package:rarovideowall/src/modules/home/features/home/model/play_list_content_model.dart';
 import 'package:rarovideowall/src/modules/home/home_route_names.dart';
 import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
 
@@ -129,7 +129,7 @@ abstract class _HomeControllerBase with Store {
         '${ModulesRouteNames.loginModule}${LoginRouteNames.register}');
   }
 
-  List<PlayListContent> createPlayList() {
+  List<PlayListContentModel> createPlayList() {
     final publicRegExp = RegExp(
       r'aul[aã]o',
       caseSensitive: false,
@@ -159,7 +159,7 @@ abstract class _HomeControllerBase with Store {
     return _filterPlayList(publicVideos, classVideos, weekVideos);
   }
 
-  List<PlayListContent> _filterPlayList(
+  List<PlayListContentModel> _filterPlayList(
     List<VideoModel> publicVideos,
     List<VideoModel> classVideos,
     List<VideoModel> weekVideos,
@@ -167,7 +167,7 @@ abstract class _HomeControllerBase with Store {
     switch (playlistOption) {
       case Playlist.all:
         return [
-          PlayListContent(
+          PlayListContentModel(
             name: 'Últimos Vistos',
             videos: historyVideos.reversed
                 .toList()
@@ -177,25 +177,25 @@ abstract class _HomeControllerBase with Store {
                 )
                 .toList(),
           ),
-          PlayListContent(name: 'Públicos', videos: publicVideos),
-          PlayListContent(name: 'Minha Turma', videos: classVideos),
+          PlayListContentModel(name: 'Públicos', videos: publicVideos),
+          PlayListContentModel(name: 'Minha Turma', videos: classVideos),
           ..._weekVideosPlayList(weekVideos),
         ];
       case Playlist.classVideos:
         return [
-          PlayListContent(name: 'Minha Turma', videos: classVideos),
+          PlayListContentModel(name: 'Minha Turma', videos: classVideos),
         ];
       case Playlist.favorites:
         return [];
       case Playlist.historic:
         return [
-          PlayListContent(
+          PlayListContentModel(
             name: 'Últimos Vistos',
             videos: historyVideos.reversed.toList(),
           )
         ];
       case Playlist.public:
-        return [PlayListContent(name: 'Públicos', videos: publicVideos)];
+        return [PlayListContentModel(name: 'Públicos', videos: publicVideos)];
       case Playlist.weeks:
         return [
           ..._weekVideosPlayList(weekVideos),
@@ -203,12 +203,12 @@ abstract class _HomeControllerBase with Store {
     }
   }
 
-  List<PlayListContent> _weekVideosPlayList(List<VideoModel> weekVideos) {
-    List<PlayListContent> weekPlayList = [];
+  List<PlayListContentModel> _weekVideosPlayList(List<VideoModel> weekVideos) {
+    List<PlayListContentModel> weekPlayList = [];
     int week = 1;
     while (weekVideos.isNotEmpty) {
       weekPlayList.add(
-        PlayListContent(
+        PlayListContentModel(
           name: 'Semana ${week.toString().padLeft(2, '0')}',
           videos: weekVideos
               .where(

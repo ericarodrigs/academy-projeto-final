@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:rarovideowall/src/modules/home/features/home/controller/home_controller.dart';
-import 'package:rarovideowall/src/modules/home/features/home/model/play_list_content.dart';
+import 'package:rarovideowall/src/modules/home/features/home/model/play_list_content_model.dart';
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/load_states.dart';
@@ -148,7 +148,7 @@ class HomePage extends StatelessWidget {
   List<WTitleVideoList> _createPlayListWidgets() {
     List<WTitleVideoList> playListWidget = [];
     if (homeController.isLogged) {
-      List<PlayListContent> playList = homeController.createPlayList();
+      List<PlayListContentModel> playList = homeController.createPlayList();
 
       if (homeController.playlistOption == Playlist.all ||
           homeController.playlistOption == Playlist.favorites) {
