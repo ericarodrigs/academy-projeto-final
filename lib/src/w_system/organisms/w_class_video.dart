@@ -25,7 +25,7 @@ class WClassVideo extends StatelessWidget {
       builder: (_) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(videoController.video.nome,
+          Text(videoController.video.name,
               style: TextStyles.black26w700Urbanist),
           const SizedBox(height: 16),
           Observer(
@@ -66,7 +66,7 @@ class WClassVideo extends StatelessWidget {
           const SizedBox(height: 6),
           TitleAndText(
             title: 'Descrição',
-            text: videoController.video.descricao,
+            text: videoController.video.description,
           ),
         ],
       ),

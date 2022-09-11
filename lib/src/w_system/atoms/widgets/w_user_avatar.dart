@@ -36,7 +36,7 @@ class WUserAvatar extends StatelessWidget {
                 width: 10,
               ),
               CircleAvatar(
-                foregroundImage: NetworkImage(user.foto),
+                foregroundImage: NetworkImage(user.photo),
                 onForegroundImageError: onLoadError,
                 backgroundColor: Colors.transparent,
                 radius: 20,
@@ -47,7 +47,7 @@ class WUserAvatar extends StatelessWidget {
             ]
           : [
               CircleAvatar(
-                foregroundImage: NetworkImage(user.foto),
+                foregroundImage: NetworkImage(user.photo),
                 backgroundColor: Colors.transparent,
                 onForegroundImageError: onLoadError,
                 radius: 20,

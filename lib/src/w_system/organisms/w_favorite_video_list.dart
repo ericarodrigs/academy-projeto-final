@@ -15,12 +15,13 @@ class WFavoriteVideoList extends WTitleVideoList {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         WTitleVideoList(
           videos: videos,
           title: title,
           onTap: onTap,
+          showEmptyCard: false,
         ),
         Visibility(
           visible: videos.isEmpty,

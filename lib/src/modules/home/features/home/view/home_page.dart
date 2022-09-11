@@ -9,10 +9,14 @@ import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
-import 'package:rarovideowall/src/w_system/atoms/buttons/w_text_button.dart';
-import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
+import 'package:rarovideowall/src/w_system/atoms/widgets/w_about_app.dart';
+import 'package:rarovideowall/src/w_system/atoms/widgets/w_divider.dart';
+import 'package:rarovideowall/src/w_system/molecules/w_drawer_header.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_error_card.dart';
+import 'package:rarovideowall/src/w_system/molecules/w_playlist_options.dart';
+import 'package:rarovideowall/src/w_system/molecules/w_user_account_actions.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_favorite_video_list.dart';
+import 'package:rarovideowall/src/w_system/organisms/w_skeleton_home_page.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_title_video_list.dart';
 
 class HomePage extends StatelessWidget {
@@ -25,70 +29,118 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     homeController.setHomeState(initialState);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Raro Video Wall',
-          style: TextStyles.purple30w700Urbanist,
+    return TooltipVisibility(
+      visible: false,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text(
+            'Raro Video Wall',
+            style: TextStyles.white30w700Urbanist,
+          ),
+          shadowColor: AppColors.purple,
+          backgroundColor: AppColors.purpleTitle,
         ),
-        shadowColor: AppColors.purple,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Center(
-              child: Observer(builder: (_) {
-                return WTextButton(
-                  text: homeController.isLogged ? 'Logout' : 'Login',
-                  style: TextStyles.black16w700Urbanist,
-                  onTap: homeController.isLogged
-                      ? homeController.logoutAction
-                      : homeController.loginNavigate,
+        drawer: Observer(
+            name: 'Drawer',
+            builder: (context) {
+              return Drawer(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    WDrawerHeader(
+                      user: homeController.user,
+                      onLoadError: (_, __) =>
+                          homeController.onLoadImgError(context),
+                      hasError: homeController.hasImgAvatarError,
+                    ),
+                    WPlayListOptions(
+                      isLogged: homeController.isLogged,
+                      onAllVideos: () {
+                        homeController.setPlaylistOption(Playlist.all);
+                        Scaffold.of(context).closeDrawer();
+                      },
+                      onHistoryVideos: () {
+                        homeController.setPlaylistOption(Playlist.historic);
+                        Scaffold.of(context).closeDrawer();
+                      },
+                      onFavoriteVideos: () {
+                        homeController.setPlaylistOption(Playlist.favorites);
+                        Scaffold.of(context).closeDrawer();
+                      },
+                      onPublicVideos: () {
+                        homeController.setPlaylistOption(Playlist.public);
+                        Scaffold.of(context).closeDrawer();
+                      },
+                      onClassVideos: () {
+                        homeController.setPlaylistOption(Playlist.classVideos);
+                        Scaffold.of(context).closeDrawer();
+                      },
+                      onWeekVideos: () {
+                        homeController.setPlaylistOption(Playlist.weeks);
+                        Scaffold.of(context).closeDrawer();
+                      },
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: WDivider(),
+                    ),
+                    WUserAccountActions(
+                      isLogged: homeController.isLogged,
+                      onRegister: () {
+                        Scaffold.of(context).closeDrawer();
+                        homeController.registerNavigate();
+                      },
+                      onLogin: () {
+                        Scaffold.of(context).closeDrawer();
+                        homeController.loginNavigate();
+                      },
+                      onLogout: () {
+                        Scaffold.of(context).closeDrawer();
+                        homeController.logoutAction();
+                      },
+                    ),
+                    const WAboutApp(),
+                  ],
+                ),
+              );
+            }),
+        body: Observer(
+          name: 'Home State',
+          builder: (_) {
+            switch (homeController.homeState) {
+              case LoadState.success:
+                List<WTitleVideoList> playListWidget = _createPlayListWidgets();
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  child: RefreshIndicator(
+                    color: Colors.white,
+                    backgroundColor: AppColors.purpleTitle,
+                    onRefresh: homeController.refreshVideos,
+                    child: ListView.builder(
+                      itemCount: playListWidget.length,
+                      itemBuilder: (_, index) => playListWidget[index],
+                      physics: const AlwaysScrollableScrollPhysics(),
+                    ),
+                  ),
                 );
-              }),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: IconButton(
-              onPressed: homeController.refreshVideos,
-              icon: const Icon(Icons.refresh_rounded),
-              color: AppColors.black,
-            ),
-          ),
-        ],
-        backgroundColor: AppColors.backGroundPageColor,
-      ),
-      body: Observer(
-        name: 'Home State',
-        builder: (_) {
-          switch (homeController.homeState) {
-            case LoadState.success:
-              List<WTitleVideoList> playListWidget = _createPlayListWidgets();
-              return Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                child: ListView.builder(
-                  itemCount: playListWidget.length,
-                  itemBuilder: (_, index) => playListWidget[index],
-                ),
-              );
-            case LoadState.loading:
-              return const Center(
-                child: WCircularProgressIndicator(),
-              );
-            case LoadState.error:
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: WErrorCard(
-                  action: homeController.refreshVideos,
-                  buttonText: 'Quer Tentar novamente?',
-                  errorText: homeController.errorText,
-                ),
-              );
-          }
-        },
+              case LoadState.loading:
+                return const WSkeletonHomePage();
+              case LoadState.error:
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: WErrorCard(
+                    action: homeController.refreshVideos,
+                    buttonText: 'Quer Tentar novamente?',
+                    errorText: homeController.errorText,
+                  ),
+                );
+            }
+          },
+        ),
       ),
     );
   }
@@ -97,10 +149,15 @@ class HomePage extends StatelessWidget {
     List<WTitleVideoList> playListWidget = [];
     if (homeController.isLogged) {
       List<PlayListContent> playList = homeController.createPlayList();
-      playListWidget.add(WFavoriteVideoList(
-        onTap: homeController.detailsNavigate,
-        videos: homeController.favoriteVideos,
-      ));
+
+      if (homeController.playlistOption == Playlist.all ||
+          homeController.playlistOption == Playlist.favorites) {
+        playListWidget.add(WFavoriteVideoList(
+          onTap: homeController.detailsNavigate,
+          videos: homeController.favoriteVideos,
+        ));
+      }
+
       playListWidget.addAll(
         List.generate(
           playList.length,
@@ -112,11 +169,13 @@ class HomePage extends StatelessWidget {
         ),
       );
     } else {
-      playListWidget.add(WTitleVideoList(
-        onTap: homeController.detailsNavigate,
-        title: 'Públicos',
-        videos: homeController.videos,
-      ));
+      playListWidget.add(
+        WTitleVideoList(
+          onTap: homeController.detailsNavigate,
+          title: 'Públicos',
+          videos: homeController.videos,
+        ),
+      );
     }
     return playListWidget;
   }

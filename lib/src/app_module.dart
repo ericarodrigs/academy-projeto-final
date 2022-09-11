@@ -8,6 +8,7 @@ import 'package:rarovideowall/src/shared/global_states/videos_state/videos_state
 import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
 import 'package:rarovideowall/src/shared/interfaces/local_storage_service.dart';
 import 'package:rarovideowall/src/shared/interfaces/videos_repository_interface.dart';
+import 'package:rarovideowall/src/shared/repositories/local_storage_video_repository.dart';
 
 import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
 import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
@@ -27,8 +28,9 @@ class AppModule extends Module {
     Bind<ILoginRepository>(
       (i) => LoginRepository(
         loggedState: i(),
-        service: i(),
+        apiService: i(),
         localStorageUserRepository: i(),
+        localStorageService: i(),
       ),
     ),
     Bind<IVideosRepository>(
@@ -40,6 +42,12 @@ class AppModule extends Module {
     ),
     Bind<LocalStorageUserRepository>(
       (i) => LocalStorageUserRepository(service: i()),
+    ),
+    Bind<LocalStorageVideoRepository>(
+      (i) => LocalStorageVideoRepository(
+        service: i(),
+        videosState: i(),
+      ),
     ),
   ];
 
