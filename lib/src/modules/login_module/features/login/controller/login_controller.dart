@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
+import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 import 'package:rarovideowall/src/modules/login_module/features/login/model/login_user_model.dart';
 import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
@@ -27,7 +28,7 @@ abstract class _LoginController with Store {
   String? errorText;
 
   @observable
-  LoadState loadState = LoadState.done;
+  LoadState loadState = LoadState.success;
 
   @observable
   PageState pageState = PageState.fine;
@@ -59,10 +60,10 @@ abstract class _LoginController with Store {
       (fail) {
         errorText = fail.message;
         changePageState(PageState.error);
-        changeLoadState(LoadState.done);
+        changeLoadState(LoadState.success);
       },
       (success) {
-        changeLoadState(LoadState.done);
+        changeLoadState(LoadState.success);
         localStorageUserRepository.save(_getLogin());
         Modular.to.pop();
       },
@@ -82,7 +83,7 @@ abstract class _LoginController with Store {
 
   void loginInitState() {
     changePageState(PageState.fine);
-    changeLoadState(LoadState.done);
+    changeLoadState(LoadState.success);
     errorText = null;
   }
 
@@ -98,7 +99,5 @@ abstract class _LoginController with Store {
         .then((value) => loginInitState());
   }
 }
-
-enum LoadState { loading, done }
 
 enum PageState { error, fine }

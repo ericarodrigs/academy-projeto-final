@@ -5,6 +5,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/modules/login_module/features/register/model/register_user_model.dart';
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
+import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/shared/constants/show_popups.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 
@@ -25,7 +26,7 @@ abstract class _RegisterController with Store {
   _RegisterController({required this.loginRepository});
 
   @observable
-  LoadState loadState = LoadState.done;
+  LoadState loadState = LoadState.success;
 
   @observable
   PageState pageState = PageState.fine;
@@ -57,10 +58,10 @@ abstract class _RegisterController with Store {
       (fail) {
         errorText = fail.message;
         changePageState(PageState.error);
-        changeLoadState(LoadState.done);
+        changeLoadState(LoadState.success);
       },
       (success) {
-        changeLoadState(LoadState.done);
+        changeLoadState(LoadState.success);
         _clearTextFields();
         Modular.to.pop();
         ShowPopups.showSnackBar(
@@ -84,7 +85,7 @@ abstract class _RegisterController with Store {
 
   void registerInitState() {
     changePageState(PageState.fine);
-    changeLoadState(LoadState.done);
+    changeLoadState(LoadState.success);
     errorText = null;
   }
 
@@ -95,7 +96,5 @@ abstract class _RegisterController with Store {
     accessCodeController.text = "";
   }
 }
-
-enum LoadState { loading, done }
 
 enum PageState { error, fine }

@@ -13,13 +13,13 @@ mixin _$HomeController on _HomeControllerBase, Store {
       Atom(name: '_HomeControllerBase.homeState', context: context);
 
   @override
-  HomeState get homeState {
+  LoadState get homeState {
     _$homeStateAtom.reportRead();
     return super.homeState;
   }
 
   @override
-  set homeState(HomeState value) {
+  set homeState(LoadState value) {
     _$homeStateAtom.reportWrite(value, super.homeState, () {
       super.homeState = value;
     });
@@ -45,7 +45,7 @@ mixin _$HomeController on _HomeControllerBase, Store {
       ActionController(name: '_HomeControllerBase', context: context);
 
   @override
-  void setHomeState(Either<Failure, HomeState> newStateEither) {
+  void setHomeState(Either<Failure, LoadState> newStateEither) {
     final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
         name: '_HomeControllerBase.setHomeState');
     try {

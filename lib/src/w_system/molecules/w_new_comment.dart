@@ -13,6 +13,7 @@ class WNewComment extends StatelessWidget {
     this.isEditMode = false,
     required this.textController,
     this.commentKey,
+    this.focusNode,
   }) : super(key: key);
 
   final VoidCallback onSend;
@@ -21,6 +22,7 @@ class WNewComment extends StatelessWidget {
   final bool isEditMode;
   final TextEditingController textController;
   final GlobalKey<FormState>? commentKey;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class WNewComment extends StatelessWidget {
           child: Form(
             key: commentKey,
             child: WTextFormField(
+              focusNode: focusNode,
               hintText: 'Deixe seu comentário',
               floatingLabelBehavior: FloatingLabelBehavior.always,
               keyboardType: TextInputType.multiline,
@@ -41,12 +44,12 @@ class WNewComment extends StatelessWidget {
               validator: Validator.validateComment,
               textInputAction: TextInputAction.done,
               suffixIcon: isEditMode
-                  ? IconButton(
-                      icon: const Icon(
+                  ? InkWell(
+                      child: const Icon(
                         Icons.cancel_outlined,
                         color: AppColors.favorite,
                       ),
-                      onPressed: () {
+                      onTap: () {
                         onEditCancel();
                         FocusScope.of(context).unfocus();
                       },
