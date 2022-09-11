@@ -10,8 +10,13 @@ import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
+import 'package:rarovideowall/src/w_system/atoms/widgets/w_about_app.dart';
+import 'package:rarovideowall/src/w_system/atoms/widgets/w_divider.dart';
+import 'package:rarovideowall/src/w_system/molecules/w_drawer_header.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_error_card.dart';
+import 'package:rarovideowall/src/w_system/molecules/w_user_account_actions.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_favorite_video_list.dart';
+import 'package:rarovideowall/src/w_system/organisms/w_playlist_options.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_title_video_list.dart';
 
 class HomePage extends StatelessWidget {
@@ -20,168 +25,92 @@ class HomePage extends StatelessWidget {
   final Either<Failure, LoadState> initialState;
 
   final HomeController homeController = Modular.get();
-  void Function(Object?, StackTrace?)? onLoadError;
-  bool hasError = true;
 
   @override
   Widget build(BuildContext context) {
     homeController.setHomeState(initialState);
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           'Raro Video Wall',
           style: TextStyles.white30w700Urbanist,
         ),
         shadowColor: AppColors.purple,
         backgroundColor: AppColors.purpleTitle,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: InkWell(
+              onTap: homeController.refreshVideos,
+              child: const Icon(Icons.refresh),
+            ),
+          ),
+        ],
       ),
       drawer: Observer(
-          name: 'Home State',
-          builder: (_) {
+          name: 'Drawer',
+          builder: (context) {
             return Drawer(
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
-                  DrawerHeader(
-                    decoration: const BoxDecoration(
-                      color: AppColors.purpleTitle,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
-                              foregroundImage: homeController.isLogged
-                                  ? NetworkImage(
-                                      homeController.loggedState.user!.photo)
-                                  : const AssetImage('assets/images/capelo.png')
-                                      as ImageProvider,
-                              onForegroundImageError: onLoadError,
-                              backgroundColor: Colors.transparent,
-                              radius: 50,
-                              child: hasError
-                                  ? const Icon(Icons.warning_amber,
-                                      color: Colors.white)
-                                  : const WCircularProgressIndicator(),
-                            ),
-                            IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.sunny,
-                                    color: Colors.white))
-                          ],
-                        ),
-                        Text(
-                          homeController.isLogged
-                              ? homeController.loggedState.user!.name
-                              : 'Raro Academy',
-                          style: TextStyles.white30w700Urbanist,
-                        ),
-                      ],
-                    ),
+                  WDrawerHeader(
+                    user: homeController.user,
+                    onLoadError: (_, __) =>
+                        homeController.onLoadImgError(context),
+                    hasError: homeController.hasImgAvatarError,
                   ),
-                  ListTile(
-                      leading: const Icon(
-                        Icons.home,
-                        color: AppColors.purple,
-                      ),
-                      title: const Text('Home'),
-                      onTap: homeController.homeNavigate),
-                  homeController.isLogged
-                      ? Column(
-                          children: [
-                            ListTile(
-                              leading: const Icon(
-                                Icons.favorite,
-                                color: AppColors.purple,
-                              ),
-                              title: const Text('Favoritos'),
-                              onTap: homeController.favoriteNavigate,
-                            ),
-                            ListTile(
-                              leading: const Icon(
-                                Icons.public,
-                                color: AppColors.purple,
-                              ),
-                              title: const Text('Público'),
-                              onTap: homeController.publicNavigate,
-                            ),
-                            ListTile(
-                              leading: const Icon(
-                                Icons.class_,
-                                color: AppColors.purple,
-                              ),
-                              title: const Text('Minha Turma'),
-                              onTap: homeController.classNavigate,
-                            ),
-                            ListTile(
-                              leading: const Icon(
-                                Icons.calendar_month,
-                                color: AppColors.purple,
-                              ),
-                              title: const Text('Semanas'),
-                              onTap: homeController.weekNavigate,
-                            ),
-                            ListTile(
-                              leading: const Icon(
-                                Icons.refresh,
-                                color: AppColors.purple,
-                              ),
-                              title: const Text('Últimos vistos'),
-                              onTap: homeController.historyNavigate,
-                            )
-                          ],
-                        )
-                      : ListTile(
-                          leading: const Icon(
-                            Icons.add_reaction,
-                            color: AppColors.purple,
-                          ),
-                          title: const Text('Cadastrar'),
-                          onTap: () {
-                            homeController.registerNavigate();
-                            Navigator.pop(context);
-                          },
-                        ),
-                  ListTile(
-                    leading: homeController.isLogged
-                        ? const Icon(
-                            Icons.logout,
-                            color: AppColors.purple,
-                          )
-                        : const Icon(
-                            Icons.login,
-                            color: AppColors.purple,
-                          ),
-                    title: Text(
-                      homeController.isLogged ? 'Logout' : 'Login',
-                    ),
-                    onTap: () {
-                      homeController.isLogged
-                          ? homeController.logoutAction()
-                          : homeController.loginNavigate();
-                      Navigator.pop(context);
+                  const ListTile(
+                    title: Text('Playlists'),
+                  ),
+                  WPlayListOptions(
+                    isLogged: homeController.isLogged,
+                    onAllVideos: () {
+                      homeController.setPlaylistOption(Playlist.all);
+                      Scaffold.of(context).closeDrawer();
+                    },
+                    onHistoryVideos: () {
+                      homeController.setPlaylistOption(Playlist.historic);
+                      Scaffold.of(context).closeDrawer();
+                    },
+                    onFavoriteVideos: () {
+                      homeController.setPlaylistOption(Playlist.favorites);
+                      Scaffold.of(context).closeDrawer();
+                    },
+                    onPublicVideos: () {
+                      homeController.setPlaylistOption(Playlist.public);
+                      Scaffold.of(context).closeDrawer();
+                    },
+                    onClassVideos: () {
+                      homeController.setPlaylistOption(Playlist.classVideos);
+                      Scaffold.of(context).closeDrawer();
+                    },
+                    onWeekVideos: () {
+                      homeController.setPlaylistOption(Playlist.weeks);
+                      Scaffold.of(context).closeDrawer();
                     },
                   ),
-                  const AboutListTile(
-                    // <-- SEE HERE
-                    icon: Icon(
-                      Icons.info,
-                      color: AppColors.purple,
-                    ),
-                    applicationIcon: Icon(
-                      Icons.local_play,
-                    ),
-                    applicationName: 'Raro Video Wall',
-                    applicationVersion: '1.0.0',
-                    applicationLegalese: '© 2022 Raro Academy',
-                    aboutBoxChildren: [
-
-                    ],
-                    child: Text('Sobre o app'),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: WDivider(),
                   ),
+                  WUserAccountActions(
+                    isLogged: homeController.isLogged,
+                    onRegister: () {
+                      Scaffold.of(context).closeDrawer();
+                      homeController.registerNavigate();
+                    },
+                    onLogin: () {
+                      Scaffold.of(context).closeDrawer();
+                      homeController.loginNavigate();
+                    },
+                    onLogout: () {
+                      Scaffold.of(context).closeDrawer();
+                      homeController.logoutAction();
+                    },
+                  ),
+                  const WAboutApp(),
                 ],
               ),
             );
@@ -193,20 +122,16 @@ class HomePage extends StatelessWidget {
             case LoadState.success:
               List<WTitleVideoList> playListWidget = _createPlayListWidgets();
               return Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  child: RefreshIndicator(
-                    color: Colors.white,
-                    backgroundColor: AppColors.purpleTitle,
-                    onRefresh: homeController.refreshVideos,
-                    child: ListView.builder(
-                      itemCount: playListWidget.length,
-                      itemBuilder: (_, index) => playListWidget[index],
-                      physics: const AlwaysScrollableScrollPhysics(),
-                    ),
-                  ));
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                child: ListView.builder(
+                  itemCount: playListWidget.length,
+                  itemBuilder: (_, index) => playListWidget[index],
+                  physics: const AlwaysScrollableScrollPhysics(),
+                ),
+              );
             case LoadState.loading:
               return const Center(
                 child: WCircularProgressIndicator(),
@@ -230,29 +155,33 @@ class HomePage extends StatelessWidget {
     List<WTitleVideoList> playListWidget = [];
     if (homeController.isLogged) {
       List<PlayListContent> playList = homeController.createPlayList();
-      if (!homeController.onlyVideoTypes) {
+
+      if (homeController.playlistOption == Playlist.all ||
+          homeController.playlistOption == Playlist.favorites) {
         playListWidget.add(WFavoriteVideoList(
           onTap: homeController.detailsNavigate,
           videos: homeController.favoriteVideos,
         ));
       }
+
       playListWidget.addAll(
         List.generate(
           playList.length,
           (index) => WTitleVideoList(
             onTap: homeController.detailsNavigate,
-            title:
-                playList[index].videos.isNotEmpty ? playList[index].name : '',
+            title: playList[index].name,
             videos: playList[index].videos,
           ),
         ),
       );
     } else {
-      playListWidget.add(WTitleVideoList(
-        onTap: homeController.detailsNavigate,
-        title: 'Públicos',
-        videos: homeController.videos,
-      ));
+      playListWidget.add(
+        WTitleVideoList(
+          onTap: homeController.detailsNavigate,
+          title: 'Públicos',
+          videos: homeController.videos,
+        ),
+      );
     }
     return playListWidget;
   }
