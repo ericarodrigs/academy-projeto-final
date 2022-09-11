@@ -9,7 +9,6 @@ import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
-import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
 import 'package:rarovideowall/src/w_system/atoms/widgets/w_about_app.dart';
 import 'package:rarovideowall/src/w_system/atoms/widgets/w_divider.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_drawer_header.dart';
@@ -53,13 +52,6 @@ class HomePage extends StatelessWidget {
                       onLoadError: (_, __) =>
                           homeController.onLoadImgError(context),
                       hasError: homeController.hasImgAvatarError,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(8.0, 8, 0, 0),
-                      child: Text(
-                        'Playlists',
-                        style: TextStyles.black16w700Urbanist,
-                      ),
                     ),
                     WPlayListOptions(
                       isLogged: homeController.isLogged,
@@ -135,8 +127,29 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               case LoadState.loading:
-                return const Center(
-                  child: WCircularProgressIndicator(),
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(
+                        left: 16,
+                        top: 16.0,
+                        right: 16,
+                      ),
+                      child: Skeleton(
+                        height: 25,
+                        width: 220,
+                      ),
+                    ),
+                    Flexible(
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemBuilder: (_, __) => const NewSkeletonVideo(),
+                        itemCount: 5,
+                      ),
+                    )
+                  ],
                 );
               case LoadState.error:
                 return Padding(
@@ -187,5 +200,93 @@ class HomePage extends StatelessWidget {
       );
     }
     return playListWidget;
+  }
+}
+
+class NewSkeletonVideo extends StatelessWidget {
+  const NewSkeletonVideo({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Container(
+        height: 120,
+        decoration: BoxDecoration(
+          border:
+              Border.all(color: AppColors.purple.withOpacity(0.3), width: 1),
+          borderRadius: BorderRadius.circular(8),
+          color: AppColors.cardColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: const [
+                  Expanded(
+                      child: Skeleton(
+                    height: 20,
+                  )),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Skeleton(
+                    width: 100,
+                    height: 20,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              const Skeleton(
+                height: 40,
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  Skeleton(
+                    width: 100,
+                    height: 20,
+                  ),
+                  Skeleton(
+                    width: 100,
+                    height: 20,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Skeleton extends StatelessWidget {
+  const Skeleton({
+    Key? key,
+    this.width,
+    required this.height,
+  }) : super(key: key);
+  final double? width;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      width: width,
+      decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.06),
+          borderRadius: const BorderRadius.all(Radius.circular(16))),
+    );
   }
 }
