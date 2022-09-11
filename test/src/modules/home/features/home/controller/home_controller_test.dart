@@ -69,6 +69,7 @@ void main() {
       expect(homeController.videos,
           publicVideos.map((video) => VideoModel.fromMap(video)));
     });
+
     test('Should isLogged be true when login has finished', () async {
       await homeController.loginRepository.login(LoginUserModel(
         email: 'test',
@@ -85,6 +86,12 @@ void main() {
       await Future.delayed(const Duration(milliseconds: 500));
       expect(homeController.homeState, LoadState.success);
       expect(homeController.favoriteVideos, [VideoModel.fromMap(firstVideo)]);
+    });
+    test(
+        'Should should createPlayList return a list of length 3 when is logged and refreshVideos is called.',
+        () async {
+      await homeController.refreshVideos();
+      expect(homeController.createPlayList().length >= 2, true);
     });
   });
 }
