@@ -2,11 +2,14 @@
 
 import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
+
 part 'videos_state.g.dart';
 
 class VideosState extends _VideosStateBase with _$VideosState {
   VideosState._();
+
   static final VideosState _instance = VideosState._();
+
   static VideosState get instance => _instance;
 }
 
@@ -18,9 +21,14 @@ abstract class _VideosStateBase with Store {
   List<VideoModel> videos = [];
 
   @observable
+  List<VideoModel> history = [];
+
   @action
   void syncFavoriteVideos(List<VideoModel> videos) => favoriteVideos = videos;
 
   @action
   void syncVideos(List<VideoModel> newVideos) => videos = newVideos;
+
+  @action
+  void syncHistoryVideos(List<VideoModel> newVideos) => history = newVideos;
 }

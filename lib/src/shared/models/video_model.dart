@@ -4,50 +4,51 @@ import 'package:flutter/foundation.dart';
 
 class VideoModel {
   final String id;
-  final String nome;
+  final String name;
   final String url;
   final String thumbUrl;
-  final String descricao;
+  final String description;
   final String createdAt;
-  final String duracao;
-  final String dataPublicacao;
-  final String topico;
+  final String duration;
+  final String publicationDate;
+  final String topic;
   final List<String> tags;
+
   VideoModel({
     required this.id,
-    required this.nome,
+    required this.name,
     required this.url,
     required this.thumbUrl,
-    required this.descricao,
+    required this.description,
     required this.createdAt,
-    required this.duracao,
-    required this.dataPublicacao,
-    required this.topico,
+    required this.duration,
+    required this.publicationDate,
+    required this.topic,
     required this.tags,
   });
 
   VideoModel copyWith({
     String? id,
-    String? nome,
+    String? name,
     String? url,
     String? thumbUrl,
-    String? descricao,
+    String? description,
     String? createdAt,
-    String? duracao,
-    String? dataPublicacao,
-    String? topico,
+    String? duration,
+    String? publicationDate,
+    String? topic,
     List<String>? tags,
   }) {
     return VideoModel(
       id: id ?? this.id,
-      nome: nome ?? this.nome,
+      name: name ?? this.name,
       url: url ?? this.url,
       thumbUrl: thumbUrl ?? this.thumbUrl,
-      descricao: descricao ?? this.descricao,
+      description: description ?? this.description,
       createdAt: createdAt ?? this.createdAt,
-      duracao: duracao ?? this.duracao,
-      dataPublicacao: dataPublicacao ?? this.dataPublicacao,
-      topico: topico ?? this.topico,
+      duration: duration ?? this.duration,
+      publicationDate: publicationDate ?? this.publicationDate,
+      topic: topic ?? this.topic,
       tags: tags ?? this.tags,
     );
   }
@@ -55,14 +56,14 @@ class VideoModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'nome': nome,
+      'nome': name,
       'url': url,
       'thumbUrl': thumbUrl,
-      'descricao': descricao,
+      'descricao': description,
       'createdAt': createdAt,
-      'duracao': duracao,
-      'dataPublicacao': dataPublicacao,
-      'topico': topico,
+      'duracao': duration,
+      'dataPublicacao': publicationDate,
+      'topico': topic,
       'tags': tags,
     };
   }
@@ -70,14 +71,14 @@ class VideoModel {
   factory VideoModel.fromMap(Map<String, dynamic> map) {
     return VideoModel(
       id: map['id'] ?? '',
-      nome: map['nome'] ?? '',
+      name: map['nome'] ?? '',
       url: map['url'] ?? '',
       thumbUrl: map['thumbUrl'] ?? '',
-      descricao: map['descricao'] ?? '',
+      description: map['descricao'] ?? '',
       createdAt: map['createdAt'] ?? '',
-      duracao: map['duracao'] ?? '',
-      dataPublicacao: map['dataPublicacao'] ?? '',
-      topico: map['topico'] ?? '',
+      duration: map['duracao'] ?? '',
+      publicationDate: map['dataPublicacao'] ?? '',
+      topic: map['topico'] ?? '',
       tags: List<String>.from(map['tags']),
     );
   }
@@ -93,28 +94,32 @@ class VideoModel {
 
     return other is VideoModel &&
         other.id == id &&
-        other.nome == nome &&
+        other.name == name &&
         other.url == url &&
         other.thumbUrl == thumbUrl &&
-        other.descricao == descricao &&
+        other.description == description &&
         other.createdAt == createdAt &&
-        other.duracao == duracao &&
-        other.dataPublicacao == dataPublicacao &&
-        other.topico == topico &&
+        other.duration == duration &&
+        other.publicationDate == publicationDate &&
+        other.topic == topic &&
         listEquals(other.tags, tags);
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-        nome.hashCode ^
-        url.hashCode ^
-        thumbUrl.hashCode ^
-        descricao.hashCode ^
-        createdAt.hashCode ^
-        duracao.hashCode ^
-        dataPublicacao.hashCode ^
-        topico.hashCode ^
-        tags.hashCode;
+    name.hashCode ^
+    url.hashCode ^
+    thumbUrl.hashCode ^
+    description.hashCode ^
+    createdAt.hashCode ^
+    duration.hashCode ^
+    publicationDate.hashCode ^
+    topic.hashCode ^
+    tags.hashCode;
+  }
+  @override
+  String toString() {
+    return 'nome: $name    ';
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 
-class MSplashScreen extends StatelessWidget {
-  const MSplashScreen({
+class WSplashScreen extends StatelessWidget {
+  const WSplashScreen({
     Key? key,
   }) : super(key: key);
 

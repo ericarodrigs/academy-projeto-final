@@ -5,6 +5,8 @@ import 'package:rarovideowall/src/modules/login_module/features/login/controller
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/validator.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
+import 'package:rarovideowall/src/w_system/atoms/buttons/w_text_button.dart';
+import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_text_form_field.dart';
 
 class LoginPage extends StatefulWidget {
@@ -45,23 +47,28 @@ class _LoginPageState extends State<LoginPage> {
                     child: WTextFormField(
                         isEnabled: loginController.isFieldEnabled(),
                         controller: loginController.emailController,
-                        validator: Validator.validateEmail,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.emailAddress,
+                        validator: Validator.validateEmailFilled,
                         text: 'E-mail'),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18),
                     child: WTextFormField(
                         isEnabled: loginController.isFieldEnabled(),
-                        controller: loginController.pwController,
-                        validator: Validator.validatePassword,
+                        controller: loginController.passwordController,
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.visiblePassword,
+                        validator: Validator.validatePasswordFilled,
                         obscureText: loginController.isHiddenPassword,
-                        togglePasswordView: () {
-                          loginController.changePasswordVisibility();
-                        },
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            loginController.isHiddenPassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          onPressed: loginController.changePasswordVisibility,
+                        ),
                         text: 'Senha'),
                   ),
                   Padding(
@@ -71,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: WTextButton(
                           isEnabled: loginController.isFieldEnabled(),
                           onTap: () {
-                            // Modular.to.pushNamed('recover').then((value) => loginController.loginInitState(););
+                            loginController.goToRequestEmailPage();
                           },
                           text: 'Esqueci minha senha...',
                           style: TextStyles.black14BoldUrbanist),
@@ -79,18 +86,18 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Visibility(
                       visible: !loginController.isFieldEnabled(),
-                      child: const CircularProgressIndicator()),
+                      child: const WCircularProgressIndicator()),
                   Visibility(
-                      visible: true,
+                      visible: loginController.errorText != null ? true : false,
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(44, 20, 44, 10),
                         child: Text(
                           loginController.errorText ?? '',
                           style: TextStyles.errorRed,
                         ),
                       )),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(44, 60, 44, 20),
+                    padding: const EdgeInsets.fromLTRB(44, 50, 44, 10),
                     child: WElevatedButton(
                       text: 'Entrar',
                       isEnabled: loginController.isFieldEnabled(),
@@ -102,14 +109,12 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 44.0),
+                    padding: const EdgeInsets.fromLTRB(44, 10, 44, 16),
                     child: WElevatedButton(
                       text: 'Registrar',
                       isEnabled: loginController.isFieldEnabled(),
                       function: () {
-                        Modular.to
-                            .pushNamed('/login/register/')
-                            .then((value) => loginController.loginInitState());
+                        loginController.goToRegisterPage();
                       },
                     ),
                   ),

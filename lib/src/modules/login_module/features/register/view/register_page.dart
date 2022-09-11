@@ -5,6 +5,7 @@ import 'package:rarovideowall/src/modules/login_module/features/register/control
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/validator.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
+import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_text_form_field.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -43,8 +44,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: WTextFormField(
                         isEnabled: registerController.isFieldEnabled(),
                         controller: registerController.nameController,
-                        validator:
-                            Validator.validateName,
+                        validator: Validator.validateName,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.name,
                         text: 'Digite seu nome'),
@@ -64,14 +64,18 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: WTextFormField(
                       isEnabled: registerController.isFieldEnabled(),
                       controller: registerController.passwordController,
-                      validator:
-                          Validator.validatePassword,
+                      validator: Validator.validatePassword,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.visiblePassword,
                       obscureText: registerController.isHiddenPassword,
-                      togglePasswordView: () {
-                        registerController.changePasswordVisibility();
-                      },
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          registerController.isHiddenPassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: registerController.changePasswordVisibility,
+                      ),
                       text: 'Digite sua senha',
                     ),
                   ),
@@ -87,25 +91,25 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   Visibility(
                       visible: !registerController.isFieldEnabled(),
-                      child: const CircularProgressIndicator()),
+                      child: const WCircularProgressIndicator()),
                   Visibility(
                       visible:
                           registerController.errorText != null ? true : false,
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                        padding: const EdgeInsets.only(top: 8),
                         child: Text(
                           registerController.errorText ?? '',
                           style: TextStyles.errorRed,
                         ),
                       )),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(44, 12, 44, 8),
+                    padding: const EdgeInsets.fromLTRB(44, 50, 44, 16),
                     child: WElevatedButton(
                       text: 'Registrar',
                       isEnabled: registerController.isFieldEnabled(),
                       function: () {
                         if (registerController.isTryRegister) {
-                          registerController.register();
+                          registerController.register(context);
                         }
                       },
                     ),

@@ -4,13 +4,14 @@ class UserModel {
   final String accessToken;
   final String name;
   final bool admin;
-  final String foto;
+  final String photo;
   final String id;
+
   UserModel({
     required this.accessToken,
     required this.name,
     required this.admin,
-    required this.foto,
+    required this.photo,
     required this.id,
   });
 
@@ -18,14 +19,14 @@ class UserModel {
     String? accessToken,
     String? name,
     bool? admin,
-    String? foto,
+    String? photo,
     String? id,
   }) {
     return UserModel(
       accessToken: accessToken ?? this.accessToken,
       name: name ?? this.name,
       admin: admin ?? this.admin,
-      foto: foto ?? this.foto,
+      photo: photo ?? this.photo,
       id: id ?? this.id,
     );
   }
@@ -35,7 +36,7 @@ class UserModel {
       'access_token': accessToken,
       'nome': name,
       'admin': admin,
-      'foto': foto,
+      'foto': photo,
       'id': id,
     };
   }
@@ -45,7 +46,7 @@ class UserModel {
       accessToken: map['access_token'] ?? '',
       name: map['nome'] ?? '',
       admin: map['admin'] ?? false,
-      foto: map['foto'] ?? '',
+      photo: map['foto'] ?? '',
       id: map['id'] ?? '',
     );
   }
@@ -57,7 +58,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(accessToken: $accessToken, name: $name, admin: $admin, foto: $foto, id: $id)';
+    return 'UserModel(accessToken: $accessToken, name: $name, admin: $admin, foto: $photo, id: $id)';
   }
 
   @override
@@ -68,7 +69,7 @@ class UserModel {
         other.accessToken == accessToken &&
         other.name == name &&
         other.admin == admin &&
-        other.foto == foto &&
+        other.photo == photo &&
         other.id == id;
   }
 
@@ -77,7 +78,7 @@ class UserModel {
     return accessToken.hashCode ^
         name.hashCode ^
         admin.hashCode ^
-        foto.hashCode ^
+        photo.hashCode ^
         id.hashCode;
   }
 }

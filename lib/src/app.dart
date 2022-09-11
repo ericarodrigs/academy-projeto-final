@@ -13,7 +13,6 @@ class App extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.backGroundPageColor,
       ),
-      title: 'Flutter Demo',
     );
   }
 }

@@ -17,6 +17,14 @@ class TextStyles {
     color: AppColors.black,
   );
 
+  static const TextStyle white14BoldUrbanist = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Urbanist',
+    fontSize: 14,
+    letterSpacing: 0.02,
+    color: Colors.white,
+  );
+
   static const TextStyle errorRed = TextStyle(
     fontWeight: FontWeight.bold,
     fontSize: 20,
@@ -29,6 +37,14 @@ class TextStyles {
     fontSize: 16,
     color: AppColors.deepPurple,
     letterSpacing: 0.02,
+  );
+
+  static const TextStyle white30w700Urbanist = TextStyle(
+    fontSize: 30,
+    fontWeight: FontWeight.w700,
+    color: Colors.white,
+    fontFamily: "Urbanist",
+    letterSpacing: -0.05,
   );
 
   static const TextStyle black16w700Urbanist = TextStyle(
@@ -53,5 +69,20 @@ class TextStyles {
     fontSize: 26,
     color: AppColors.black,
     letterSpacing: 0.02,
+  );
+
+  static const TextStyle black24w700Urbanist = TextStyle(
+    fontFamily: 'Urbanist',
+    fontWeight: FontWeight.w700,
+    fontSize: 24,
+    color: AppColors.black,
+    letterSpacing: 0.02,
+  );
+
+  static const TextStyle white10Urbanist = TextStyle(
+    fontFamily: 'Urbanist',
+    fontWeight: FontWeight.bold,
+    fontSize: 10,
+    color: Colors.white,
   );
 }

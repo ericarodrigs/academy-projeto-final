@@ -2,11 +2,14 @@
 
 import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/shared/models/user_model.dart';
+
 part 'logged_state.g.dart';
 
 class LoggedState extends _LoggedStateBase with _$LoggedState {
   LoggedState._();
+
   static final LoggedState _instance = LoggedState._();
+
   static LoggedState get instance => _instance;
 }
 

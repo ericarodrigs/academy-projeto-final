@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/modules/login_module/features/register/model/register_user_model.dart';
+import 'package:rarovideowall/src/shared/constants/app_colors.dart';
+import 'package:rarovideowall/src/shared/constants/load_states.dart';
+import 'package:rarovideowall/src/shared/constants/show_popups.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 
 part 'register_controller.g.dart';
@@ -20,16 +23,16 @@ abstract class _RegisterController with Store {
 
   String? errorText;
 
+  _RegisterController({required this.loginRepository});
+
   @observable
-  LoadState loadState = LoadState.done;
+  LoadState loadState = LoadState.success;
 
   @observable
   PageState pageState = PageState.fine;
 
   @observable
   bool isHiddenPassword = true;
-
-  _RegisterController({required this.loginRepository});
 
   @action
   Future<void> changeLoadState(LoadState state) async {
@@ -46,27 +49,28 @@ abstract class _RegisterController with Store {
     isHiddenPassword = !isHiddenPassword;
   }
 
-  Future<void> register() async {
+  Future<void> register(BuildContext context) async {
     changeLoadState(LoadState.loading);
     changePageState(PageState.fine);
     errorText = null;
 
-    (await loginRepository.register(getRegister())).fold(
+    (await loginRepository.register(_getRegister())).fold(
       (fail) {
         errorText = fail.message;
         changePageState(PageState.error);
-        changeLoadState(LoadState.done);
+        changeLoadState(LoadState.success);
       },
       (success) {
-        changeLoadState(LoadState.done);
-        clearTextFields();
+        changeLoadState(LoadState.success);
+        _clearTextFields();
         Modular.to.pop();
-        // Modular.to.pushNamed('/confirmRegister/');
+        ShowPopups.showSnackBar(
+            context, 'Usuário cadastrado com sucesso!', AppColors.purple);
       },
     );
   }
 
-  RegisterUserModel getRegister() {
+  RegisterUserModel _getRegister() {
     return RegisterUserModel(
       name: nameController.text,
       email: emailController.text,
@@ -77,24 +81,20 @@ abstract class _RegisterController with Store {
 
   bool get isTryRegister => formKey.currentState!.validate();
 
-  bool isFieldEnabled() {
-    return loadState == LoadState.loading ? false : true;
-  }
+  bool isFieldEnabled() => loadState == LoadState.loading ? false : true;
 
   void registerInitState() {
     changePageState(PageState.fine);
-    changeLoadState(LoadState.done);
+    changeLoadState(LoadState.success);
     errorText = null;
   }
 
-  void clearTextFields() {
+  void _clearTextFields() {
     nameController.text = "";
     emailController.text = "";
     passwordController.text = "";
     accessCodeController.text = "";
   }
 }
-
-enum LoadState { loading, done }
 
 enum PageState { error, fine }

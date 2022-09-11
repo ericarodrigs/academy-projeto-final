@@ -41,6 +41,22 @@ mixin _$VideosState on _VideosStateBase, Store {
     });
   }
 
+  late final _$historyAtom =
+      Atom(name: '_VideosStateBase.history', context: context);
+
+  @override
+  List<VideoModel> get history {
+    _$historyAtom.reportRead();
+    return super.history;
+  }
+
+  @override
+  set history(List<VideoModel> value) {
+    _$historyAtom.reportWrite(value, super.history, () {
+      super.history = value;
+    });
+  }
+
   late final _$_VideosStateBaseActionController =
       ActionController(name: '_VideosStateBase', context: context);
 
@@ -67,10 +83,22 @@ mixin _$VideosState on _VideosStateBase, Store {
   }
 
   @override
+  void syncHistoryVideos(List<VideoModel> newVideos) {
+    final _$actionInfo = _$_VideosStateBaseActionController.startAction(
+        name: '_VideosStateBase.syncHistoryVideos');
+    try {
+      return super.syncHistoryVideos(newVideos);
+    } finally {
+      _$_VideosStateBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 favoriteVideos: ${favoriteVideos},
-videos: ${videos}
+videos: ${videos},
+history: ${history}
     ''';
   }
 }
