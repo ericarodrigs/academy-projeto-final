@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:dartz/dartz.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/modules/home/features/home/model/play_list_content.dart';
@@ -10,7 +10,6 @@ import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
 
 import 'package:rarovideowall/src/modules_route_names.dart';
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
-import 'package:rarovideowall/src/shared/constants/keys_storage.dart';
 import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/shared/constants/show_popups.dart';
 import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state.dart';
@@ -95,7 +94,11 @@ abstract class _HomeControllerBase with Store {
         if (isLogged) {
           (await videosRepository.getFavoriteVideos()).fold(
             (fail) => setHomeState(Left(fail)),
-            (success) => setHomeState(const Right(LoadState.success)),
+            (success) async =>
+                ((await localStorageVideoRepository.loadAll()).fold(
+              (fail) => setHomeState(Left(fail)),
+              (success) => setHomeState(const Right(LoadState.success)),
+            )),
           );
         } else {
           setHomeState(const Right(LoadState.success));
@@ -118,7 +121,7 @@ abstract class _HomeControllerBase with Store {
 
   void detailsNavigate(VideoModel video) {
     Modular.to.pushNamed(HomeRouteNames.details(video.id));
-    localStorageVideoRepository.save(KeysStorage.history, video);
+    localStorageVideoRepository.save(video);
   }
 
   void registerNavigate() {
@@ -166,9 +169,13 @@ abstract class _HomeControllerBase with Store {
         return [
           PlayListContent(
             name: 'Últimos Vistos',
-            videos: historyVideos.reversed.toList().sublist(
+            videos: historyVideos.reversed
+                .toList()
+                .getRange(
+                  0,
                   historyVideos.length > 3 ? 3 : historyVideos.length,
-                ),
+                )
+                .toList(),
           ),
           PlayListContent(name: 'Públicos', videos: publicVideos),
           PlayListContent(name: 'Minha Turma', videos: classVideos),
@@ -181,7 +188,12 @@ abstract class _HomeControllerBase with Store {
       case Playlist.favorites:
         return [];
       case Playlist.historic:
-        return [PlayListContent(name: 'Últimos Vistos', videos: historyVideos)];
+        return [
+          PlayListContent(
+            name: 'Últimos Vistos',
+            videos: historyVideos.reversed.toList(),
+          )
+        ];
       case Playlist.public:
         return [PlayListContent(name: 'Públicos', videos: publicVideos)];
       case Playlist.weeks:

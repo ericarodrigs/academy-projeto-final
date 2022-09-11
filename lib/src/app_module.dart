@@ -28,8 +28,9 @@ class AppModule extends Module {
     Bind<ILoginRepository>(
       (i) => LoginRepository(
         loggedState: i(),
-        service: i(),
+        apiService: i(),
         localStorageUserRepository: i(),
+        localStorageService: i(),
       ),
     ),
     Bind<IVideosRepository>(
@@ -37,14 +38,16 @@ class AppModule extends Module {
         service: i(),
         videosState: i(),
         loggedState: i(),
-        localStorageVideoRepository: i(),
       ),
     ),
     Bind<LocalStorageUserRepository>(
       (i) => LocalStorageUserRepository(service: i()),
     ),
     Bind<LocalStorageVideoRepository>(
-          (i) => LocalStorageVideoRepository(service: i()),
+      (i) => LocalStorageVideoRepository(
+        service: i(),
+        videosState: i(),
+      ),
     ),
   ];
 

@@ -35,13 +35,4 @@ class LocalStorageUserRepository {
       return Left(Failure(err.toString(), object: err, stackTrace: stackTrace));
     }
   }
-
-  Future<Either<Failure, void>> deleteAll() async {
-    try {
-      await service.deleteAll();
-      return const Right(null);
-    } catch (err, stackTrace) {
-      return Left(Failure(err.toString(), object: err, stackTrace: stackTrace));
-    }
-  }
 }

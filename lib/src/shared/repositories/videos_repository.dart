@@ -1,26 +1,22 @@
 import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:rarovideowall/src/shared/constants/keys_storage.dart';
 import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state.dart';
 import 'package:rarovideowall/src/shared/global_states/videos_state/videos_state.dart';
 import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
 import 'package:rarovideowall/src/shared/interfaces/videos_repository_interface.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
-import 'package:rarovideowall/src/shared/repositories/local_storage_video_repository.dart';
 
 class VideosRepository implements IVideosRepository {
   ApiService service;
   VideosState videosState;
   LoggedState loggedState;
-  LocalStorageVideoRepository localStorageVideoRepository;
 
   VideosRepository({
     required this.service,
     required this.videosState,
     required this.loggedState,
-    required this.localStorageVideoRepository,
   });
 
   @override
@@ -40,7 +36,6 @@ class VideosRepository implements IVideosRepository {
       List<VideoModel> newVideos =
           videos.map((video) => VideoModel.fromMap(video)).toList();
       videosState.syncVideos(newVideos);
-      localStorageVideoRepository.saveAll(KeysStorage.videos, newVideos);
       return Right(newVideos);
     } on Failure catch (fail) {
       log(fail.message);
@@ -76,7 +71,6 @@ class VideosRepository implements IVideosRepository {
       List<VideoModel> favoriteVideos =
           videos.map((video) => VideoModel.fromMap(video)).toList();
       videosState.syncFavoriteVideos(favoriteVideos);
-      localStorageVideoRepository.saveAll(KeysStorage.favorites, favoriteVideos);
       return Right(favoriteVideos);
     } on Failure catch (fail) {
       log(fail.message);

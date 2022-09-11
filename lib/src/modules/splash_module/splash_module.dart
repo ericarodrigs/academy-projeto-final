@@ -5,11 +5,14 @@ import 'package:rarovideowall/src/modules/splash_module/feature/splash_screen/vi
 class SplashModule extends Module {
   @override
   final List<Bind> binds = [
-    Bind<SplashController>((i) => SplashController(
-          loginRepository: i(),
-          localStorageUserRepository: i(),
-          videosRepository: i(),
-        ))
+    Bind<SplashController>(
+      (i) => SplashController(
+        loginRepository: i(),
+        localStorageUserRepository: i(),
+        videosRepository: i(),
+        localStorageVideoRepository: i(),
+      ),
+    ),
   ];
 
   @override

@@ -19,6 +19,7 @@ abstract class _VideosStateBase with Store {
 
   @observable
   List<VideoModel> videos = [];
+
   @observable
   List<VideoModel> history = [];
 
