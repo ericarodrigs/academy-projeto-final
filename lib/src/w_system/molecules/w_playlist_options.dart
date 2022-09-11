@@ -59,7 +59,7 @@ class WPlayListOptions extends StatelessWidget {
                   Icons.public,
                   color: AppColors.purple,
                 ),
-                title: const Text('Público'),
+                title: const Text('Públicos'),
                 onTap: onPublicVideos,
               ),
               ListTile(

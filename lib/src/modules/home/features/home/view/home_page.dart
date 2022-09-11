@@ -29,128 +29,127 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     homeController.setHomeState(initialState);
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Raro Video Wall',
-          style: TextStyles.white30w700Urbanist,
-        ),
-        shadowColor: AppColors.purple,
-        backgroundColor: AppColors.purpleTitle,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: InkWell(
-              onTap: homeController.refreshVideos,
-              child: const Icon(Icons.refresh),
-            ),
+    return TooltipVisibility(
+      visible: false,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text(
+            'Raro Video Wall',
+            style: TextStyles.white30w700Urbanist,
           ),
-        ],
-      ),
-      drawer: Observer(
-          name: 'Drawer',
-          builder: (context) {
-            return Drawer(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  WDrawerHeader(
-                    user: homeController.user,
-                    onLoadError: (_, __) =>
-                        homeController.onLoadImgError(context),
-                    hasError: homeController.hasImgAvatarError,
+          shadowColor: AppColors.purple,
+          backgroundColor: AppColors.purpleTitle,
+        ),
+        drawer: Observer(
+            name: 'Drawer',
+            builder: (context) {
+              return Drawer(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    WDrawerHeader(
+                      user: homeController.user,
+                      onLoadError: (_, __) =>
+                          homeController.onLoadImgError(context),
+                      hasError: homeController.hasImgAvatarError,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(8.0, 8, 0, 0),
+                      child: Text(
+                        'Playlists',
+                        style: TextStyles.black16w700Urbanist,
+                      ),
+                    ),
+                    WPlayListOptions(
+                      isLogged: homeController.isLogged,
+                      onAllVideos: () {
+                        homeController.setPlaylistOption(Playlist.all);
+                        Scaffold.of(context).closeDrawer();
+                      },
+                      onHistoryVideos: () {
+                        homeController.setPlaylistOption(Playlist.historic);
+                        Scaffold.of(context).closeDrawer();
+                      },
+                      onFavoriteVideos: () {
+                        homeController.setPlaylistOption(Playlist.favorites);
+                        Scaffold.of(context).closeDrawer();
+                      },
+                      onPublicVideos: () {
+                        homeController.setPlaylistOption(Playlist.public);
+                        Scaffold.of(context).closeDrawer();
+                      },
+                      onClassVideos: () {
+                        homeController.setPlaylistOption(Playlist.classVideos);
+                        Scaffold.of(context).closeDrawer();
+                      },
+                      onWeekVideos: () {
+                        homeController.setPlaylistOption(Playlist.weeks);
+                        Scaffold.of(context).closeDrawer();
+                      },
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: WDivider(),
+                    ),
+                    WUserAccountActions(
+                      isLogged: homeController.isLogged,
+                      onRegister: () {
+                        Scaffold.of(context).closeDrawer();
+                        homeController.registerNavigate();
+                      },
+                      onLogin: () {
+                        Scaffold.of(context).closeDrawer();
+                        homeController.loginNavigate();
+                      },
+                      onLogout: () {
+                        Scaffold.of(context).closeDrawer();
+                        homeController.logoutAction();
+                      },
+                    ),
+                    const WAboutApp(),
+                  ],
+                ),
+              );
+            }),
+        body: Observer(
+          name: 'Home State',
+          builder: (_) {
+            switch (homeController.homeState) {
+              case LoadState.success:
+                List<WTitleVideoList> playListWidget = _createPlayListWidgets();
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
                   ),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(8.0, 8, 0, 0),
-                    child: Text(
-                      'Playlists',
-                      style: TextStyles.black16w700Urbanist,
+                  child: RefreshIndicator(
+                    color: Colors.white,
+                    backgroundColor: AppColors.purpleTitle,
+                    onRefresh: homeController.refreshVideos,
+                    child: ListView.builder(
+                      itemCount: playListWidget.length,
+                      itemBuilder: (_, index) => playListWidget[index],
+                      physics: const AlwaysScrollableScrollPhysics(),
                     ),
                   ),
-                  WPlayListOptions(
-                    isLogged: homeController.isLogged,
-                    onAllVideos: () {
-                      homeController.setPlaylistOption(Playlist.all);
-                      Scaffold.of(context).closeDrawer();
-                    },
-                    onHistoryVideos: () {
-                      homeController.setPlaylistOption(Playlist.historic);
-                      Scaffold.of(context).closeDrawer();
-                    },
-                    onFavoriteVideos: () {
-                      homeController.setPlaylistOption(Playlist.favorites);
-                      Scaffold.of(context).closeDrawer();
-                    },
-                    onPublicVideos: () {
-                      homeController.setPlaylistOption(Playlist.public);
-                      Scaffold.of(context).closeDrawer();
-                    },
-                    onClassVideos: () {
-                      homeController.setPlaylistOption(Playlist.classVideos);
-                      Scaffold.of(context).closeDrawer();
-                    },
-                    onWeekVideos: () {
-                      homeController.setPlaylistOption(Playlist.weeks);
-                      Scaffold.of(context).closeDrawer();
-                    },
+                );
+              case LoadState.loading:
+                return const Center(
+                  child: WCircularProgressIndicator(),
+                );
+              case LoadState.error:
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: WErrorCard(
+                    action: homeController.refreshVideos,
+                    buttonText: 'Quer Tentar novamente?',
+                    errorText: homeController.errorText,
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                    child: WDivider(),
-                  ),
-                  WUserAccountActions(
-                    isLogged: homeController.isLogged,
-                    onRegister: () {
-                      Scaffold.of(context).closeDrawer();
-                      homeController.registerNavigate();
-                    },
-                    onLogin: () {
-                      Scaffold.of(context).closeDrawer();
-                      homeController.loginNavigate();
-                    },
-                    onLogout: () {
-                      Scaffold.of(context).closeDrawer();
-                      homeController.logoutAction();
-                    },
-                  ),
-                  const WAboutApp(),
-                ],
-              ),
-            );
-          }),
-      body: Observer(
-        name: 'Home State',
-        builder: (_) {
-          switch (homeController.homeState) {
-            case LoadState.success:
-              List<WTitleVideoList> playListWidget = _createPlayListWidgets();
-              return Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                child: ListView.builder(
-                  itemCount: playListWidget.length,
-                  itemBuilder: (_, index) => playListWidget[index],
-                  physics: const AlwaysScrollableScrollPhysics(),
-                ),
-              );
-            case LoadState.loading:
-              return const Center(
-                child: WCircularProgressIndicator(),
-              );
-            case LoadState.error:
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: WErrorCard(
-                  action: homeController.refreshVideos,
-                  buttonText: 'Quer Tentar novamente?',
-                  errorText: homeController.errorText,
-                ),
-              );
-          }
-        },
+                );
+            }
+          },
+        ),
       ),
     );
   }
