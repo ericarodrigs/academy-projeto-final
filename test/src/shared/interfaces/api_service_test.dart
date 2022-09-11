@@ -116,7 +116,7 @@ void main() {
         expect(response.statusCode, 204);
       });
       test(
-          'Should add and remove the firstVideo in /videos/favorite when  /videos/firstVideoId is called with Post and Delete',
+          'Should add and remove the firstVideo in /videos/favorite when  /videos/firstVideoId/favoritos is called with Post and Delete',
           () async {
         await service.request(
           '/videos/$firstVideoId/favoritos',
