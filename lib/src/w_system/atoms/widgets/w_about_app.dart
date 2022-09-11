@@ -9,7 +9,6 @@ class WAboutApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const AboutListTile(
-      // <-- SEE HERE
       icon: Icon(
         Icons.info,
         color: AppColors.purple,

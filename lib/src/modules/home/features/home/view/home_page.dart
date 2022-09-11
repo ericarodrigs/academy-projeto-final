@@ -16,6 +16,7 @@ import 'package:rarovideowall/src/w_system/molecules/w_error_card.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_playlist_options.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_user_account_actions.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_favorite_video_list.dart';
+import 'package:rarovideowall/src/w_system/organisms/w_skeleton_home_page.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_title_video_list.dart';
 
 class HomePage extends StatelessWidget {
@@ -127,30 +128,7 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               case LoadState.loading:
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        left: 16,
-                        top: 16.0,
-                        right: 16,
-                      ),
-                      child: Skeleton(
-                        height: 25,
-                        width: 220,
-                      ),
-                    ),
-                    Flexible(
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemBuilder: (_, __) => const NewSkeletonVideo(),
-                        itemCount: 5,
-                      ),
-                    )
-                  ],
-                );
+                return const WSkeletonHomePage();
               case LoadState.error:
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -200,93 +178,5 @@ class HomePage extends StatelessWidget {
       );
     }
     return playListWidget;
-  }
-}
-
-class NewSkeletonVideo extends StatelessWidget {
-  const NewSkeletonVideo({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Container(
-        height: 120,
-        decoration: BoxDecoration(
-          border:
-              Border.all(color: AppColors.purple.withOpacity(0.3), width: 1),
-          borderRadius: BorderRadius.circular(8),
-          color: AppColors.cardColor,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: const [
-                  Expanded(
-                      child: Skeleton(
-                    height: 20,
-                  )),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Skeleton(
-                    width: 100,
-                    height: 20,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              const Skeleton(
-                height: 40,
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Skeleton(
-                    width: 100,
-                    height: 20,
-                  ),
-                  Skeleton(
-                    width: 100,
-                    height: 20,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class Skeleton extends StatelessWidget {
-  const Skeleton({
-    Key? key,
-    this.width,
-    required this.height,
-  }) : super(key: key);
-  final double? width;
-  final double height;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      width: width,
-      decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.06),
-          borderRadius: const BorderRadius.all(Radius.circular(16))),
-    );
   }
 }
