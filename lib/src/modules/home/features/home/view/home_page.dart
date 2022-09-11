@@ -61,8 +61,12 @@ class HomePage extends StatelessWidget {
                         homeController.onLoadImgError(context),
                     hasError: homeController.hasImgAvatarError,
                   ),
-                  const ListTile(
-                    title: Text('Playlists'),
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(8.0, 8, 0, 0),
+                    child: Text(
+                      'Playlists',
+                      style: TextStyles.black16w700Urbanist,
+                    ),
                   ),
                   WPlayListOptions(
                     isLogged: homeController.isLogged,
