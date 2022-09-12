@@ -38,7 +38,7 @@ Atualmente os vídeos podem ser acessados por meio de um link disponibilizado pa
 
 Para a organização da estrutura do projeto, foi utilizado o padrão **MVC**, que facilita a comunicação entre as camadas envolvidas, designando responsabilidades separadas para cada uma. A escolha de uma arquitetura consistente auxilia a mantenabilidade do código.
 
-Adotamos também um padrão de **design atômico** para reaproveitar o código da melhor forma possível, compenentizando itens que aparecem várias vezes, com o objetivo de deixar o código bem enxuto e de fácil entendimento.
+Adotamos também um padrão de **design atômico** para reaproveitar o código da melhor forma possível, compenentizando itens com o objetivo de deixar o código bem enxuto e de fácil entendimento.
 
 A comunicação com a API disponibilizada para nossa aplicação foi feita através da biblioca **DIO**.
 
@@ -73,11 +73,11 @@ URL base da API e implementa a primeira tratativa de erro que lança uma exceç�
 Failure.
 </div>
 
-### LocalStorageService e SharedPreferencesService
+### LocalStorageService e StorageService
 <div style="text-align: justify">
-A classe LocalStorageService é uma interface e a SharedPreferencesService a sua implementação. Essa
+A classe LocalStorageService é uma interface e a StorageService a sua implementação. Essa
 feature é usada para guardar os dados de acesso da página de login na memória interna do
-dispositivo evitando a reentrada no aplicativo.
+dispositivo evitando a reentrada no aplicativo. Também é usada para salvar os o histórico dos vídeos.
 </div>
 
 ### LoggedState
@@ -101,8 +101,12 @@ Implementa os modelos retornados pelas requisições da API. Os modelos implemen
 - LoginUserModel → usado para traduzir o modelo do login do usuário, usado para gravação no banco
 local,
 - UserModel → representa as informações de um usuário logado retornado pela API,
+- RegisterUserModel → representa as informações do usuário que serão enviadas para API,
+- RecoverPasswordModel → representa as informações de alteração de senha que serão enviadas para API,
 - VideoModel → representa as informações dos vídeos retornados pela API,
 - CommentModel → implementa as informações dos comentários de um vídeo.
+- PlayListContentModel → representa as informações da playlist dos vídeos.
+- RequestCodeModel → representa o modelo que possibilita a solicitação de um código pra resgatar a senha.
 - FailureModel → implementa o modelo de falha usado em todo o sistema.
 </div>
 
@@ -113,9 +117,11 @@ implementados são:
 
 - Login_repository: implementa as rotas usadas para login, recuperação de senha e cadastros. Essa
   classe é responsável por atualizar o estado de logado ou não na aplicação.
-- Videos_repository: implementa as rotas para buscar vídeos, buscar vídeos favoritos, favoritar um vídeo e buscar os
+- videos_repository: implementa as rotas para buscar vídeos, buscar vídeos favoritos, favoritar um vídeo e buscar os
   vídeos recomendados.
 - local_storage_user_repository: implementa as funcionalidades de salvar, recuperar e apagar a senha e email de um repositório
+- comment_repository: implementa as rotas usadas para tratar os comentários.
+- local_storage_video_repository: implementa as funcionalidades de salvar, recuperar e apagar os videos de um repositório
 - comment_repository: implementa as rotas usadas para tratar os comentários.
 
 Todos os repositórios possuem tratamento de exceções das requisições e possuem retorno de dois tipos
