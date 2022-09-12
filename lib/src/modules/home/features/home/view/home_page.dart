@@ -11,6 +11,7 @@ import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/w_system/atoms/widgets/w_about_app.dart';
 import 'package:rarovideowall/src/w_system/atoms/widgets/w_divider.dart';
+import 'package:rarovideowall/src/w_system/atoms/widgets/w_refresh_indicator.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_drawer_header.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_error_card.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_playlist_options.dart';
@@ -116,9 +117,7 @@ class HomePage extends StatelessWidget {
                     horizontal: 12,
                     vertical: 8,
                   ),
-                  child: RefreshIndicator(
-                    color: Colors.white,
-                    backgroundColor: AppColors.purpleTitle,
+                  child: WRefreshIndicator(
                     onRefresh: homeController.refreshVideos,
                     child: ListView.builder(
                       itemCount: playListWidget.length,
