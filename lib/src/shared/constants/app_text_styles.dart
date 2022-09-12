@@ -39,6 +39,14 @@ class TextStyles {
     letterSpacing: 0.02,
   );
 
+  static const TextStyle white30w700Urbanist = TextStyle(
+    fontSize: 30,
+    fontWeight: FontWeight.w700,
+    color: Colors.white,
+    fontFamily: "Urbanist",
+    letterSpacing: -0.05,
+  );
+
   static const TextStyle black16w700Urbanist = TextStyle(
     fontFamily: 'Urbanist',
     fontWeight: FontWeight.w700,

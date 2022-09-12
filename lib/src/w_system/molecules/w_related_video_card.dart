@@ -25,7 +25,7 @@ class WVideoRelatedSlider extends StatelessWidget {
               decoration: const BoxDecoration(gradient: AppColors.greyGradient),
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
-              child: Text(video.nome, style: TextStyles.white10Urbanist),
+              child: Text(video.name, style: TextStyles.white10Urbanist),
             )
           ],
         ),
