@@ -27,7 +27,7 @@ class WUserAccountActions extends StatelessWidget {
                 Icons.add_reaction,
                 color: AppColors.purple,
               ),
-              title: const Text('Cadastrar'),
+              title: const Text('Registrar'),
               onTap: onRegister),
         ),
         ListTile(

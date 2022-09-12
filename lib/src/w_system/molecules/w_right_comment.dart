@@ -40,6 +40,7 @@ class WRightComment extends StatelessWidget {
               upVotes: comment.upVotes,
               mainAxisAlignment: MainAxisAlignment.end,
               isLogged: true,
+              myVoteIsUp: comment.myVoteIsUp,
             ),
             const SizedBox(width: 18),
             InkWell(

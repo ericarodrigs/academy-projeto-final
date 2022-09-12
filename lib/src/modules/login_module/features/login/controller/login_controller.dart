@@ -3,11 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+
+import 'package:rarovideowall/src/modules/login_module/features/login/model/login_user_model.dart';
 import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
 import 'package:rarovideowall/src/shared/constants/load_states.dart';
+import 'package:rarovideowall/src/shared/interfaces/local_storage_service.dart';
+import 'package:rarovideowall/src/shared/interfaces/local_storage_user_repository_interface.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
-import 'package:rarovideowall/src/modules/login_module/features/login/model/login_user_model.dart';
-import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
 
 part 'login_controller.g.dart';
 
@@ -15,7 +17,8 @@ class LoginController = _LoginController with _$LoginController;
 
 abstract class _LoginController with Store {
   final ILoginRepository loginRepository;
-  final LocalStorageUserRepository localStorageUserRepository;
+  final ILocalStorageUserRepository localStorageUserRepository;
+  final LocalStorageService localStorageService;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -23,6 +26,7 @@ abstract class _LoginController with Store {
   _LoginController({
     required this.loginRepository,
     required this.localStorageUserRepository,
+    required this.localStorageService,
   });
 
   String? errorText;
@@ -35,6 +39,9 @@ abstract class _LoginController with Store {
 
   @observable
   bool isHiddenPassword = true;
+
+  @observable
+  bool isChecked = false;
 
   @action
   Future<void> changeLoadState(LoadState state) async {
@@ -51,6 +58,11 @@ abstract class _LoginController with Store {
     isHiddenPassword = !isHiddenPassword;
   }
 
+  @action
+  void toggleChecked() {
+    isChecked = !isChecked;
+  }
+
   Future<void> logIn() async {
     changeLoadState(LoadState.loading);
     changePageState(PageState.fine);
@@ -63,11 +75,19 @@ abstract class _LoginController with Store {
         changeLoadState(LoadState.success);
       },
       (success) {
+        ///To clear all saved videos on history.
+        localStorageService.deleteAll();
+        _rememberMe();
         changeLoadState(LoadState.success);
-        localStorageUserRepository.save(_getLogin());
         Modular.to.pop();
       },
     );
+  }
+
+  void _rememberMe() async {
+    if (isChecked == true) {
+      await localStorageUserRepository.save(_getLogin());
+    }
   }
 
   LoginUserModel _getLogin() {

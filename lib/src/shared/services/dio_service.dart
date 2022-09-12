@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:rarovideowall/src/shared/interfaces/api_service.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 
-class DioService implements ApiService {
+class DioService implements ApiService<Response> {
   Dio dio = Dio(BaseOptions(baseUrl: 'http://44.199.200.211:3325'));
 
   DioService._();
@@ -14,7 +14,7 @@ class DioService implements ApiService {
   static DioService get instance => _instance;
 
   @override
-  Future<dynamic> request(
+  Future<Response> request(
     String url,
     String mode, {
     Map<String, dynamic>? body,

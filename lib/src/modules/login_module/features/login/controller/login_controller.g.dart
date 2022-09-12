@@ -57,6 +57,22 @@ mixin _$LoginController on _LoginController, Store {
     });
   }
 
+  late final _$isCheckedAtom =
+      Atom(name: '_LoginController.isChecked', context: context);
+
+  @override
+  bool get isChecked {
+    _$isCheckedAtom.reportRead();
+    return super.isChecked;
+  }
+
+  @override
+  set isChecked(bool value) {
+    _$isCheckedAtom.reportWrite(value, super.isChecked, () {
+      super.isChecked = value;
+    });
+  }
+
   late final _$changeLoadStateAsyncAction =
       AsyncAction('_LoginController.changeLoadState', context: context);
 
@@ -83,12 +99,27 @@ mixin _$LoginController on _LoginController, Store {
         .run(() => super.changePasswordVisibility());
   }
 
+  late final _$_LoginControllerActionController =
+      ActionController(name: '_LoginController', context: context);
+
+  @override
+  void toggleChecked() {
+    final _$actionInfo = _$_LoginControllerActionController.startAction(
+        name: '_LoginController.toggleChecked');
+    try {
+      return super.toggleChecked();
+    } finally {
+      _$_LoginControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 loadState: ${loadState},
 pageState: ${pageState},
-isHiddenPassword: ${isHiddenPassword}
+isHiddenPassword: ${isHiddenPassword},
+isChecked: ${isChecked}
     ''';
   }
 }

@@ -10,10 +10,12 @@ class WVoteButton extends StatelessWidget {
     required this.onUpVote,
     required this.downVotes,
     required this.upVotes,
-    this.mainAxisAlignment = MainAxisAlignment.start,
     required this.isLogged,
+    required this.myVoteIsUp,
+    this.mainAxisAlignment = MainAxisAlignment.start,
   }) : super(key: key);
 
+  final bool? myVoteIsUp;
   final VoidCallback onDownVote;
   final VoidCallback onUpVote;
   final int downVotes;
@@ -31,7 +33,7 @@ class WVoteButton extends StatelessWidget {
         InkWell(
           onTap: isLogged ? onUpVote : null,
           child: Icon(
-            Icons.thumb_up_alt_outlined,
+            myVoteIsUp == true ? Icons.thumb_up : Icons.thumb_up_alt_outlined,
             color: upVotes > 0 ? AppColors.deepPurple : AppColors.black,
             size: iconSize,
           ),
@@ -42,7 +44,9 @@ class WVoteButton extends StatelessWidget {
         InkWell(
           onTap: isLogged ? onDownVote : null,
           child: Icon(
-            Icons.thumb_down_alt_outlined,
+            myVoteIsUp == false
+                ? Icons.thumb_down
+                : Icons.thumb_down_alt_outlined,
             color: downVotes > 0 ? AppColors.favorite : AppColors.black,
             size: iconSize,
             textDirection: TextDirection.rtl,

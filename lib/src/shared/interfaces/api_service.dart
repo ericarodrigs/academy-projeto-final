@@ -1,9 +1,9 @@
-abstract class ApiService {
+abstract class ApiService<T> {
   void clearHeaderToken();
 
   void setHeaderToken(String token);
 
-  Future<dynamic> request(
+  Future<T> request(
     String url,
     String mode, {
     Map<String, dynamic>? body,

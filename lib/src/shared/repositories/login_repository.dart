@@ -11,19 +11,16 @@ import 'package:rarovideowall/src/shared/interfaces/local_storage_service.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/user_model.dart';
-import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
 
 class LoginRepository implements ILoginRepository {
   final ApiService apiService;
   final LocalStorageService localStorageService;
   final LoggedState loggedState;
-  final LocalStorageUserRepository localStorageUserRepository;
 
   LoginRepository({
     required this.apiService,
     required this.localStorageService,
     required this.loggedState,
-    required this.localStorageUserRepository,
   });
 
   @override

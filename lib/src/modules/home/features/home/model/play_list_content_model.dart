@@ -1,9 +1,9 @@
 import 'package:rarovideowall/src/shared/models/video_model.dart';
 
-class PlayListContent {
+class PlayListContentModel {
   final String name;
   final List<VideoModel> videos;
-  PlayListContent({
+  PlayListContentModel({
     required this.name,
     required this.videos,
   });
