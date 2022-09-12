@@ -17,10 +17,13 @@ class WEmptyVideosCard extends StatelessWidget {
         color: AppColors.cardColor,
       ),
       child: const Center(
-        child: Text(
-          'Parece que ainda não existe nenhuma aula . . .',
-          style: TextStyles.black16w700Urbanist,
-          textAlign: TextAlign.center,
+        child: Padding(
+          padding: EdgeInsets.all(12.0),
+          child: Text(
+            'Parece que ainda não existe nenhuma aula . . .',
+            style: TextStyles.black16w700Urbanist,
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );
