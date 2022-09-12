@@ -77,22 +77,23 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                    padding: const EdgeInsets.fromLTRB(25, 10, 18, 0),
-                    child: Row(
-                      children: [
-                        const Text('Lembar de mim', style: TextStyles.black14BoldUrbanist),
-                        WCheckBoxButton(
-                          checkColor: AppColors.darkGrey,
-                          activeColor: AppColors.deepPurple,
-                          value: loginController.isChecked,
-                          onChanged: (bool? value){
-                            loginController.changeChecked();
-                            loginController.rememberMe();
-                          },
+                        padding: const EdgeInsets.fromLTRB(25, 10, 18, 0),
+                        child: Row(
+                          children: [
+                            WCheckBoxButton(
+                              checkColor: AppColors.lightPurple,
+                              activeColor: AppColors.deepPurple,
+                              value: loginController.isChecked,
+                              onChanged: (bool? value) {
+                                loginController.changeChecked();
+                                loginController.rememberMe();
+                              },
+                            ),
+                            const Text('Lembar de mim.',
+                                style: TextStyles.black14BoldUrbanist),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 10, 18, 0),
                         child: Align(

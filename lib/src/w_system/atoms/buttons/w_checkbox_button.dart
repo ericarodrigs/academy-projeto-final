@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 
 class WCheckBoxButton extends StatefulWidget {
   const WCheckBoxButton(
@@ -22,8 +23,13 @@ class _WCheckBoxButtonState extends State<WCheckBoxButton> {
   @override
   Widget build(BuildContext context) {
     return Checkbox(
+      fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+        if (states.contains(MaterialState.selected)) {
+          return widget.activeColor!;
+        }
+        return AppColors.darkGrey;
+      }),
       checkColor: widget.checkColor,
-      activeColor: widget.activeColor,
       value: widget.value,
       onChanged: widget.onChanged,
     );
