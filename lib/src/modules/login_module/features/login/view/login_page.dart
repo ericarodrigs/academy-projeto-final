@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rarovideowall/src/modules/login_module/features/login/controller/login_controller.dart';
+import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/validator.dart';
+import 'package:rarovideowall/src/w_system/atoms/buttons/w_checkbox_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_text_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
@@ -40,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 120,
                     width: 120,
                   ),
-                  const Text("Raro Tube",
+                  const Text("Raro Video Wall",
                       style: TextStyles.purple30w700Urbanist),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(18, 59, 18, 33),
@@ -55,34 +57,56 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18),
                     child: WTextFormField(
-                        isEnabled: loginController.isFieldEnabled(),
-                        controller: loginController.passwordController,
-                        textInputAction: TextInputAction.done,
-                        keyboardType: TextInputType.visiblePassword,
-                        validator: Validator.validatePasswordFilled,
-                        obscureText: loginController.isHiddenPassword,
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            loginController.isHiddenPassword
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                          ),
-                          onPressed: loginController.changePasswordVisibility,
+                      isEnabled: loginController.isFieldEnabled(),
+                      controller: loginController.passwordController,
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.visiblePassword,
+                      validator: Validator.validatePasswordFilled,
+                      obscureText: loginController.isHiddenPassword,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          loginController.isHiddenPassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          color: loginController.isHiddenPassword
+                              ? AppColors.lightPurple
+                              : AppColors.deepPurple,
                         ),
-                        text: 'Senha'),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 10, 18, 0),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: WTextButton(
-                          isEnabled: loginController.isFieldEnabled(),
-                          onTap: () {
-                            loginController.goToRequestEmailPage();
-                          },
-                          text: 'Esqueci minha senha...',
-                          style: TextStyles.black14BoldUrbanist),
+                        onPressed: loginController.changePasswordVisibility,
+                      ),
+                      text: 'Senha',
                     ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 10, 18, 0),
+                        child: Row(
+                          children: [
+                            WCheckBoxButton(
+                              value: loginController.isChecked,
+                              onChanged: (_) => loginController.toggleChecked(),
+                            ),
+                            const Text('Lembar de mim.',
+                                style: TextStyles.black14BoldUrbanist),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 10, 18, 0),
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: WTextButton(
+                              isEnabled: loginController.isFieldEnabled(),
+                              onTap: () {
+                                loginController.goToRequestEmailPage();
+                              },
+                              text: 'Esqueci minha senha...',
+                              style: TextStyles.black14BoldUrbanist),
+                        ),
+                      ),
+                    ],
                   ),
                   Visibility(
                       visible: !loginController.isFieldEnabled(),
