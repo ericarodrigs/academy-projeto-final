@@ -1,14 +1,14 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+
+import 'package:rarovideowall/src/modules/login_module/features/login/model/login_user_model.dart';
 import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
 import 'package:rarovideowall/src/shared/constants/load_states.dart';
+import 'package:rarovideowall/src/shared/interfaces/local_storage_service.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
-import 'package:rarovideowall/src/modules/login_module/features/login/model/login_user_model.dart';
-import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
 
 part 'login_controller.g.dart';
@@ -18,6 +18,7 @@ class LoginController = _LoginController with _$LoginController;
 abstract class _LoginController with Store {
   final ILoginRepository loginRepository;
   final LocalStorageUserRepository localStorageUserRepository;
+  final LocalStorageService localStorageService;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -25,6 +26,7 @@ abstract class _LoginController with Store {
   _LoginController({
     required this.loginRepository,
     required this.localStorageUserRepository,
+    required this.localStorageService,
   });
 
   String? errorText;
@@ -57,7 +59,7 @@ abstract class _LoginController with Store {
   }
 
   @action
-  Future<void> changeChecked() async {
+  void toggleChecked() {
     isChecked = !isChecked;
   }
 
@@ -73,18 +75,19 @@ abstract class _LoginController with Store {
         changeLoadState(LoadState.success);
       },
       (success) {
+        ///To clear all saved videos on history.
+        localStorageService.deleteAll();
+        _rememberMe();
         changeLoadState(LoadState.success);
         Modular.to.pop();
       },
     );
   }
 
-  Future<Either<Failure, void>> rememberMe() async {
+  void _rememberMe() async {
     if (isChecked == true) {
-      return localStorageUserRepository.save(_getLogin());
+      await localStorageUserRepository.save(_getLogin());
     }
-    return Left(Failure(''));
-    
   }
 
   LoginUserModel _getLogin() {

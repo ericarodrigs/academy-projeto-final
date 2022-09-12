@@ -15,6 +15,7 @@ class LoginModule extends Module {
         Bind.singleton((i) => LoginController(
               loginRepository: i(),
               localStorageUserRepository: i(),
+              localStorageService: i(),
             )),
         Bind.singleton((i) => RegisterController(loginRepository: i())),
         Bind.singleton((i) => RecoverPasswordController(loginRepository: i())),

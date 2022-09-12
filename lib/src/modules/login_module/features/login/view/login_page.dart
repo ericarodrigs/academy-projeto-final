@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 120,
                     width: 120,
                   ),
-                  const Text("Raro Tube",
+                  const Text("Raro Video Wall",
                       style: TextStyles.purple30w700Urbanist),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(18, 59, 18, 33),
@@ -57,21 +57,25 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18),
                     child: WTextFormField(
-                        isEnabled: loginController.isFieldEnabled(),
-                        controller: loginController.passwordController,
-                        textInputAction: TextInputAction.done,
-                        keyboardType: TextInputType.visiblePassword,
-                        validator: Validator.validatePasswordFilled,
-                        obscureText: loginController.isHiddenPassword,
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            loginController.isHiddenPassword
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                          ),
-                          onPressed: loginController.changePasswordVisibility,
+                      isEnabled: loginController.isFieldEnabled(),
+                      controller: loginController.passwordController,
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.visiblePassword,
+                      validator: Validator.validatePasswordFilled,
+                      obscureText: loginController.isHiddenPassword,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          loginController.isHiddenPassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          color: loginController.isHiddenPassword
+                              ? AppColors.lightPurple
+                              : AppColors.deepPurple,
                         ),
-                        text: 'Senha'),
+                        onPressed: loginController.changePasswordVisibility,
+                      ),
+                      text: 'Senha',
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,13 +85,8 @@ class _LoginPageState extends State<LoginPage> {
                         child: Row(
                           children: [
                             WCheckBoxButton(
-                              checkColor: AppColors.lightPurple,
-                              activeColor: AppColors.deepPurple,
                               value: loginController.isChecked,
-                              onChanged: (bool? value) {
-                                loginController.changeChecked();
-                                loginController.rememberMe();
-                              },
+                              onChanged: (_) => loginController.toggleChecked(),
                             ),
                             const Text('Lembar de mim.',
                                 style: TextStyles.black14BoldUrbanist),

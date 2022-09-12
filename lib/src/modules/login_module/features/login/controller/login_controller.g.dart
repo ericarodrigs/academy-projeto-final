@@ -99,12 +99,18 @@ mixin _$LoginController on _LoginController, Store {
         .run(() => super.changePasswordVisibility());
   }
 
-  late final _$changeCheckedAsyncAction =
-      AsyncAction('_LoginController.changeChecked', context: context);
+  late final _$_LoginControllerActionController =
+      ActionController(name: '_LoginController', context: context);
 
   @override
-  Future<void> changeChecked() {
-    return _$changeCheckedAsyncAction.run(() => super.changeChecked());
+  void toggleChecked() {
+    final _$actionInfo = _$_LoginControllerActionController.startAction(
+        name: '_LoginController.toggleChecked');
+    try {
+      return super.toggleChecked();
+    } finally {
+      _$_LoginControllerActionController.endAction(_$actionInfo);
+    }
   }
 
   @override
