@@ -95,7 +95,7 @@ abstract class _CommentsControllerBase with Store {
   }
 
   @action
-  void _updateCommentVote(String commentId, bool isUp) {
+  bool _updateCommentVote(String commentId, bool isUp) {
     int indexComment = comments.indexWhere(
       (comment) => comment.id == commentId,
     );
@@ -105,7 +105,13 @@ abstract class _CommentsControllerBase with Store {
         _downVoteComments.contains(auxComment.id));
 
     if (isUp) {
-      if (!_upVoteComments.contains(auxComment.id)) {
+      if (_upVoteComments.contains(auxComment.id)) {
+        _upVoteComments.remove(auxComment.id);
+        comments[indexComment] = auxComment.copyWith(
+          upVotes: auxComment.upVotes - 1,
+        );
+        return true;
+      } else {
         _upVoteComments.add(auxComment.id);
         _downVoteComments.remove(auxComment.id);
         comments[indexComment] = auxComment.copyWith(
@@ -116,9 +122,16 @@ abstract class _CommentsControllerBase with Store {
                   ? 0
                   : auxComment.downVotes - 1,
         );
+        return false;
       }
     } else {
-      if (!_downVoteComments.contains(auxComment.id)) {
+      if (_downVoteComments.contains(auxComment.id)) {
+        _downVoteComments.remove(auxComment.id);
+        comments[indexComment] = auxComment.copyWith(
+          downVotes: auxComment.downVotes - 1,
+        );
+        return true;
+      } else {
         _downVoteComments.add(auxComment.id);
         _upVoteComments.remove(auxComment.id);
         comments[indexComment] = auxComment.copyWith(
@@ -129,6 +142,7 @@ abstract class _CommentsControllerBase with Store {
                   : auxComment.upVotes - 1,
           downVotes: auxComment.downVotes + 1,
         );
+        return false;
       }
     }
   }
@@ -204,16 +218,17 @@ abstract class _CommentsControllerBase with Store {
   Future<void> voteComment(
       BuildContext context, String commentId, bool isUp) async {
     if (_loggedState.isLogged) {
-      _updateCommentVote(commentId, isUp);
+      bool isResetVote = _updateCommentVote(commentId, isUp);
       (await _commentRepository.voteComment(
         _videoId,
         commentId,
         isUpVote: isUp,
+        resetVote: isResetVote,
       ))
           .fold(
         (fail) {
           _showSnackBarError(context, fail.message);
-          _updateCommentVote(commentId, !isUp);
+          _updateCommentVote(commentId, (isUp == isResetVote));
         },
         (success) => null,
       );
