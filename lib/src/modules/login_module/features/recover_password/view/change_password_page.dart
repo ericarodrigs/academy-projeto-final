@@ -87,14 +87,15 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         obscureText: recoverController.isHiddenConfirmPassword,
                         suffixIcon: IconButton(
                           icon: Icon(
-                            recoverController.isHiddenPassword
+                            recoverController.isHiddenConfirmPassword
                                 ? Icons.visibility_off
                                 : Icons.visibility,
-                            color: recoverController.isHiddenPassword
+                            color: recoverController.isHiddenConfirmPassword
                                 ? AppColors.lightPurple
                                 : AppColors.deepPurple,
                           ),
-                          onPressed: recoverController.changePasswordVisibility,
+                          onPressed:
+                              recoverController.changeConfirmPasswordVisibility,
                         ),
                         text: 'Digite sua nova senha novamente',
                       ),
@@ -102,16 +103,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     Visibility(
                         visible: !recoverController.isFieldEnabled(),
                         child: const WCircularProgressIndicator()),
-                    Visibility(
-                        visible: false,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 18, top: 8, right: 18),
-                          child: Text(
-                            recoverController.errorText ?? '',
-                            style: TextStyles.errorRed,
-                          ),
-                        )),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(44, 72, 44, 16),
                       child: WElevatedButton(

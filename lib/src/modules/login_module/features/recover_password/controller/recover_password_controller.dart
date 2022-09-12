@@ -108,17 +108,21 @@ abstract class _RecoverPasswordController with Store {
     changePageState(PageState.fine);
     errorText = null;
 
-    (await loginRepository.updatePassword(_getData())).fold((fail) {
-      errorText = fail.message;
-      changePageState(PageState.error);
-      changeLoadState(LoadState.success);
-    }, (success) {
-      changeLoadState(LoadState.success);
-      _clearTextFields();
-      Modular.to.popUntil(ModalRoute.withName(ModulesRouteNames.loginModule));
-      ShowPopups.showSnackBar(
-          context, 'Senha alterada com sucesso!', AppColors.purple);
-    });
+    (await loginRepository.updatePassword(_getData())).fold(
+      (fail) {
+        errorText = fail.message;
+        changePageState(PageState.error);
+        changeLoadState(LoadState.success);
+        Modular.to.pop();
+      },
+      (success) {
+        changeLoadState(LoadState.success);
+        _clearTextFields();
+        Modular.to.popUntil(ModalRoute.withName(ModulesRouteNames.loginModule));
+        ShowPopups.showSnackBar(
+            context, 'Senha alterada com sucesso!', AppColors.purple);
+      },
+    );
   }
 
   bool isFieldEnabled() => loadState == LoadState.loading ? false : true;
