@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rarovideowall/src/modules/login_module/features/register/model/register_user_model.dart';
+import 'package:rarovideowall/src/modules_route_names.dart';
 import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/shared/constants/show_popups.dart';
@@ -63,7 +64,7 @@ abstract class _RegisterController with Store {
       (success) {
         changeLoadState(LoadState.success);
         _clearTextFields();
-        Modular.to.pop();
+        Modular.to.pushReplacementNamed(ModulesRouteNames.loginModule);
         ShowPopups.showSnackBar(
             context, 'Usuário cadastrado com sucesso!', AppColors.purple);
       },
