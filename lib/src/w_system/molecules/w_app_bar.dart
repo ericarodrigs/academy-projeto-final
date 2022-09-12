@@ -10,7 +10,7 @@ class WAppBar extends StatelessWidget with PreferredSizeWidget {
   final List<Widget>? actions;
 
   @override
-  Size get preferredSize => const Size(double.infinity, 40);
+  Size get preferredSize => const Size(double.infinity, 60);
 
   @override
   Widget build(BuildContext context) {
