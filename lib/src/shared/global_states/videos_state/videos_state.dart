@@ -21,9 +21,14 @@ abstract class _VideosStateBase with Store {
   List<VideoModel> videos = [];
 
   @observable
+  List<VideoModel> history = [];
+
   @action
   void syncFavoriteVideos(List<VideoModel> videos) => favoriteVideos = videos;
 
   @action
   void syncVideos(List<VideoModel> newVideos) => videos = newVideos;
+
+  @action
+  void syncHistoryVideos(List<VideoModel> newVideos) => history = newVideos;
 }

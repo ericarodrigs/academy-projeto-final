@@ -45,4 +45,29 @@ class ShowPopups {
       },
     );
   }
+
+  static void showInfoDialog(
+    BuildContext context,
+    VoidCallback onClose, {
+    String title = 'Deletar',
+    Widget? content,
+    String buttonText = 'Fechar',
+  }) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: content,
+          backgroundColor: AppColors.backGroundPageColor,
+          actions: [
+            WElevatedButton(
+              text: buttonText,
+              function: onClose,
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

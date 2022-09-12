@@ -10,6 +10,7 @@ class CommentModel {
   final UserModel student;
   int upVotes;
   int downVotes;
+  bool? myVoteIsUp;
 
   CommentModel({
     required this.id,
@@ -19,6 +20,7 @@ class CommentModel {
     required this.student,
     required this.upVotes,
     required this.downVotes,
+    this.myVoteIsUp,
   });
 
   CommentModel copyWith({
@@ -29,6 +31,7 @@ class CommentModel {
     UserModel? student,
     int? upVotes,
     int? downVotes,
+    required bool? myVoteIsUp,
   }) {
     return CommentModel(
       id: id ?? this.id,
@@ -38,6 +41,7 @@ class CommentModel {
       student: student ?? this.student,
       upVotes: upVotes ?? this.upVotes,
       downVotes: downVotes ?? this.downVotes,
+      myVoteIsUp: myVoteIsUp,
     );
   }
 
@@ -50,6 +54,7 @@ class CommentModel {
       'aluno': student.toMap(),
       'upVotes': upVotes,
       'downVotes': downVotes,
+      'myVoteIsUp': myVoteIsUp,
     };
   }
 
@@ -62,6 +67,7 @@ class CommentModel {
       student: UserModel.fromMap(map['aluno'] ?? {}),
       upVotes: map['upVotes']?.toInt() ?? 0,
       downVotes: map['downVotes']?.toInt() ?? 0,
+      myVoteIsUp: map['meuVote']?['vote']?.contains('up'),
     );
   }
 
@@ -72,7 +78,7 @@ class CommentModel {
 
   @override
   String toString() {
-    return 'CommentModel(id: $id, texto: $text, editado: $edited, createdAt: $createdAt, aluno: $student, upVotes: $upVotes, downVotes: $downVotes)';
+    return 'CommentModel(id: $id, texto: $text, editado: $edited, createdAt: $createdAt, aluno: $student, upVotes: $upVotes, downVotes: $downVotes, myVoteIsUp: $myVoteIsUp)';
   }
 
   @override
@@ -86,7 +92,8 @@ class CommentModel {
         other.createdAt == createdAt &&
         other.student == student &&
         other.upVotes == upVotes &&
-        other.downVotes == downVotes;
+        other.downVotes == downVotes &&
+        other.myVoteIsUp == myVoteIsUp;
   }
 
   @override
@@ -97,6 +104,7 @@ class CommentModel {
         createdAt.hashCode ^
         student.hashCode ^
         upVotes.hashCode ^
-        downVotes.hashCode;
+        downVotes.hashCode ^
+        myVoteIsUp.hashCode;
   }
 }

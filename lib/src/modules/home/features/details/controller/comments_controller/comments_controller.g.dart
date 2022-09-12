@@ -118,7 +118,7 @@ mixin _$CommentsController on _CommentsControllerBase, Store {
   }
 
   @override
-  void _updateCommentVote(String commentId, bool isUp) {
+  bool _updateCommentVote(String commentId, bool isUp) {
     final _$actionInfo = _$_CommentsControllerBaseActionController.startAction(
         name: '_CommentsControllerBase._updateCommentVote');
     try {

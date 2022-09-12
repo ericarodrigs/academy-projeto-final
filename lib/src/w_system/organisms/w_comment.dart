@@ -5,6 +5,7 @@ import 'package:rarovideowall/src/modules/home/features/details/controller/comme
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/w_system/atoms/widgets/w_divider.dart';
+import 'package:rarovideowall/src/w_system/atoms/widgets/w_refresh_indicator.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_error_reload.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_new_comment.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_comment_list.dart';
@@ -56,27 +57,30 @@ class WComment extends StatelessWidget {
               case LoadState.loading:
                 return const WCommentsLoad();
               case LoadState.success:
-                return WCommentList(
-                  userId: commentController.userId,
-                  onDelete: (comment) =>
-                      commentController.deleteComment(context, comment),
-                  onEdit: commentController.enterEditMode,
-                  onDownVote: (comment) {
-                    commentController.voteComment(context, comment.id, false);
-                  },
-                  onUpVote: (comment) {
-                    commentController.voteComment(context, comment.id, true);
-                  },
-                  comments: commentController.comments.toList(),
-                  hasImgAvatarError: commentController.hasImgAvatarError,
-                  onLoadImgAvatarError: (err, stackTrace) {
-                    commentController.onLoadImgAvatarError(
-                      context,
-                      err,
-                      stackTrace,
-                    );
-                  },
-                  isLogged: commentController.isLogged,
+                return WRefreshIndicator(
+                  onRefresh: commentController.getComments,
+                  child: WCommentList(
+                    userId: commentController.userId,
+                    onDelete: (comment) =>
+                        commentController.deleteComment(context, comment),
+                    onEdit: commentController.enterEditMode,
+                    onDownVote: (comment) {
+                      commentController.voteComment(context, comment.id, false);
+                    },
+                    onUpVote: (comment) {
+                      commentController.voteComment(context, comment.id, true);
+                    },
+                    comments: commentController.comments.toList(),
+                    hasImgAvatarError: commentController.hasImgAvatarError,
+                    onLoadImgAvatarError: (err, stackTrace) {
+                      commentController.onLoadImgAvatarError(
+                        context,
+                        err,
+                        stackTrace,
+                      );
+                    },
+                    isLogged: commentController.isLogged,
+                  ),
                 );
               case LoadState.error:
                 return WErrorReload(

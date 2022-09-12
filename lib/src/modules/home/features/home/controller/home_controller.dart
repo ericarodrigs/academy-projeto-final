@@ -1,18 +1,24 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'package:rarovideowall/src/modules/home/features/home/model/play_list_content.dart';
+import 'package:rarovideowall/src/modules/home/features/home/model/play_list_content_model.dart';
 import 'package:rarovideowall/src/modules/home/home_route_names.dart';
+import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
 
 import 'package:rarovideowall/src/modules_route_names.dart';
+import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 import 'package:rarovideowall/src/shared/constants/load_states.dart';
+import 'package:rarovideowall/src/shared/constants/show_popups.dart';
 import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state.dart';
 import 'package:rarovideowall/src/shared/global_states/videos_state/videos_state.dart';
+import 'package:rarovideowall/src/shared/interfaces/local_storage_video_repository_interface.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 import 'package:rarovideowall/src/shared/interfaces/videos_repository_interface.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
+import 'package:rarovideowall/src/shared/models/user_model.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
 
 part 'home_controller.g.dart';
@@ -24,25 +30,50 @@ abstract class _HomeControllerBase with Store {
   final VideosState videosState;
   final IVideosRepository videosRepository;
   final ILoginRepository loginRepository;
+  final ILocalStorageVideoRepository localStorageVideoRepository;
 
   _HomeControllerBase({
     required this.loggedState,
     required this.videosState,
     required this.videosRepository,
     required this.loginRepository,
+    required this.localStorageVideoRepository,
   });
 
   bool get isLogged => loggedState.isLogged;
 
+  UserModel? get user => loggedState.user;
+
   List<VideoModel> get favoriteVideos => videosState.favoriteVideos;
 
   List<VideoModel> get videos => videosState.videos;
+
+  List<VideoModel> get historyVideos => videosState.history;
+
+  @observable
+  bool hasImgAvatarError = false;
+
+  @observable
+  Playlist playlistOption = Playlist.all;
 
   @observable
   LoadState homeState = LoadState.success;
 
   @observable
   String errorText = '';
+
+  @action
+  void onLoadImgError(BuildContext context) {
+    hasImgAvatarError = true;
+    ShowPopups.showSnackBar(
+      context,
+      'Houve um problema ao carregar a imagem de usuário.',
+      AppColors.errorColor,
+    );
+  }
+
+  @action
+  void setPlaylistOption(Playlist option) => playlistOption = option;
 
   @action
   void setHomeState(Either<Failure, LoadState> newStateEither) {
@@ -63,7 +94,11 @@ abstract class _HomeControllerBase with Store {
         if (isLogged) {
           (await videosRepository.getFavoriteVideos()).fold(
             (fail) => setHomeState(Left(fail)),
-            (success) => setHomeState(const Right(LoadState.success)),
+            (success) async =>
+                ((await localStorageVideoRepository.loadAll()).fold(
+              (fail) => setHomeState(Left(fail)),
+              (success) => setHomeState(const Right(LoadState.success)),
+            )),
           );
         } else {
           setHomeState(const Right(LoadState.success));
@@ -86,9 +121,15 @@ abstract class _HomeControllerBase with Store {
 
   void detailsNavigate(VideoModel video) {
     Modular.to.pushNamed(HomeRouteNames.details(video.id));
+    localStorageVideoRepository.save(video);
   }
 
-  List<PlayListContent> createPlayList() {
+  void registerNavigate() {
+    Modular.to.pushNamed(
+        '${ModulesRouteNames.loginModule}${LoginRouteNames.register}');
+  }
+
+  List<PlayListContentModel> createPlayList() {
     final publicRegExp = RegExp(
       r'aul[aã]o',
       caseSensitive: false,
@@ -108,30 +149,70 @@ abstract class _HomeControllerBase with Store {
       if (video.tags.any((tag) => tag.contains(publicRegExp)) ||
           video.url.contains('youtube')) {
         publicVideos.add(video);
-      } else if (video.topico.contains(weekRegExp)) {
+      } else if (video.topic.contains(weekRegExp)) {
         weekVideos.add(video);
       } else {
         classVideos.add(video);
       }
     }
 
-    return [
-      PlayListContent(name: 'Públicos', videos: publicVideos),
-      PlayListContent(name: 'Minha Turma', videos: classVideos),
-      ..._weekVideosPlayList(weekVideos),
-    ];
+    return _filterPlayList(publicVideos, classVideos, weekVideos);
   }
 
-  List<PlayListContent> _weekVideosPlayList(List<VideoModel> weekVideos) {
-    List<PlayListContent> weekPlayList = [];
+  List<PlayListContentModel> _filterPlayList(
+    List<VideoModel> publicVideos,
+    List<VideoModel> classVideos,
+    List<VideoModel> weekVideos,
+  ) {
+    switch (playlistOption) {
+      case Playlist.all:
+        return [
+          PlayListContentModel(
+            name: 'Últimos Vistos',
+            videos: historyVideos.reversed
+                .toList()
+                .getRange(
+                  0,
+                  historyVideos.length > 3 ? 3 : historyVideos.length,
+                )
+                .toList(),
+          ),
+          PlayListContentModel(name: 'Públicos', videos: publicVideos),
+          PlayListContentModel(name: 'Minha Turma', videos: classVideos),
+          ..._weekVideosPlayList(weekVideos),
+        ];
+      case Playlist.classVideos:
+        return [
+          PlayListContentModel(name: 'Minha Turma', videos: classVideos),
+        ];
+      case Playlist.favorites:
+        return [];
+      case Playlist.historic:
+        return [
+          PlayListContentModel(
+            name: 'Últimos Vistos',
+            videos: historyVideos.reversed.toList(),
+          )
+        ];
+      case Playlist.public:
+        return [PlayListContentModel(name: 'Públicos', videos: publicVideos)];
+      case Playlist.weeks:
+        return [
+          ..._weekVideosPlayList(weekVideos),
+        ];
+    }
+  }
+
+  List<PlayListContentModel> _weekVideosPlayList(List<VideoModel> weekVideos) {
+    List<PlayListContentModel> weekPlayList = [];
     int week = 1;
     while (weekVideos.isNotEmpty) {
       weekPlayList.add(
-        PlayListContent(
+        PlayListContentModel(
           name: 'Semana ${week.toString().padLeft(2, '0')}',
           videos: weekVideos
               .where(
-                (video) => video.topico.contains(
+                (video) => video.topic.contains(
                   RegExp(
                     r'semana[\s]?[0]*' '${week.toString()}',
                     caseSensitive: false,
@@ -150,3 +231,5 @@ abstract class _HomeControllerBase with Store {
     return weekPlayList;
   }
 }
+
+enum Playlist { all, favorites, public, classVideos, weeks, historic }
