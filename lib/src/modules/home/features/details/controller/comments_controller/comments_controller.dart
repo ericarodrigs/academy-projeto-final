@@ -243,6 +243,8 @@ abstract class _CommentsControllerBase with Store {
   }
 
   void _fillMyVotes() {
+    _upVoteComments.clear();
+    _downVoteComments.clear();
     for (var comment in comments) {
       if (comment.myVoteIsUp != null) {
         if (comment.myVoteIsUp!) {
