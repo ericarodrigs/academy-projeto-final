@@ -19,6 +19,7 @@ class HomeModule extends Module {
         loggedState: i(),
         videosRepository: i(),
         loginRepository: i(),
+        localStorageVideoRepository: i(),
       ),
     ),
     Bind<ICommentRepository>(

@@ -6,22 +6,23 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rarovideowall/src/modules/splash_module/interfaces/splash_controller_interface.dart';
 import 'package:rarovideowall/src/modules_route_names.dart';
 import 'package:rarovideowall/src/shared/constants/load_states.dart';
-
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 import 'package:rarovideowall/src/shared/interfaces/videos_repository_interface.dart';
-
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
+import 'package:rarovideowall/src/shared/repositories/local_storage_video_repository.dart';
 
 class SplashController implements ISplashController {
   final ILoginRepository loginRepository;
   final LocalStorageUserRepository localStorageUserRepository;
+  final LocalStorageVideoRepository localStorageVideoRepository;
 
   final IVideosRepository videosRepository;
 
   SplashController({
     required this.loginRepository,
     required this.localStorageUserRepository,
+    required this.localStorageVideoRepository,
     required this.videosRepository,
   });
 
@@ -41,6 +42,7 @@ class SplashController implements ISplashController {
         (error) => _getAllVideos(),
         (success) => {
           _syncLoggedVideos(),
+          _syncHistoryVideos(),
           _getAllVideos(),
         },
       ),
@@ -53,6 +55,12 @@ class SplashController implements ISplashController {
           _loadIsFinished = true;
           tryNavigate();
         },
+      );
+
+  void _syncHistoryVideos() async =>
+      (await localStorageVideoRepository.loadAll()).fold(
+        _failStateNavigate,
+        (success) => null,
       );
 
   void _syncLoggedVideos() async =>

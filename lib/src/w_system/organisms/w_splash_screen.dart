@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/w_system/atoms/widgets/w_rotate_capelo.dart';
 
-class MSplashScreen extends StatelessWidget {
-  const MSplashScreen({
+class WSplashScreen extends StatelessWidget {
+  const WSplashScreen({
     Key? key,
     required this.onFinishAnimation,
   }) : super(key: key);

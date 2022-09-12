@@ -39,13 +39,13 @@ class WVideoCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      video.nome,
+                      video.name,
                       style: TextStyles.black16w700Urbanist,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
                   ),
-                  WDateCardText(date: video.dataPublicacao)
+                  WDateCardText(date: video.publicationDate)
                 ],
               ),
               const SizedBox(
@@ -53,7 +53,7 @@ class WVideoCard extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  video.descricao,
+                  video.description,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyles.black14w400Urbanist,
@@ -66,7 +66,7 @@ class WVideoCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: WDurationText(
-                      duration: video.duracao,
+                      duration: video.duration,
                     ),
                   ),
                   const Text(
