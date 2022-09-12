@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rarovideowall/src/modules/login_module/features/login/controller/login_controller.dart';
+import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/validator.dart';
+import 'package:rarovideowall/src/w_system/atoms/buttons/w_checkbox_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_text_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
@@ -71,18 +73,40 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         text: 'Senha'),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 10, 18, 0),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: WTextButton(
-                          isEnabled: loginController.isFieldEnabled(),
-                          onTap: () {
-                            loginController.goToRequestEmailPage();
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                    padding: const EdgeInsets.fromLTRB(25, 10, 18, 0),
+                    child: Row(
+                      children: [
+                        const Text('Lembar de mim', style: TextStyles.black14BoldUrbanist),
+                        WCheckBoxButton(
+                          checkColor: AppColors.darkGrey,
+                          activeColor: AppColors.deepPurple,
+                          value: loginController.isChecked,
+                          onChanged: (bool? value){
+                            loginController.changeChecked();
+                            loginController.rememberMe();
                           },
-                          text: 'Esqueci minha senha...',
-                          style: TextStyles.black14BoldUrbanist),
+                        ),
+                      ],
                     ),
+                  ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 10, 18, 0),
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: WTextButton(
+                              isEnabled: loginController.isFieldEnabled(),
+                              onTap: () {
+                                loginController.goToRequestEmailPage();
+                              },
+                              text: 'Esqueci minha senha...',
+                              style: TextStyles.black14BoldUrbanist),
+                        ),
+                      ),
+                    ],
                   ),
                   Visibility(
                       visible: !loginController.isFieldEnabled(),

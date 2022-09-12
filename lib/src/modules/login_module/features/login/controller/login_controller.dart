@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
@@ -7,6 +8,7 @@ import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
 import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 import 'package:rarovideowall/src/modules/login_module/features/login/model/login_user_model.dart';
+import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
 
 part 'login_controller.g.dart';
@@ -36,6 +38,9 @@ abstract class _LoginController with Store {
   @observable
   bool isHiddenPassword = true;
 
+  @observable
+  bool isChecked = false;
+
   @action
   Future<void> changeLoadState(LoadState state) async {
     loadState = state;
@@ -51,6 +56,11 @@ abstract class _LoginController with Store {
     isHiddenPassword = !isHiddenPassword;
   }
 
+  @action
+  Future<void> changeChecked() async {
+    isChecked = !isChecked;
+  }
+
   Future<void> logIn() async {
     changeLoadState(LoadState.loading);
     changePageState(PageState.fine);
@@ -64,10 +74,17 @@ abstract class _LoginController with Store {
       },
       (success) {
         changeLoadState(LoadState.success);
-        localStorageUserRepository.save(_getLogin());
         Modular.to.pop();
       },
     );
+  }
+
+  Future<Either<Failure, void>> rememberMe() async {
+    if (isChecked == true) {
+      return localStorageUserRepository.save(_getLogin());
+    }
+    return Left(Failure(''));
+    
   }
 
   LoginUserModel _getLogin() {
