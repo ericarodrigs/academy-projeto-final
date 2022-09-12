@@ -27,7 +27,10 @@ class _EmailRequestPageState extends State<EmailRequestPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GestureDetector(
+      onTap: FocusScope.of(context).unfocus,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: const WAppBar(),
         body: SafeArea(
           child: Observer(builder: (_) {
@@ -79,6 +82,8 @@ class _EmailRequestPageState extends State<EmailRequestPage> {
               ),
             );
           }),
-        ));
+        ),
+      ),
+    );
   }
 }

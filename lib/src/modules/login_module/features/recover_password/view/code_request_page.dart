@@ -27,63 +27,68 @@ class _CodeRequestPageState extends State<CodeRequestPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const WAppBar(),
-      body: SafeArea(
-        child: Observer(builder: (_) {
-          return SingleChildScrollView(
-            child: Form(
-              key: recoverController.formKeyCode,
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 18, top: 64, right: 18),
-                    child: Text(
-                      'Digite seu código de confirmação enviado para seu email',
-                      style: TextStyles.purple30w700Urbanist,
-                      textAlign: TextAlign.center,
+    return GestureDetector(
+      onTap: FocusScope.of(context).unfocus,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: const WAppBar(),
+        body: SafeArea(
+          child: Observer(builder: (_) {
+            return SingleChildScrollView(
+              child: Form(
+                key: recoverController.formKeyCode,
+                child: Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(left: 18, top: 64, right: 18),
+                      child: Text(
+                        'Digite seu código de confirmação enviado para seu email',
+                        style: TextStyles.purple30w700Urbanist,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(18, 100, 18, 20),
-                    child: WTextFormField(
-                      isEnabled: recoverController.isFieldEnabled(),
-                      controller: recoverController.recuperationCodeController,
-                      validator: Validator.validateCodeVerification,
-                      keyboardType: TextInputType.text,
-                      text: 'Digite o código',
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(18, 100, 18, 20),
+                      child: WTextFormField(
+                        isEnabled: recoverController.isFieldEnabled(),
+                        controller:
+                            recoverController.recuperationCodeController,
+                        validator: Validator.validateCodeVerification,
+                        keyboardType: TextInputType.text,
+                        text: 'Digite o código',
+                      ),
                     ),
-                  ),
-                  Visibility(
-                      visible: !recoverController.isFieldEnabled(),
-                      child: const WCircularProgressIndicator()),
-                  Visibility(
-                      visible:
-                          recoverController.errorText != null ? true : false,
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(left: 18, top: 8, right: 18),
-                        child: Text(
-                          recoverController.errorText ?? '',
-                          style: TextStyles.errorRed,
-                        ),
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(44, 72, 44, 16),
-                    child: WElevatedButton(
-                      text: 'Confirmar',
-                      function: () {
-                        if (recoverController.isTryRecoverWithCode) {
-                          recoverController.goToChangePasswordPage();
-                        }
-                      },
-                    ),
-                  )
-                ],
+                    Visibility(
+                        visible: !recoverController.isFieldEnabled(),
+                        child: const WCircularProgressIndicator()),
+                    Visibility(
+                        visible:
+                            recoverController.errorText != null ? true : false,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 18, top: 8, right: 18),
+                          child: Text(
+                            recoverController.errorText ?? '',
+                            style: TextStyles.errorRed,
+                          ),
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(44, 72, 44, 16),
+                      child: WElevatedButton(
+                        text: 'Confirmar',
+                        function: () {
+                          if (recoverController.isTryRecoverWithCode) {
+                            recoverController.goToChangePasswordPage();
+                          }
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-          );
-        }),
+            );
+          }),
+        ),
       ),
     );
   }
