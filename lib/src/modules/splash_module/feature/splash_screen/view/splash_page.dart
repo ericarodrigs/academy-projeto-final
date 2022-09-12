@@ -21,8 +21,13 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: MSplashScreen(),
+    return Scaffold(
+      body: MSplashScreen(
+        onFinishAnimation: () {
+          splashController.animationIsFinished = true;
+          splashController.tryNavigate();
+        },
+      ),
     );
   }
 }

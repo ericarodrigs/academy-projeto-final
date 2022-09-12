@@ -25,6 +25,13 @@ class SplashController implements ISplashController {
     required this.videosRepository,
   });
 
+  bool _animationIsFinished = false;
+
+  bool _loadIsFinished = false;
+
+  @override
+  set animationIsFinished(bool value) => _animationIsFinished = value;
+
   @override
   Future<void> tryLocalStorageLogin() async {
     (await localStorageUserRepository.get()).fold(
@@ -42,10 +49,10 @@ class SplashController implements ISplashController {
 
   void _getAllVideos() async => (await videosRepository.getAllVideos()).fold(
         _failStateNavigate,
-        (success) => Modular.to.pushReplacementNamed(
-          ModulesRouteNames.homeModule,
-          arguments: const Right<Failure, LoadState>(LoadState.success),
-        ),
+        (success) async {
+          _loadIsFinished = true;
+          tryNavigate();
+        },
       );
 
   void _syncLoggedVideos() async =>
@@ -58,4 +65,14 @@ class SplashController implements ISplashController {
         ModulesRouteNames.homeModule,
         arguments: Left<Failure, LoadState>(fail),
       );
+
+  @override
+  void tryNavigate() {
+    if (_loadIsFinished && _animationIsFinished) {
+      Modular.to.pushReplacementNamed(
+        ModulesRouteNames.homeModule,
+        arguments: const Right<Failure, LoadState>(LoadState.success),
+      );
+    }
+  }
 }
