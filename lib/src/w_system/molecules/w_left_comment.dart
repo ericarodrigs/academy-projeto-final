@@ -44,6 +44,7 @@ class WLeftComment extends StatelessWidget {
               upVotes: comment.upVotes,
               mainAxisAlignment: MainAxisAlignment.end,
               isLogged: isLogged,
+              myVoteIsUp: comment.myVoteIsUp,
             ),
           ],
         ),

@@ -110,6 +110,7 @@ abstract class _CommentsControllerBase with Store {
         _upVoteComments.remove(auxComment.id);
         comments[indexComment] = auxComment.copyWith(
           upVotes: auxComment.upVotes - 1,
+          myVoteIsUp: null,
         );
         return true;
       } else {
@@ -122,6 +123,7 @@ abstract class _CommentsControllerBase with Store {
               : auxComment.downVotes == 0
                   ? 0
                   : auxComment.downVotes - 1,
+          myVoteIsUp: true,
         );
         return false;
       }
@@ -130,6 +132,7 @@ abstract class _CommentsControllerBase with Store {
         _downVoteComments.remove(auxComment.id);
         comments[indexComment] = auxComment.copyWith(
           downVotes: auxComment.downVotes - 1,
+          myVoteIsUp: null,
         );
         return true;
       } else {
@@ -142,6 +145,7 @@ abstract class _CommentsControllerBase with Store {
                   ? 0
                   : auxComment.upVotes - 1,
           downVotes: auxComment.downVotes + 1,
+          myVoteIsUp: false,
         );
         return false;
       }

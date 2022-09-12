@@ -31,7 +31,7 @@ class CommentModel {
     UserModel? student,
     int? upVotes,
     int? downVotes,
-    bool? myVoteIsUp,
+    required bool? myVoteIsUp,
   }) {
     return CommentModel(
       id: id ?? this.id,
@@ -41,7 +41,7 @@ class CommentModel {
       student: student ?? this.student,
       upVotes: upVotes ?? this.upVotes,
       downVotes: downVotes ?? this.downVotes,
-      myVoteIsUp: myVoteIsUp ?? this.myVoteIsUp,
+      myVoteIsUp: myVoteIsUp,
     );
   }
 

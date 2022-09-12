@@ -14,36 +14,34 @@ class WRecommendedClasses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (_) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Aulas Relacionadas',
-            style: TextStyles.black26w700Urbanist,
-          ),
-          const SizedBox(height: 16),
-          Observer(
-            builder: (_) {
-              switch (videoController.recommendedState) {
-                case LoadState.loading:
-                  return const Center(
-                    child: WCircularProgressIndicator(),
-                  );
-                case LoadState.error:
-                  return WErrorReload(
-                    errorText: videoController.recommendedError,
-                    onPressed: videoController.getRecommendedVideos,
-                  );
-                case LoadState.success:
-                  return WCarouselSlider(
-                    relatedVideos: videoController.relatedVideos,
-                  );
-              }
-            },
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Aulas Relacionadas',
+          style: TextStyles.black26w700Urbanist,
+        ),
+        const SizedBox(height: 16),
+        Observer(
+          builder: (_) {
+            switch (videoController.recommendedState) {
+              case LoadState.loading:
+                return const Center(
+                  child: WCircularProgressIndicator(),
+                );
+              case LoadState.error:
+                return WErrorReload(
+                  errorText: videoController.recommendedError,
+                  onPressed: videoController.getRecommendedVideos,
+                );
+              case LoadState.success:
+                return WCarouselSlider(
+                  relatedVideos: videoController.relatedVideos,
+                );
+            }
+          },
+        ),
+      ],
     );
   }
 }
