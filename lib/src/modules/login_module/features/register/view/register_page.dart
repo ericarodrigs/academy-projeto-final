@@ -7,6 +7,7 @@ import 'package:rarovideowall/src/shared/constants/validator.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_text_form_field.dart';
+import 'package:rarovideowall/src/w_system/molecules/w_app_bar.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -27,6 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const WAppBar(),
       body: SafeArea(
         child: Observer(builder: (_) {
           return SingleChildScrollView(
@@ -35,12 +37,12 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 children: [
                   const Padding(
-                    padding: EdgeInsets.all(64.0),
+                    padding: EdgeInsets.fromLTRB(64.0, 15, 64, 0),
                     child: Text('Registrar',
                         style: TextStyles.purple30w700Urbanist),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(18, 12, 18, 8),
+                    padding: const EdgeInsets.fromLTRB(18, 44, 18, 8),
                     child: WTextFormField(
                         isEnabled: registerController.isFieldEnabled(),
                         controller: registerController.nameController,

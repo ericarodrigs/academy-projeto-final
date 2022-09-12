@@ -7,6 +7,7 @@ import 'package:rarovideowall/src/shared/constants/validator.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_text_form_field.dart';
+import 'package:rarovideowall/src/w_system/molecules/w_app_bar.dart';
 
 class CodeRequestPage extends StatefulWidget {
   const CodeRequestPage({Key? key}) : super(key: key);
@@ -27,6 +28,7 @@ class _CodeRequestPageState extends State<CodeRequestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const WAppBar(),
       body: SafeArea(
         child: Observer(builder: (_) {
           return SingleChildScrollView(
