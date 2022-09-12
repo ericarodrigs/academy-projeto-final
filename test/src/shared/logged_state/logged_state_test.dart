@@ -13,7 +13,7 @@ void main(){
     accessToken: '0011ff',
     name: 'Jose',
     admin: false,
-    foto: 'url',
+    photo: 'url',
     id: '11111'
     );
 
