@@ -19,6 +19,7 @@ class WTextFormField extends StatelessWidget {
   final EdgeInsets? contentPadding;
   final AutovalidateMode? autovalidateMode;
   final FocusNode? focusNode;
+  final TextCapitalization textCapitalization;
 
   const WTextFormField({
     Key? key,
@@ -38,11 +39,13 @@ class WTextFormField extends StatelessWidget {
     this.contentPadding,
     this.autovalidateMode,
     this.focusNode,
+    this.textCapitalization = TextCapitalization.none,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textCapitalization: textCapitalization,
       focusNode: focusNode,
       autovalidateMode: autovalidateMode,
       enabled: isEnabled,
