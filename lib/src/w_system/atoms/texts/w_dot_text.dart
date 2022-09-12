@@ -28,9 +28,11 @@ class WDotText extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        Text(
-          text,
-          style: style,
+        Expanded(
+          child: Text(
+            text,
+            style: style,
+          ),
         ),
       ],
     );

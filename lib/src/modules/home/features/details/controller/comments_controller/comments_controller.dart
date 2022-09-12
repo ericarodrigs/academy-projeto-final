@@ -197,7 +197,7 @@ abstract class _CommentsControllerBase with Store {
         Modular.to.pop();
       },
       content:
-          'Tem certeza que deseja deletar o comentário: \n ${comment.text}',
+          'Tem certeza que deseja deletar o comentário: \n\n ${comment.text}',
     );
   }
 
