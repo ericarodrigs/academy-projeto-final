@@ -89,13 +89,14 @@ abstract class _CommentsControllerBase with Store {
       },
       (newComments) {
         comments = ObservableList.of(newComments);
+        _fillMyVotes();
         _changeCommentsState(LoadState.success);
       },
     );
   }
 
   @action
-  void _updateCommentVote(String commentId, bool isUp) {
+  bool _updateCommentVote(String commentId, bool isUp) {
     int indexComment = comments.indexWhere(
       (comment) => comment.id == commentId,
     );
@@ -105,7 +106,14 @@ abstract class _CommentsControllerBase with Store {
         _downVoteComments.contains(auxComment.id));
 
     if (isUp) {
-      if (!_upVoteComments.contains(auxComment.id)) {
+      if (_upVoteComments.contains(auxComment.id)) {
+        _upVoteComments.remove(auxComment.id);
+        comments[indexComment] = auxComment.copyWith(
+          upVotes: auxComment.upVotes - 1,
+          myVoteIsUp: null,
+        );
+        return true;
+      } else {
         _upVoteComments.add(auxComment.id);
         _downVoteComments.remove(auxComment.id);
         comments[indexComment] = auxComment.copyWith(
@@ -115,10 +123,19 @@ abstract class _CommentsControllerBase with Store {
               : auxComment.downVotes == 0
                   ? 0
                   : auxComment.downVotes - 1,
+          myVoteIsUp: true,
         );
+        return false;
       }
     } else {
-      if (!_downVoteComments.contains(auxComment.id)) {
+      if (_downVoteComments.contains(auxComment.id)) {
+        _downVoteComments.remove(auxComment.id);
+        comments[indexComment] = auxComment.copyWith(
+          downVotes: auxComment.downVotes - 1,
+          myVoteIsUp: null,
+        );
+        return true;
+      } else {
         _downVoteComments.add(auxComment.id);
         _upVoteComments.remove(auxComment.id);
         comments[indexComment] = auxComment.copyWith(
@@ -128,7 +145,9 @@ abstract class _CommentsControllerBase with Store {
                   ? 0
                   : auxComment.upVotes - 1,
           downVotes: auxComment.downVotes + 1,
+          myVoteIsUp: false,
         );
+        return false;
       }
     }
   }
@@ -197,28 +216,41 @@ abstract class _CommentsControllerBase with Store {
         Modular.to.pop();
       },
       content:
-          'Tem certeza que deseja deletar o comentário: \n ${comment.text}',
+          'Tem certeza que deseja deletar o comentário: \n\n ${comment.text}',
     );
   }
 
   Future<void> voteComment(
       BuildContext context, String commentId, bool isUp) async {
     if (_loggedState.isLogged) {
-      _updateCommentVote(commentId, isUp);
+      bool isResetVote = _updateCommentVote(commentId, isUp);
       (await _commentRepository.voteComment(
         _videoId,
         commentId,
         isUpVote: isUp,
+        resetVote: isResetVote,
       ))
           .fold(
         (fail) {
           _showSnackBarError(context, fail.message);
-          _updateCommentVote(commentId, !isUp);
+          _updateCommentVote(commentId, (isUp == isResetVote));
         },
         (success) => null,
       );
     } else {
       return;
+    }
+  }
+
+  void _fillMyVotes() {
+    for (var comment in comments) {
+      if (comment.myVoteIsUp != null) {
+        if (comment.myVoteIsUp!) {
+          _upVoteComments.add(comment.id);
+        } else {
+          _downVoteComments.add(comment.id);
+        }
+      }
     }
   }
 

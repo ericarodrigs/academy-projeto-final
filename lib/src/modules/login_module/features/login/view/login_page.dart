@@ -10,6 +10,7 @@ import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart'
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_text_button.dart';
 import 'package:rarovideowall/src/w_system/atoms/progress_indicators/w_circular_progress_indicator.dart';
 import 'package:rarovideowall/src/w_system/atoms/texts/w_text_form_field.dart';
+import 'package:rarovideowall/src/w_system/molecules/w_app_bar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -29,9 +30,12 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Observer(
+    return GestureDetector(
+      onTap: FocusScope.of(context).unfocus,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: const WAppBar(),
+        body: Observer(
           builder: (_) => SingleChildScrollView(
             child: Form(
               key: loginController.formKey,
@@ -39,13 +43,12 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Image.asset(
                     "assets/images/capelo.png",
-                    height: 120,
                     width: 120,
                   ),
                   const Text("Raro Video Wall",
                       style: TextStyles.purple30w700Urbanist),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(18, 59, 18, 33),
+                    padding: const EdgeInsets.fromLTRB(18, 28, 18, 33),
                     child: WTextFormField(
                         isEnabled: loginController.isFieldEnabled(),
                         controller: loginController.emailController,

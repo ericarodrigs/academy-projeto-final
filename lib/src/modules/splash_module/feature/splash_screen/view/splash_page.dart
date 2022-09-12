@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:rarovideowall/src/modules/splash_module/interfaces/splash_controller_interface.dart';
+import 'package:rarovideowall/src/modules/splash_module/feature/splash_screen/controller/splash_controller.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_splash_screen.dart';
 
 class SplashPage extends StatefulWidget {
@@ -11,7 +11,7 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  ISplashController splashController = Modular.get();
+  SplashController splashController = Modular.get();
 
   @override
   void initState() {
@@ -21,8 +21,13 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: WSplashScreen(),
+    return Scaffold(
+      body: WSplashScreen(
+        onFinishAnimation: () {
+          splashController.animationIsFinished = true;
+          splashController.tryNavigate();
+        },
+      ),
     );
   }
 }
