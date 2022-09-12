@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(25, 10, 18, 0),
+                        padding: const EdgeInsets.fromLTRB(10, 10, 18, 0),
                         child: Row(
                           children: [
                             WCheckBoxButton(
