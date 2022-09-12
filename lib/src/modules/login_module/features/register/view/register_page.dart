@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rarovideowall/src/modules/login_module/features/register/controller/register_controller.dart';
+import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 import 'package:rarovideowall/src/shared/constants/app_text_styles.dart';
 import 'package:rarovideowall/src/shared/constants/validator.dart';
 import 'package:rarovideowall/src/w_system/atoms/buttons/w_elevated_button.dart';
@@ -78,6 +79,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             registerController.isHiddenPassword
                                 ? Icons.visibility_off
                                 : Icons.visibility,
+                            color: registerController.isHiddenPassword
+                                ? AppColors.lightPurple
+                                : AppColors.deepPurple,
                           ),
                           onPressed:
                               registerController.changePasswordVisibility,
