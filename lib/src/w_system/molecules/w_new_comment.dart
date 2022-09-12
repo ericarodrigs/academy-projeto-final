@@ -33,6 +33,7 @@ class WNewComment extends StatelessWidget {
           child: Form(
             key: commentKey,
             child: WTextFormField(
+              textCapitalization: TextCapitalization.sentences,
               focusNode: focusNode,
               hintText: 'Deixe seu comentário',
               floatingLabelBehavior: FloatingLabelBehavior.always,
