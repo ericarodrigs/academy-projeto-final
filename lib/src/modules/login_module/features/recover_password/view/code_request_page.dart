@@ -62,14 +62,14 @@ class _CodeRequestPageState extends State<CodeRequestPage> {
                         visible: !recoverController.isFieldEnabled(),
                         child: const WCircularProgressIndicator()),
                     Visibility(
-                        visible:
-                            recoverController.errorText != null ? true : false,
+                        visible: recoverController.errorText != null,
                         child: Padding(
                           padding: const EdgeInsets.only(
                               left: 18, top: 8, right: 18),
                           child: Text(
                             recoverController.errorText ?? '',
                             style: TextStyles.errorRed,
+                            textAlign: TextAlign.center,
                           ),
                         )),
                     Padding(
