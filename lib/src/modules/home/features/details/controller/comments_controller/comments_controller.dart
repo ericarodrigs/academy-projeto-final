@@ -89,6 +89,7 @@ abstract class _CommentsControllerBase with Store {
       },
       (newComments) {
         comments = ObservableList.of(newComments);
+        _fillMyVotes();
         _changeCommentsState(LoadState.success);
       },
     );
@@ -234,6 +235,18 @@ abstract class _CommentsControllerBase with Store {
       );
     } else {
       return;
+    }
+  }
+
+  void _fillMyVotes() {
+    for (var comment in comments) {
+      if (comment.myVoteIsUp != null) {
+        if (comment.myVoteIsUp!) {
+          _upVoteComments.add(comment.id);
+        } else {
+          _downVoteComments.add(comment.id);
+        }
+      }
     }
   }
 
