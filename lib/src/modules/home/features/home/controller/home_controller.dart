@@ -14,12 +14,12 @@ import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/shared/constants/show_popups.dart';
 import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state.dart';
 import 'package:rarovideowall/src/shared/global_states/videos_state/videos_state.dart';
+import 'package:rarovideowall/src/shared/interfaces/local_storage_video_repository_interface.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 import 'package:rarovideowall/src/shared/interfaces/videos_repository_interface.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/user_model.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
-import 'package:rarovideowall/src/shared/repositories/local_storage_video_repository.dart';
 
 part 'home_controller.g.dart';
 
@@ -30,7 +30,7 @@ abstract class _HomeControllerBase with Store {
   final VideosState videosState;
   final IVideosRepository videosRepository;
   final ILoginRepository loginRepository;
-  final LocalStorageVideoRepository localStorageVideoRepository;
+  final ILocalStorageVideoRepository localStorageVideoRepository;
 
   _HomeControllerBase({
     required this.loggedState,

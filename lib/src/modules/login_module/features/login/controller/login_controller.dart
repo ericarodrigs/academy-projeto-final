@@ -8,8 +8,8 @@ import 'package:rarovideowall/src/modules/login_module/features/login/model/logi
 import 'package:rarovideowall/src/modules/login_module/login_route_names.dart';
 import 'package:rarovideowall/src/shared/constants/load_states.dart';
 import 'package:rarovideowall/src/shared/interfaces/local_storage_service.dart';
+import 'package:rarovideowall/src/shared/interfaces/local_storage_user_repository_interface.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
-import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
 
 part 'login_controller.g.dart';
 
@@ -17,7 +17,7 @@ class LoginController = _LoginController with _$LoginController;
 
 abstract class _LoginController with Store {
   final ILoginRepository loginRepository;
-  final LocalStorageUserRepository localStorageUserRepository;
+  final ILocalStorageUserRepository localStorageUserRepository;
   final LocalStorageService localStorageService;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();

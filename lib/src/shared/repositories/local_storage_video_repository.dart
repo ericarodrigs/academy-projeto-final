@@ -5,10 +5,11 @@ import 'package:rarovideowall/src/shared/constants/keys_storage.dart';
 
 import 'package:rarovideowall/src/shared/global_states/videos_state/videos_state.dart';
 import 'package:rarovideowall/src/shared/interfaces/local_storage_service.dart';
+import 'package:rarovideowall/src/shared/interfaces/local_storage_video_repository_interface.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
 
-class LocalStorageVideoRepository {
+class LocalStorageVideoRepository implements ILocalStorageVideoRepository {
   LocalStorageService service;
   VideosState videosState;
 
@@ -17,6 +18,7 @@ class LocalStorageVideoRepository {
     required this.videosState,
   });
 
+  @override
   Future<Either<Failure, List<VideoModel>>> loadAll() async {
     try {
       String? videos = await service.read(KeysStorage.history);
@@ -38,6 +40,7 @@ class LocalStorageVideoRepository {
     }
   }
 
+  @override
   Future<Either<Failure, void>> save(VideoModel newVideo) async {
     try {
       List<VideoModel> auxVideos = videosState.history;

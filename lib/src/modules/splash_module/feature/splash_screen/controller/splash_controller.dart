@@ -5,16 +5,16 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:rarovideowall/src/modules_route_names.dart';
 import 'package:rarovideowall/src/shared/constants/load_states.dart';
+import 'package:rarovideowall/src/shared/interfaces/local_storage_user_repository_interface.dart';
+import 'package:rarovideowall/src/shared/interfaces/local_storage_video_repository_interface.dart';
 import 'package:rarovideowall/src/shared/interfaces/login_repository_interface.dart';
 import 'package:rarovideowall/src/shared/interfaces/videos_repository_interface.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
-import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
-import 'package:rarovideowall/src/shared/repositories/local_storage_video_repository.dart';
 
 class SplashController {
   final ILoginRepository loginRepository;
-  final LocalStorageUserRepository localStorageUserRepository;
-  final LocalStorageVideoRepository localStorageVideoRepository;
+  final ILocalStorageUserRepository localStorageUserRepository;
+  final ILocalStorageVideoRepository localStorageVideoRepository;
 
   final IVideosRepository videosRepository;
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:rarovideowall/src/modules/home/features/details/controller/details_controller.dart';
-import 'package:rarovideowall/src/shared/constants/app_colors.dart';
 import 'package:rarovideowall/src/w_system/molecules/w_app_bar.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_class_video.dart';
 import 'package:rarovideowall/src/w_system/organisms/w_comment.dart';
