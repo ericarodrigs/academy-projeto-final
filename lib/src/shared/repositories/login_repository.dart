@@ -87,7 +87,7 @@ class LoginRepository implements ILoginRepository {
 
   @override
   Future<Either<Failure, void>> updatePassword(
-    RecoverPasswordModel model) async {
+      RecoverPasswordModel model) async {
     try {
       await service.request(
         '/auth/recuperar-senha',
