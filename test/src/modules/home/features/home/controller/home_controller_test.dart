@@ -7,7 +7,7 @@ import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state
 import 'package:rarovideowall/src/shared/global_states/videos_state/videos_state.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
-import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
+import 'package:rarovideowall/src/shared/repositories/local_storage_video_repository.dart';
 import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
 import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
 
@@ -24,16 +24,18 @@ void main() {
       loggedState: LoggedState.instance,
       videosState: VideosState.instance,
       loginRepository: LoginRepository(
-        service: apiStubs.mock,
+        apiService: apiStubs.mock,
         loggedState: LoggedState.instance,
-        localStorageUserRepository: LocalStorageUserRepository(
-          service: localStorageStubs.mock,
-        ),
+        localStorageService: localStorageStubs.mock,
       ),
       videosRepository: VideosRepository(
         service: apiStubs.mock,
         videosState: VideosState.instance,
         loggedState: LoggedState.instance,
+      ),
+      localStorageVideoRepository: LocalStorageVideoRepository(
+        service: localStorageStubs.mock,
+        videosState: VideosState.instance,
       ),
     );
     apiStubs.registerStubs();
@@ -48,7 +50,7 @@ void main() {
       expect(homeController.homeState, LoadState.success);
     });
     test(
-        'The homeState should be error and errorText shuld be test when setHomeState is called with Left(Failure(test))',
+        'The homeState should be error and errorText should be test when setHomeState is called with Left(Failure(test))',
         () {
       homeController.setHomeState(Left(Failure('test')));
       expect(homeController.homeState, LoadState.error);
@@ -84,6 +86,7 @@ void main() {
           .toggleFavorite(firstVideoId, isFavorite: false);
       await homeController.refreshVideos();
       await Future.delayed(const Duration(milliseconds: 500));
+      expect(homeController.isLogged, true);
       expect(homeController.homeState, LoadState.success);
       expect(homeController.favoriteVideos, [VideoModel.fromMap(firstVideo)]);
     });

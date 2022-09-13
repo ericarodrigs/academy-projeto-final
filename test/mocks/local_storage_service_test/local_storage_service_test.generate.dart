@@ -1,3 +1,4 @@
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rarovideowall/src/shared/constants/keys_storage.dart';
@@ -33,6 +34,13 @@ class LocalStorageServiceStubs {
     );
     when(_service.delete(KeysStorage.password)).thenAnswer(
       (_) async => _storage.remove(KeysStorage.password),
+    );
+    when(_service.read(KeysStorage.history)).thenAnswer(
+      (_) async => storage[KeysStorage.history],
+    );
+    when(_service.save(KeysStorage.history, captureAny ?? '')).thenAnswer(
+      (invocation) async =>
+          storage[KeysStorage.history] = invocation.positionalArguments[1],
     );
     when(_service.deleteAll()).thenAnswer(
       (_) async => _storage = {},
