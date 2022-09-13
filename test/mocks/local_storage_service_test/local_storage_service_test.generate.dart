@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rarovideowall/src/shared/constants/keys_storage.dart';
 import 'package:rarovideowall/src/shared/interfaces/local_storage_service.dart';
+import 'package:rarovideowall/src/shared/models/video_model.dart';
 
 import '../mock_data.dart';
 import 'local_storage_service_test.generate.mocks.dart';
@@ -20,6 +20,7 @@ class LocalStorageServiceStubs {
   Map<String, String> get storage => _storage;
 
   void registerStubs() {
+    final encodedFirstVideo = jsonEncode(VideoModel.fromMap(firstVideo));
     when(_service.read(KeysStorage.email)).thenAnswer(
       (_) async => storage[KeysStorage.email],
     );
@@ -41,9 +42,8 @@ class LocalStorageServiceStubs {
     when(_service.read(KeysStorage.history)).thenAnswer(
       (_) async => storage[KeysStorage.history],
     );
-    when(_service.save(KeysStorage.history, jsonEncode(firstVideo))).thenAnswer(
-      (invocation) async =>
-          storage[KeysStorage.history] = invocation.positionalArguments[1],
+    when(_service.save(KeysStorage.history, encodedFirstVideo)).thenAnswer(
+      (_) async => _storage[KeysStorage.history] = encodedFirstVideo,
     );
     when(_service.deleteAll()).thenAnswer(
       (_) async => _storage = {},
