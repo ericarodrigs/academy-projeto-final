@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rarovideowall/src/shared/constants/keys_storage.dart';
 import 'package:rarovideowall/src/shared/interfaces/local_storage_service.dart';
+import 'package:rarovideowall/src/shared/models/video_model.dart';
 
 import '../../../mocks/local_storage_service_test/local_storage_service_test.generate.dart';
+import '../../../mocks/mock_data.dart';
 
 void main() {
   late LocalStorageService service;
@@ -24,6 +28,14 @@ void main() {
         () async {
       await service.save(KeysStorage.password, 'testPassword');
       expect(stubs.storage[KeysStorage.password], 'testPassword');
+    });
+    test(
+        'Should storage contain the firstVideo when save the key ${KeysStorage.history}',
+        () async {
+      await service.save(
+          KeysStorage.history, jsonEncode(VideoModel.fromMap(firstVideo)));
+      expect(stubs.storage[KeysStorage.history],
+          jsonEncode(VideoModel.fromMap(firstVideo)));
     });
     test('Should return null when read a key not stored', () async {
       var response = await service.read(KeysStorage.password);

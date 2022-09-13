@@ -50,7 +50,7 @@ void main() {
       expect(homeController.homeState, LoadState.success);
     });
     test(
-        'The homeState should be error and errorText shuld be test when setHomeState is called with Left(Failure(test))',
+        'The homeState should be error and errorText should be test when setHomeState is called with Left(Failure(test))',
         () {
       homeController.setHomeState(Left(Failure('test')));
       expect(homeController.homeState, LoadState.error);
@@ -86,6 +86,7 @@ void main() {
           .toggleFavorite(firstVideoId, isFavorite: false);
       await homeController.refreshVideos();
       await Future.delayed(const Duration(milliseconds: 500));
+      expect(homeController.isLogged, true);
       expect(homeController.homeState, LoadState.success);
       expect(homeController.favoriteVideos, [VideoModel.fromMap(firstVideo)]);
     });

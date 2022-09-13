@@ -306,3 +306,335 @@ final authRecoverResponse = Response(
   requestOptions: RequestOptions(path: ''),
   statusCode: 201,
 );
+
+///**--------------------------------------------
+/// **               Comments data
+///*---------------------------------------------**/
+
+const myFirstCommentId = '927f4a4e-9f88-461b-9ced-750e8d0c5441';
+
+final commentsMock = [
+  {
+    "id": "9997c712-2f57-4893-b4bf-30d3fe6783b2",
+    "texto": "video muito bom. Parabéns ao professor roberto!!!",
+    "editado": false,
+    "createdAt": "2022-08-19T12:25:08.060Z",
+    "aluno": {
+      "id": "5f498a45-ea8c-4632-9d7a-ec6c21a416d5",
+      "admin": false,
+      "nome": "paulo do flutter",
+      "email": "paulo.flutter@rarolabs.com.br",
+      "senha":
+          "2e8597687cf5edc1fb91b5aaec8339bc0fb337d009869b0cbe942063c5c31f47",
+      "foto":
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1123.jpg"
+    },
+    "upVotes": 2,
+    "downVotes": 2
+  },
+  {
+    "id": "59fd6880-8c0b-490e-b832-7e7442fffb30",
+    "texto": "Esse comentário será alterado",
+    "editado": false,
+    "createdAt": "2022-09-05T19:25:56.237Z",
+    "aluno": {
+      "id": "27ab382f-d935-46fa-ab16-f75e1762e96a",
+      "admin": false,
+      "nome": "marcelo",
+      "email": "marcelo@gmail.com",
+      "senha":
+          "6844098a7fc3e3768b9a3594c3ee16ebe1af693619b14d071e32add6c728656f",
+      "foto":
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1023.jpg"
+    },
+    "upVotes": 0,
+    "downVotes": 6
+  },
+  {
+    "id": "927f4a4e-9f88-461b-9ced-750e8d0c5441",
+    "texto": "Mais um teste editado",
+    "editado": true,
+    "createdAt": "2022-09-07T23:54:19.841Z",
+    "aluno": {
+      "id": "d88ee69c-0f68-48f8-beaf-31eab6768a90",
+      "admin": false,
+      "nome": "Marcos",
+      "email": "markimwrs@hotmail.com",
+      "senha":
+          "69952e29722c655c45c85c964cc411b97ac62d04ec6135a353712b6a2a7eabeb",
+      "foto":
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/712.jpg"
+    },
+    "upVotes": 3,
+    "downVotes": 0
+  },
+  {
+    "id": "05227301-9c3c-40a4-9545-ada3172b850b",
+    "texto": "mais um",
+    "editado": false,
+    "createdAt": "2022-09-08T22:26:58.056Z",
+    "aluno": {
+      "id": "77aae133-aa91-4512-bed3-d4d6417bf1e5",
+      "admin": false,
+      "nome": "erica r",
+      "email": "ericar@e.com",
+      "senha":
+          "15e31178aaea84acbf821f6922f18bd5df27a31c229ab1998ae2a59c21d4a444",
+      "foto":
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/199.jpg"
+    },
+    "upVotes": 2,
+    "downVotes": 1
+  },
+  {
+    "id": "b4851a70-0bf8-4ea0-b507-cf7ce5c3dc02",
+    "texto": "Belo comentário erica kkkk",
+    "editado": false,
+    "createdAt": "2022-09-09T02:13:08.550Z",
+    "aluno": {
+      "id": "d88ee69c-0f68-48f8-beaf-31eab6768a90",
+      "admin": false,
+      "nome": "Marcos",
+      "email": "markimwrs@hotmail.com",
+      "senha":
+          "69952e29722c655c45c85c964cc411b97ac62d04ec6135a353712b6a2a7eabeb",
+      "foto":
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/712.jpg"
+    },
+    "upVotes": 1,
+    "downVotes": 0
+  },
+  {
+    "id": "0d62ae69-0c87-47db-a297-276a548fab2a",
+    "texto": "Esse video ai,   bao",
+    "editado": false,
+    "createdAt": "2022-09-09T16:15:06.349Z",
+    "aluno": {
+      "id": "a4529ab4-3e1c-4b21-b663-883a02a97450",
+      "admin": false,
+      "nome": "xisde",
+      "email": "xisde",
+      "senha":
+          "6844098a7fc3e3768b9a3594c3ee16ebe1af693619b14d071e32add6c728656f",
+      "foto":
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/278.jpg"
+    },
+    "upVotes": 1,
+    "downVotes": 1
+  },
+  {
+    "id": "fa33583f-8ab7-4175-9a84-964f0ffac71b",
+    "texto": "legal o video ",
+    "editado": false,
+    "createdAt": "2022-09-10T01:39:37.194Z",
+    "aluno": {
+      "id": "d88ee69c-0f68-48f8-beaf-31eab6768a90",
+      "admin": false,
+      "nome": "Marcos",
+      "email": "markimwrs@hotmail.com",
+      "senha":
+          "69952e29722c655c45c85c964cc411b97ac62d04ec6135a353712b6a2a7eabeb",
+      "foto":
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/712.jpg"
+    },
+    "upVotes": 1,
+    "downVotes": 1
+  },
+  {
+    "id": "0635f1d6-18ca-4a98-82cd-1de7376835e2",
+    "texto": "edit",
+    "editado": true,
+    "createdAt": "2022-09-10T20:24:51.336Z",
+    "aluno": {
+      "id": "77aae133-aa91-4512-bed3-d4d6417bf1e5",
+      "admin": false,
+      "nome": "erica r",
+      "email": "ericar@e.com",
+      "senha":
+          "15e31178aaea84acbf821f6922f18bd5df27a31c229ab1998ae2a59c21d4a444",
+      "foto":
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/199.jpg"
+    },
+    "upVotes": 2,
+    "downVotes": 1
+  },
+  {
+    "id": "276259e2-2056-477d-913f-dcb2634900d5",
+    "texto": "Excelente vídeo 👏",
+    "editado": false,
+    "createdAt": "2022-09-11T16:56:02.096Z",
+    "aluno": {
+      "id": "767621ac-9d0f-4e1d-9da1-4625897f9f42",
+      "admin": false,
+      "nome": "Renato da Costa",
+      "email": "renato11@gmail.com",
+      "senha":
+          "f8d3d0a6593e5a6a8c9f1fd23683f7ebf82768762db75e212df35e3610ee3ec0",
+      "foto":
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/216.jpg"
+    },
+    "upVotes": 1,
+    "downVotes": 0
+  },
+  {
+    "id": "4215a41d-98d8-4b51-b9f4-23a5ea0b1fbf",
+    "texto": "boa alterado",
+    "editado": true,
+    "createdAt": "2022-09-12T02:18:43.449Z",
+    "aluno": {
+      "id": "8b628e8b-9278-4780-9c0c-abc28c13b0ed",
+      "admin": false,
+      "nome": "Guilherme Gomes",
+      "email": "guiraro@raro.com",
+      "senha":
+          "88cd8e7d3e4ef71e4901f2de814211c324f721b76155a36abd30fd3311a67343",
+      "foto":
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/463.jpg"
+    },
+    "upVotes": 2,
+    "downVotes": 1
+  },
+  {
+    "id": "37cd1001-fa89-45d7-ba60-1a53796e343c",
+    "texto": "hmm",
+    "editado": true,
+    "createdAt": "2022-09-12T23:03:54.898Z",
+    "aluno": {
+      "id": "06f65126-3f8e-44aa-a2d7-03b65df383c8",
+      "admin": false,
+      "nome": "dns",
+      "email": "dns@dns.com",
+      "senha":
+          "5522ed45188cf465232e9e5440ffb41fbd889e215d2a331be44ccb231c1de16a",
+      "foto":
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/347.jpg"
+    },
+    "upVotes": 0,
+    "downVotes": 0
+  },
+  {
+    "id": "a65f3a4a-acf5-44ae-8318-0cb5b950b1cf",
+    "texto": "Um novo comentario editado",
+    "editado": true,
+    "createdAt": "2022-09-13T01:37:11.892Z",
+    "aluno": {
+      "id": "d88ee69c-0f68-48f8-beaf-31eab6768a90",
+      "admin": false,
+      "nome": "Marcos",
+      "email": "markimwrs@hotmail.com",
+      "senha":
+          "69952e29722c655c45c85c964cc411b97ac62d04ec6135a353712b6a2a7eabeb",
+      "foto":
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/712.jpg"
+    },
+    "upVotes": 1,
+    "downVotes": 0
+  },
+  {
+    "id": "840f9cac-e857-4bd6-8b4d-179255b72867",
+    "texto": "QA é importante",
+    "editado": true,
+    "createdAt": "2022-09-13T01:39:07.407Z",
+    "aluno": {
+      "id": "a4529ab4-3e1c-4b21-b663-883a02a97450",
+      "admin": false,
+      "nome": "xisde",
+      "email": "xisde",
+      "senha":
+          "6844098a7fc3e3768b9a3594c3ee16ebe1af693619b14d071e32add6c728656f",
+      "foto":
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/278.jpg"
+    },
+    "upVotes": 1,
+    "downVotes": 0
+  },
+  {
+    "id": "f78aac5e-099b-4ce6-8b29-cc73990c3605",
+    "texto": "obrigado Raro Academy",
+    "editado": false,
+    "createdAt": "2022-09-13T03:23:45.775Z",
+    "aluno": {
+      "id": "099c0dcc-560d-47f0-8868-f0217021e9c5",
+      "admin": false,
+      "nome": "Gabi",
+      "email": "gabi@gmail.com",
+      "senha":
+          "0a8bec82e585f6beed4f3a3881e36ccb57a731ff433a6b23bdae1a24921feb28",
+      "foto":
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/611.jpg"
+    },
+    "upVotes": 0,
+    "downVotes": 0
+  }
+];
+
+final commentsMockResponse = Response(
+  data: commentsMock,
+  requestOptions: RequestOptions(path: ''),
+  statusCode: 200,
+);
+
+final postCommentMock = {
+  "texto": "test",
+  "video": {
+    "id": "84962753-5a59-4c0b-a9c0-9fe377880489",
+    "nome": "Por que aprender .net?",
+    "url": "https://www.youtube.com/watch?v=xnXE4rIIRqw&t=1899s",
+    "thumbUrl":
+        "https://thumbs.dreamstime.com/b/quality-assurance-service-guarantee-standard-internet-business-technology-concept-123053344.jpg",
+    "descricao":
+        "Vamos falar sobre o mercado atual de .net, e o quanto queremos vc para trabalhar conosco",
+    "createdAt": "2022-08-19T12:15:42.334Z",
+    "duracao": "1:05",
+    "dataPublicacao": "2022-08-19T14:10:24.000Z",
+    "topico": ".net",
+    "tags": [".net", "aulão", "professora Stella", "professora Pedro"],
+    "turma": null
+  },
+  "aluno": {
+    "id": "d88ee69c-0f68-48f8-beaf-31eab6768a90",
+    "admin": false,
+    "nome": "Marcos",
+    "email": "markimwrs@hotmail.com",
+    "senha": "69952e29722c655c45c85c964cc411b97ac62d04ec6135a353712b6a2a7eabeb",
+    "foto":
+        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/712.jpg",
+    "turma": {
+      "id": "55402f9b-ca01-4cb4-ae36-dc85d7e154b8",
+      "nome": "Flutter edição 2",
+      "descricao": "Flutter edição 2"
+    }
+  },
+  "id": "a48735e2-4c80-419a-8685-f5220053b27f",
+  "editado": false,
+  "createdAt": "2022-09-13T15:13:14.412Z"
+};
+
+final postCommentsMockResponse = Response(
+  data: postCommentMock,
+  requestOptions: RequestOptions(path: ''),
+  statusCode: 200,
+);
+
+final editCommentMock = {
+  "id": "927f4a4e-9f88-461b-9ced-750e8d0c5441",
+  "texto": "test2",
+  "editado": true,
+  "createdAt": "2022-09-07T23:54:19.841Z"
+};
+
+final editCommentMockResponse = Response(
+  data: editCommentMock,
+  requestOptions: RequestOptions(path: ''),
+  statusCode: 200,
+);
+
+final deleteCommentMockResponse = Response(
+  requestOptions: RequestOptions(path: ''),
+  statusCode: 204,
+);
+
+final voteCommentMockResponse = Response(
+  requestOptions: RequestOptions(path: ''),
+  statusCode: 200,
+);

@@ -131,5 +131,52 @@ class ApiServiceStubs {
         newPassword: 'test2',
       ).toMap(),
     )).thenAnswer((_) async => authRecoverResponse);
+
+    /**--------------------------------------------
+     **               comments routes stubs
+     *---------------------------------------------**/
+
+    when(_service.request(
+      '/videos/$firstVideoId/comentarios',
+      'GET',
+      queryParams: {
+        'pagina': 1,
+        'itensPorPagina': 100,
+      },
+    )).thenAnswer((_) async => commentsMockResponse);
+
+    when(_service.request(
+      '/videos/$firstVideoId/comentarios',
+      'POST',
+      body: {'texto': 'test'},
+    )).thenAnswer((_) async => postCommentsMockResponse);
+
+    when(_service.request(
+      '/videos/$firstVideoId/comentarios/$myFirstCommentId',
+      'PATCH',
+      body: {'texto': 'test2'},
+    )).thenAnswer((_) async => editCommentMockResponse);
+
+    when(_service.request(
+      '/videos/$firstVideoId/comentarios/$myFirstCommentId',
+      'DELETE',
+    )).thenAnswer((_) async => deleteCommentMockResponse);
+
+    when(_service.request(
+      '/videos/$firstVideoId/comentarios/$myFirstCommentId/votes',
+      'PUT',
+      body: {'vote': 'up'},
+    )).thenAnswer((_) async => voteCommentMockResponse);
+
+    when(_service.request(
+      '/videos/$firstVideoId/comentarios/$myFirstCommentId/votes',
+      'PUT',
+      body: {'vote': 'down'},
+    )).thenAnswer((_) async => voteCommentMockResponse);
+
+    when(_service.request(
+      '/videos/$firstVideoId/comentarios/$myFirstCommentId/votes',
+      'DELETE',
+    )).thenAnswer((_) async => voteCommentMockResponse);
   }
 }
