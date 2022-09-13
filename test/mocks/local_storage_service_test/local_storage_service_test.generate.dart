@@ -44,11 +44,12 @@ class LocalStorageServiceStubs {
     when(_service.read(KeysStorage.history)).thenAnswer(
       (_) async => storage[KeysStorage.history],
     );
-    when(_service.save(KeysStorage.history,
-            "{\"id\":\"84962753-5a59-4c0b-a9c0-9fe377880489\",\"nome\":\"Por que aprender .net?\",\"url\":\"https://www.youtube.com/watch?v=xnXE4rIIRqw&t=1899s\",\"thumbUrl\":\"https://thumbs.dreamstime.com/b/quality-assurance-service-guarantee-standard-internet-business-technology-concept-123053344.jpg\",\"descricao\":\"Vamos falar sobre o mercado atual de .net, e o quanto queremos vc para trabalhar conosco\",\"createdAt\":\"2022-08-19T12:15:42.334Z\",\"duracao\":\"1:05\",\"dataPublicacao\":\"2022-08-19T14:10:24.000Z\",\"topico\":\".net\",\"tags\":[\".net\",\"aulão\",\"professora Stella\",\"professora Pedro\"]}"))
-        .thenAnswer(
+    when(_service.save(
+      KeysStorage.history,
+      '"{\\"id\\":\\"84962753-5a59-4c0b-a9c0-9fe377880489\\",\\"nome\\":\\"Por que aprender .net?\\",\\"url\\":\\"https://www.youtube.com/watch?v=xnXE4rIIRqw&t=1899s\\",\\"thumbUrl\\":\\"https://thumbs.dreamstime.com/b/quality-assurance-service-guarantee-standard-internet-business-technology-concept-123053344.jpg\\",\\"descricao\\":\\"Vamos falar sobre o mercado atual de .net, e o quanto queremos vc para trabalhar conosco\\",\\"createdAt\\":\\"2022-08-19T12:15:42.334Z\\",\\"duracao\\":\\"1:05\\",\\"dataPublicacao\\":\\"2022-08-19T14:10:24.000Z\\",\\"topico\\":\\".net\\",\\"tags\\":[\\".net\\",\\"aulão\\",\\"professora Stella\\",\\"professora Pedro\\"]}"',
+    )).thenAnswer(
       (_) async => _storage[KeysStorage.history] =
-          "{\"id\":\"84962753-5a59-4c0b-a9c0-9fe377880489\",\"nome\":\"Por que aprender .net?\",\"url\":\"https://www.youtube.com/watch?v=xnXE4rIIRqw&t=1899s\",\"thumbUrl\":\"https://thumbs.dreamstime.com/b/quality-assurance-service-guarantee-standard-internet-business-technology-concept-123053344.jpg\",\"descricao\":\"Vamos falar sobre o mercado atual de .net, e o quanto queremos vc para trabalhar conosco\",\"createdAt\":\"2022-08-19T12:15:42.334Z\",\"duracao\":\"1:05\",\"dataPublicacao\":\"2022-08-19T14:10:24.000Z\",\"topico\":\".net\",\"tags\":[\".net\",\"aulão\",\"professora Stella\",\"professora Pedro\"]}",
+          '"{\\"id\\":\\"84962753-5a59-4c0b-a9c0-9fe377880489\\",\\"nome\\":\\"Por que aprender .net?\\",\\"url\\":\\"https://www.youtube.com/watch?v=xnXE4rIIRqw&t=1899s\\",\\"thumbUrl\\":\\"https://thumbs.dreamstime.com/b/quality-assurance-service-guarantee-standard-internet-business-technology-concept-123053344.jpg\\",\\"descricao\\":\\"Vamos falar sobre o mercado atual de .net, e o quanto queremos vc para trabalhar conosco\\",\\"createdAt\\":\\"2022-08-19T12:15:42.334Z\\",\\"duracao\\":\\"1:05\\",\\"dataPublicacao\\":\\"2022-08-19T14:10:24.000Z\\",\\"topico\\":\\".net\\",\\"tags\\":[\\".net\\",\\"aulão\\",\\"professora Stella\\",\\"professora Pedro\\"]}"',
     );
     when(_service.deleteAll()).thenAnswer(
       (_) async => _storage = {},
