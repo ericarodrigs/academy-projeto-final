@@ -131,11 +131,14 @@ com o caso de erro (Failure) e o caso de sucesso.
 ### Controllers
 <div style="text-align: justify">
 
-- splash_controller: Com apenas uma função é responsável por verificar se ja existe informações de login salvas no aplicativo e se é possível fazer o login ou deve carregar os videos publicos. Todos as informações necessárias para a home_page são carregadas aqui. (Os videos são carregados na classe video_state)
-- home_controller: Essa classe controla os estados da home page (Sucesso, carregando e falha) além disso ela é responsável por criar as play list de videos necessária da home page. Além disso ela fornece as informações dos videos carregados e se o usuário está logado ou não. Além disso ela fornece o caminho para o login e para a pagina de detalhes. Por fim, a home page monitora o fluxo de login, caso o usuário realize o login os videos são atualizados.
-- login_controller: Essa classe controla os estados da tela para saber se trata de sucesso ou falha e além disso é responsável também pela validação das informações inseridas pelo usuário para realizar login e se tudo estiver ok efetuar o login de fato.
-- recover_controller: Essa classe controla os estados da tela para saber se trata de sucesso ou falha, também avalia se os dados informados estão em conformidade com a API e se tudo estiver ok possibilita que o usuário faça a alteração da sua senha.
+- splash_controller: Com apenas uma função é responsável por verificar se ja existe informações de login salvas no aplicativo e se é possível fazer o login ou deve carregar os videos publicos. Todos as informações necessárias para a home_page são carregadas aqui, inclusive o histórico dos últimos vídeos acessados.
+- login_controller: Essa classe controla os estados da tela para saber se trata de sucesso ou falha e além disso é responsável também pela validação das informações inseridas pelo usuário para realizar login e se tudo estiver ok efetuar o login de fato. Implementamos também a possibilidade de marcar um checkbox para o usuário permitir que as informações de login sejam salvas localmente e não seja necessário efetuar o login toda vez que entrar no app.
+- recover_password_controller: Essa classe controla os estados da tela para saber se trata de sucesso ou falha, também avalia se os dados informados estão em conformidade com a API e se tudo estiver ok possibilita que o usuário faça a alteração da sua senha.
 - register_controller: Essa classe controla os estados da tela para saber se trata de sucesso ou falha e além disso é responsável também pela validação das informações inseridas pelo usuário para realizar o cadastro de um novo aluno, caso os dados passem pelas validações deste controlador, um novo usuário será informado na API.
+- home_controller: Essa classe controla os estados da home page (Sucesso, Carregando e Falha) e é responsável por criar as playlists de vídeos necessárias para a home page. Além disso ela fornece também as informações dos vídeos carregados e se o usuário está logado ou não. É através deste controlador que também podemos acessar o caminho para a página de login e para a página de detalhes. Por fim, a home page monitora o fluxo de login, caso o usuário realize o login para que os vídeos sejam atualizados.
+- comments_controller: Essa é a classe que gerencia os estados e permite todas as interações com os comentários feitos nos vídeos. É através desse controlador que são implementadas as funções de visualizar, postar, editar e excluir comentários, além de permitir também as interações de upvote e downvote.
+- video_controller: Essa classe é responsável por buscar vídeos pelo ID, além de trazer as listas de vídeos recomendados e vídeos favoritados. É responsável também por fazer uma validação da origem da url do vídeo para fazer tratamento diferenciado dos vídeos do youtube.
+- details_controller: Esse controlador é responsável por mostrar ao usuário as informações necessárias para edição e deleção dos comentários.
 </div>
 
 ## Status do Projeto
@@ -146,17 +149,28 @@ com o caso de erro (Failure) e o caso de sucesso.
 
 ## Features
 
-- [X] Cadastro de usuário
-- [X] Login
-- [X] Recuperar Senha
-- [X] Visualizar vídeos
+- [X] Cadastro do usuário
+- [X] Login de um usuário cadastrado
+- [X] Função lembrar de mim
+- [X] Recuperar a senha de um usuário
+- [X] Visualizar vídeos no formato de playlists
+- [X] Seleção específica de uma playlist
+- [X] Registro do histórico do acesso de vídeos
+- [X] Recarregamento com swipe
 - [X] Favoritar vídeos
-- [X] Comentários nos vídeos
+- [X] Comentar vídeos
+- [X] Editar um comentário
+- [X] Deletar o próprio comentário
+- [X] Votar nos comentários
+- [X] Card informativo mostrando como realizar a edição
 
 ## Desafios para o futuro
 
 - [ ] Possibilitar que o usuário escolha o modo escuro
 - [ ] Permitir avaliação dos vídeos
+- [ ] Aumentar a cobertura de testes
+- [ ] Aperfeiçoamento visual
+
 
 ## Referências
 <div style="text-align: justify">
@@ -168,7 +182,8 @@ Nos inspiramos em aplicativos bastante consolidados no mercado, como YouTube, Ne
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 
 [Git](https://git-scm.com),
-[Flutter](https://flutter.dev/).
+[Flutter](https://flutter.dev/),
+[Dart](https://dart.dev/).
 Além disto é bom ter um editor para
 trabalhar com o código como [VSCode](https://code.visualstudio.com/).
 </div>
@@ -184,6 +199,8 @@ $ cd raroviewowall
 
 # Instale as dependências
 $ flutter pub get
+
+#Abrir o projeto no seu editor de preferência.
 
 ```
 ## 😇🙏 Agradecimentos
