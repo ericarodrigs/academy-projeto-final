@@ -7,7 +7,7 @@ import 'package:rarovideowall/src/shared/global_states/logged_state/logged_state
 import 'package:rarovideowall/src/shared/global_states/videos_state/videos_state.dart';
 import 'package:rarovideowall/src/shared/models/failure.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
-import 'package:rarovideowall/src/shared/repositories/local_storage_user_repository.dart';
+import 'package:rarovideowall/src/shared/repositories/local_storage_video_repository.dart';
 import 'package:rarovideowall/src/shared/repositories/login_repository.dart';
 import 'package:rarovideowall/src/shared/repositories/videos_repository.dart';
 
@@ -24,16 +24,18 @@ void main() {
       loggedState: LoggedState.instance,
       videosState: VideosState.instance,
       loginRepository: LoginRepository(
-        service: apiStubs.mock,
+        apiService: apiStubs.mock,
         loggedState: LoggedState.instance,
-        localStorageUserRepository: LocalStorageUserRepository(
-          service: localStorageStubs.mock,
-        ),
+        localStorageService: localStorageStubs.mock,
       ),
       videosRepository: VideosRepository(
         service: apiStubs.mock,
         videosState: VideosState.instance,
         loggedState: LoggedState.instance,
+      ),
+      localStorageVideoRepository: LocalStorageVideoRepository(
+        service: localStorageStubs.mock,
+        videosState: VideosState.instance,
       ),
     );
     apiStubs.registerStubs();
