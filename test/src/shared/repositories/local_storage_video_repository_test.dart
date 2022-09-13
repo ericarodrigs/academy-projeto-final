@@ -21,8 +21,7 @@ void main() {
   });
 
   group('Test localStorageVideoRepository:', () {
-    test(
-        'Should return a empty list when loadAll is called without to save after.',
+    test('Should return a empty list when loadAll is called without save.',
         () async {
       (await storageRepository.loadAll()).fold(
         (l) => expect(l, null),

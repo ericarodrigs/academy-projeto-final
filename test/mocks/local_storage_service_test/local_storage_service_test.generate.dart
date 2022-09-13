@@ -29,9 +29,6 @@ class LocalStorageServiceStubs {
     when(_service.save(KeysStorage.email, 'testEmail')).thenAnswer(
       (_) async => _storage[KeysStorage.email] = 'testEmail',
     );
-    when(_service.save(KeysStorage.history, 'testEmail')).thenAnswer(
-      (_) async => _storage[KeysStorage.history] = 'testEmail',
-    );
     when(_service.save(KeysStorage.password, 'testPassword')).thenAnswer(
       (_) async => _storage[KeysStorage.password] = 'testPassword',
     );
