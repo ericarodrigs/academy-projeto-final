@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:rarovideowall/src/modules/login_module/features/login/model/login_user_model.dart';
 import 'package:rarovideowall/src/modules/login_module/features/recover_password/model/recover_password_model.dart';
 import 'package:rarovideowall/src/modules/login_module/features/recover_password/model/request_code_model.dart';

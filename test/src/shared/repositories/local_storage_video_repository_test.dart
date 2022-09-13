@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter_test/flutter_test.dart';
-import 'package:rarovideowall/src/shared/constants/keys_storage.dart';
 import 'package:rarovideowall/src/shared/global_states/videos_state/videos_state.dart';
 import 'package:rarovideowall/src/shared/interfaces/local_storage_video_repository_interface.dart';
 import 'package:rarovideowall/src/shared/models/video_model.dart';
@@ -31,6 +28,15 @@ void main() {
         (l) => expect(l, null),
         (videos) => expect(videos, []),
       );
+    });
+    test(
+        'Should videoState.history be the first video when save is called with firstVideo.',
+        () async {
+      (await storageRepository.save(VideoModel.fromMap(firstVideo))).fold(
+        (l) => expect(l, null),
+        (r) => null,
+      );
+      expect(VideosState.instance.history, [VideoModel.fromMap(firstVideo)]);
     });
   });
 }
