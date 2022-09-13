@@ -204,5 +204,82 @@ void main() {
         expect(response.statusCode, 201);
       });
     });
+    group('Comments tests -', () {
+      test(
+          'Should return a Response with commentsMock data when route /videos/firstVideoId/comentarios is called whit get',
+          () async {
+        final response = await service.request(
+          '/videos/$firstVideoId/comentarios',
+          'GET',
+          queryParams: {
+            'pagina': 1,
+            'itensPorPagina': 100,
+          },
+        );
+        expect(response.data, commentsMock);
+      });
+      test(
+          'Should return a Response with postCommentsMock data when route /videos/firstVideoId/comentarios is called with method POST and body test',
+          () async {
+        final response = await service.request(
+          '/videos/$firstVideoId/comentarios',
+          'POST',
+          body: {'texto': 'test'},
+        );
+        expect(response.data, postCommentMock);
+      });
+
+      test(
+          'Should return a Response with editCommentsMock data when route /videos/firstVideoId/comentarios/myFirstCommentId is called with method PATCH',
+          () async {
+        final response = await service.request(
+          '/videos/$firstVideoId/comentarios/$myFirstCommentId',
+          'PATCH',
+          body: {'texto': 'test2'},
+        );
+        expect(response.data, editCommentMock);
+      });
+      test(
+          'Should return a Response with statusCode 204 when route /videos/firstVideoId/comentarios/myFirstCommentId is called with method DELETE',
+          () async {
+        final response = await service.request(
+          '/videos/$firstVideoId/comentarios/$myFirstCommentId',
+          'DELETE',
+        );
+        expect(response.statusCode, 204);
+      });
+
+      test(
+          'Should return a Response with statusCode 200 when route /videos/firstVideoId/comentarios/myFirstCommentId/votes is called with method PUT and body up',
+          () async {
+        final response = await service.request(
+          '/videos/$firstVideoId/comentarios/$myFirstCommentId/votes',
+          'PUT',
+          body: {'vote': 'up'},
+        );
+        expect(response.statusCode, 200);
+      });
+
+      test(
+          'Should return a Response with statusCode 200 when route /videos/firstVideoId/comentarios/myFirstCommentId/votes is called with method PUT and body down',
+          () async {
+        final response = await service.request(
+          '/videos/$firstVideoId/comentarios/$myFirstCommentId/votes',
+          'PUT',
+          body: {'vote': 'down'},
+        );
+        expect(response.statusCode, 200);
+      });
+
+      test(
+          'Should return a Response with statusCode 200 when route /videos/firstVideoId/comentarios/myFirstCommentId/votes is called with method DELETE',
+          () async {
+        final response = await service.request(
+          '/videos/$firstVideoId/comentarios/$myFirstCommentId/votes',
+          'DELETE',
+        );
+        expect(response.statusCode, 200);
+      });
+    });
   });
 }
