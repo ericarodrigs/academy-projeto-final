@@ -77,7 +77,7 @@ Failure.
 <div style="text-align: justify">
 A classe LocalStorageService é uma interface e a StorageService a sua implementação. Essa
 feature é usada para guardar os dados de acesso da página de login na memória interna do
-dispositivo evitando a reentrada no aplicativo. Também é usada para salvar os o histórico dos vídeos.
+dispositivo evitando a reentrada no aplicativo. Também é usada para salvar os o histórico dos vídeos. Para esse serviço escolheu-se usar o package Flutter Secure Storage para realizar a criptografia das informações salvas.
 </div>
 
 ### LoggedState
