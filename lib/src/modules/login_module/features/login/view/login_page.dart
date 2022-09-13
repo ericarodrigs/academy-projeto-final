@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                               value: loginController.isChecked,
                               onChanged: (_) => loginController.toggleChecked(),
                             ),
-                            const Text('Lembar de mim.',
+                            const Text('Lembrar de mim',
                                 style: TextStyles.black14BoldUrbanist),
                           ],
                         ),
