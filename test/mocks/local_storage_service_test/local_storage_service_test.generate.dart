@@ -1,12 +1,8 @@
-import 'dart:convert';
-
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rarovideowall/src/shared/constants/keys_storage.dart';
 import 'package:rarovideowall/src/shared/interfaces/local_storage_service.dart';
-import 'package:rarovideowall/src/shared/models/video_model.dart';
 
-import '../mock_data.dart';
 import 'local_storage_service_test.generate.mocks.dart';
 
 @GenerateMocks([LocalStorageService])
